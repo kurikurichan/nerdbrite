@@ -4,6 +4,7 @@ const usersRouter = require('./users.js');
 
 router.use('/session', sessionRouter);
 router.use('/users', usersRouter);
+router.use('/events', eventsRouter);
 
 // test routes
 // router.get('/set-token-cookie', asyncHandler(async (_req, res) => {
