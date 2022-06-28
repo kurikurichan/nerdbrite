@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { getEvents, getForm } from '../../store/events';
+import { addEvent, getForm } from '../../store/events';
 
 export default function NewEventForm() {
 
   // has .categories & .venues for our deets
   const currentState = useSelector(state => state.events);
-
-  console.log("categories: ", Array.isArray(currentState.categories));
+  const hostId = useSelector(state => state.session.user.id);
 
   const dispatch = useDispatch();
 
@@ -21,7 +20,7 @@ export default function NewEventForm() {
 
   const [venue, setVenue] = useState('');
   const [category, setCategory] = useState('');
-  const [name, setName] = useState('doop');
+  const [name, setName] = useState('');
   const [date, setDate] = useState('');
   const [capacity, setCapacity] = useState(0);
 
@@ -29,29 +28,35 @@ export default function NewEventForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // const payload = {
-    //   hostId,
-    //   venueId,
-    //   categoryId,
-    //   name,
-    //   date,
-    //   capacity
-    // };
+    // const venueId = venue.id;
+    // const categoryId = category.id;
 
-    // console.log("payload: ", payload);
+    console.log("venue: ", venue);
+    console.log("category: ", category);
+
+    const payload = {
+      hostId,
+      venue,
+      category,
+      name,
+      date,
+      capacity
+    };
+
+    console.log("payload: ", payload);
 
     let newEvent;
 
-  //   try {
-  //     newEvent = await dispatch(addEvent(payload));
-  //     console.log('newEvent: ', newEvent);
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
+    try {
+      newEvent = await dispatch(addEvent(payload));
+    } catch (e) {
+      console.log(e);
+    }
 
-  //   if (newEvent) {
-  //     history.push(`/events/${newEvent.id}`);
-  //   }
+    if (newEvent) {
+      // history.push(`/events/${newEvent.id}`);
+      console.log("SUCCESSS! new event created")
+    }
   };
 
   const handleCancelClick = (e) => {
@@ -71,9 +76,8 @@ export default function NewEventForm() {
           />
         <input
           type="date"
-          // placeholder="Attack"
+          defaultValue={new Date().toLocaleDateString('en-CA')}
           required
-          // value={attack}
           onChange={(e) => setDate(e.target.value)}
           />
         <select
@@ -97,9 +101,8 @@ export default function NewEventForm() {
         </select>
         <input
           type="number"
-          placeholder="0"
-          // value={move2}
-          // onChange={updateMove2}
+          value={capacity}
+          onChange={(e) => setCapacity(+e.target.value)}
           />
         <button type="submit">Create new Event!</button>
         <button type="button" onClick={handleCancelClick}>Cancel</button>
