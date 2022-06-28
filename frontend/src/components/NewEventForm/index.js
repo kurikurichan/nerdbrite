@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 import { addEvent, getForm } from '../../store/events';
 
 export default function NewEventForm() {
@@ -21,18 +21,13 @@ export default function NewEventForm() {
   const [venue, setVenue] = useState('');
   const [category, setCategory] = useState('');
   const [name, setName] = useState('');
-  const [date, setDate] = useState('');
+  const [date, setDate] = useState(new Date().toLocaleDateString('en-CA'));
   const [capacity, setCapacity] = useState(0);
+  const [errors, setErrors] = useState([]);
 
   // TODO: create form
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // const venueId = venue.id;
-    // const categoryId = category.id;
-
-    console.log("venue: ", venue);
-    console.log("category: ", category);
 
     const payload = {
       hostId,
@@ -45,13 +40,11 @@ export default function NewEventForm() {
 
     console.log("payload: ", payload);
 
-    let newEvent;
-
-    try {
-      newEvent = await dispatch(addEvent(payload));
-    } catch (e) {
-      console.log(e);
-    }
+    let newEvent = await dispatch(addEvent(payload))
+      .catch(async (res) => {
+        const formData = res.json();
+        if (formData && formData.errors) setErrors(formData.errors);
+      });
 
     if (newEvent) {
       // history.push(`/events/${newEvent.id}`);
@@ -67,6 +60,10 @@ export default function NewEventForm() {
   return (
     <section className="new-event-form-section">
       <form className="create-event-form" onSubmit={handleSubmit}>
+        <ul>
+          {errors.map(err =>
+            <li key={err}>{err}</li>)}
+        </ul>
         <input
           type="text"
           placeholder="Event Name"

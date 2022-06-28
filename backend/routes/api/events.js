@@ -58,6 +58,7 @@ router.get('/new', asyncHandler(async (req, res) => {
     return res.json(venuesAndCategories);
 }));
 
+
 // POST a new event
 router.post('/', requireAuth, eventValidator, asyncHandler(async (req, res) => {
 
@@ -72,13 +73,11 @@ router.post('/', requireAuth, eventValidator, asyncHandler(async (req, res) => {
     });
 
 
-    console.log(venueId);
-    console.log(categoryId);
-
+    // TODO: fix so that newEvent is getting the
     const newEvent = await db.Event.create({
         hostId,
-        venueId,
-        categoryId,
+        venueId: venueId.id,
+        categoryId: categoryId.id,
         name,
         date,
         capacity

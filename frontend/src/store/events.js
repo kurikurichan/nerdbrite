@@ -1,3 +1,5 @@
+import { csrfFetch } from './csrf';
+
 const LOAD = 'events/LOAD';
 const LOAD_DATA = 'events/LOAD_DATA';
 const ADD_EVENT = 'events/ADD_EVENT';
@@ -41,7 +43,7 @@ export const getForm = () => async dispatch => {
 
 export const addEvent = (eventData) => async dispatch => {
 
-    const response = await fetch('/api/events', {
+    const response = await csrfFetch('/api/events', {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
