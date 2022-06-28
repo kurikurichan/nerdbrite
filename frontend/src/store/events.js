@@ -3,6 +3,8 @@ import { csrfFetch } from './csrf';
 const LOAD = 'events/LOAD';
 const LOAD_DATA = 'events/LOAD_DATA';
 const ADD_EVENT = 'events/ADD_EVENT';
+const UPDATE_EVENT = 'events/UPDATE_EVENT';
+const DELETE_EVENT = 'events/DELETE_EVENT';
 
 const load = list => ({
     type: LOAD,
@@ -20,6 +22,17 @@ const add = newEvent => ({
     newEvent
 })
 
+const edit = oldEvent => ({
+    type: UPDATE_EVENT,
+    oldEvent
+})
+
+const del = eventToDelete => ({
+    type: DELETE_EVENT,
+    eventToDelete
+})
+
+// Get all events thunk
 export const getEvents = () => async dispatch => {
 
     const response = await fetch('/api/events');
@@ -30,6 +43,7 @@ export const getEvents = () => async dispatch => {
     }
 };
 
+// Get form to create NEW event thunk
 export const getForm = () => async dispatch => {
 
     // here we want to grab the categories & venues
@@ -41,6 +55,7 @@ export const getForm = () => async dispatch => {
     }
 }
 
+// Post form to create NEW event thunk
 export const addEvent = (eventData) => async dispatch => {
 
     const response = await csrfFetch('/api/events', {
@@ -58,8 +73,45 @@ export const addEvent = (eventData) => async dispatch => {
     }
 };
 
+// Put form to update existing event thunk
+export const updateEvent = (eventToUpdate, eventId) => async dispatch => {
+
+    const response = await csrfFetch(`/api/events/${eventId}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(eventToUpdate)
+    });
+
+    if (response.ok) {
+        const event = await response.json();
+        dispatch(edit(event));
+        return event;
+    }
+};
+
+// Delete existing event, thunk
+export const deleteEvent = (eventToDelete, eventId) => async dispatch => {
+
+    const response = await csrfFetch(`/api/events/${eventId}`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(eventToDelete)
+    });
+
+    if (response.ok) { // uhhh verify if this works since I didn't do a res.json on the backend
+        const event = await response.json();
+        dispatch(del(event));
+        return event;
+    }
+};
+
 const eventReducer = (state = {}, action) => {
 
+    let newState;
     switch (action.type) {
         case LOAD:
             const allEvents = {};
@@ -83,9 +135,18 @@ const eventReducer = (state = {}, action) => {
                 ...allData
             }
         case ADD_EVENT:
-            const newState = {};
+            newState = {};
             newState[action.newEvent.id] = action.newEvent;
             return newState;
+        case UPDATE_EVENT:
+            newState = {};
+            newState[action.oldEvent.id] = action.oldEvent;
+            return newState;
+        case DELETE_EVENT:
+            newState = { ...state };
+            delete newState[action.eventToDelete];
+            return newState;
+
         default:
             return state;
     }
