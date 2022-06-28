@@ -1,10 +1,17 @@
 const LOAD = 'events/LOAD';
+const LOAD_DATA = 'events/LOAD_DATA';
 const ADD_EVENT = 'events/ADD_EVENT';
 
 const load = list => ({
     type: LOAD,
     list
 });
+
+// for getting items needed for dropdown lists - venues & categories
+const loadData = data => ({
+    type: LOAD_DATA,
+    data
+})
 
 const add = newEvent => ({
     type: ADD_EVENT,
@@ -20,6 +27,17 @@ export const getEvents = () => async dispatch => {
         dispatch(load(list));
     }
 };
+
+export const getForm = () => async dispatch => {
+
+    // here we want to grab the categories & venues
+    const response = await fetch('/api/events/new');
+
+    if (response.ok) {
+        const categoriesAndVenues = await response.json();
+        dispatch(loadData(categoriesAndVenues));
+    }
+}
 
 export const addEvent = (eventData) => async dispatch => {
 
@@ -50,6 +68,18 @@ const eventReducer = (state = {}, action) => {
                 ...state,
                 ...allEvents
             };
+        case LOAD_DATA:
+            const allData = {venues: [], categories: []};
+            action.data.venues.forEach(venue => {
+                allData.venues[venue.id] = venue
+            });
+            action.data.categories.forEach(category => {
+                allData.categories[category.id] = category
+            });
+            return {
+                ...state,
+                ...allData
+            }
         case ADD_EVENT:
             const newState = {};
             newState[action.newEvent.id] = action.newEvent;

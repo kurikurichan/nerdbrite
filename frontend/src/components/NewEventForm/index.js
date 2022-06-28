@@ -1,30 +1,41 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { getEvents } from '../../store/events';
-
+import { getEvents, getForm } from '../../store/events';
 
 export default function NewEventForm() {
 
-  const currentState = useSelector(state => state);
+  // has .categories & .venues for our deets
+  const currentState = useSelector(state => state.events);
+
+  console.log("categories: ", Array.isArray(currentState.categories));
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+      dispatch(getForm());
+  }, [dispatch]);
+
 
   const history = useHistory();
-  // TODO: set up form states
+
+  const [venue, setVenue] = useState('');
+  const [category, setCategory] = useState('');
+  const [name, setName] = useState('doop');
+  const [date, setDate] = useState('');
+  const [capacity, setCapacity] = useState(0);
 
   // TODO: create form
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     // const payload = {
-    //   number,
-    //   attack,
-    //   defense,
-    //   imageUrl,
+    //   hostId,
+    //   venueId,
+    //   categoryId,
     //   name,
-    //   type,
-    //   move1,
-    //   move2,
-    //   moves: [move1, move2]
+    //   date,
+    //   capacity
     // };
 
     // console.log("payload: ", payload);
@@ -55,20 +66,34 @@ export default function NewEventForm() {
           type="text"
           placeholder="Event Name"
           required
-          // value={number}
-          // onChange={updateNumber} />
+          value={name}
+          onChange={(e) => setName(e.target.value)}
           />
         <input
           type="date"
           // placeholder="Attack"
           required
           // value={attack}
-          // onChange={updateAttack}
+          onChange={(e) => setDate(e.target.value)}
           />
-        <select>
-          {/* {pokeTypes.map(type =>
-            <option key={type}>{type}</option>
-          )} */}
+        <select
+          value={venue}
+          onChange={(e) => setVenue(e.target.value)}
+          >
+          <option value="" disabled>Venue</option>
+          {Array.isArray(currentState.venues) &&
+          currentState.venues.map(venue =>
+            <option key={venue.id}>{venue.name}</option>
+          )}
+        </select>
+        <select
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+          >
+          <option value="" disabled>Category</option>
+          {Array.isArray(currentState.categories) && currentState.categories.map(category =>
+            <option key={category.id}>{category.type}</option>
+          )}
         </select>
         <input
           type="number"
