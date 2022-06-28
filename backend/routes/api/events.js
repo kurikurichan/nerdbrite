@@ -18,20 +18,28 @@ const eventValidator = [
     check("date")
         .exists({ checkFalsy: true })
         .withMessage("A date is required")
-        .custom(date => date.getTime() > Date.now())
-        .withMessage("Selected date cannot be in the past")
-        .custom(date => (date.getTime() / 1000) - (Date.now() / 1000) >= 86400)
-        .withMessage("Event cannot start within 24 hours"),
-    check("categoryId")
-        .exists({ checkFalsy: true })
-        .withMessage("Please select a category"),
+        .custom(date => {
+            date = new Date(date);
+            if (date.getTime() < Date.now()) {
+                throw new Error("Selected date cannot be in the past")
+            }
+            return true;
+        })
+        .custom(date => {
+            date = new Date(date)
+            if ((date.getTime() / 1000) - (Date.now() / 1000) < 86400) {
+                throw new Error("Event cannot start within 24 hours")
+            }
+            return true;
+        }),
+    // check("categoryId")
+    //     .exists({ checkFalsy: true })
+    //     .withMessage("Please select a category"),
     check("capacity")
         .custom(val => val >= 0)
         .withMessage("Capacity cannot be less than 0"),
     handleValidationErrors
 ];
-(t.getTime() / 1000) - (Date.now() / 1000) >= 86400
-
 
 // GET events
 router.get('/', asyncHandler(async (req, res) => {
@@ -74,6 +82,7 @@ router.post('/', requireAuth, eventValidator, asyncHandler(async (req, res) => {
         where: { type: category }
     });
 
+    console.log("Category ID type: ", typeof categoryId.id);
 
     // TODO: fix so that newEvent is getting the
     const newEvent = await db.Event.create({
