@@ -11,7 +11,10 @@ function Navigation({ isLoaded }){
   let sessionLinks;
   if (sessionUser) {
     sessionLinks = (
-      <ProfileButton user={sessionUser} />
+      <>
+        <NavLink to="/api/events/new" title="Create a new event"><i class="fa-solid fa-plus"></i><p className="nav-text">Create an Event</p></NavLink>
+        <ProfileButton user={sessionUser} />
+      </>
     );
   } else {
     sessionLinks = (
@@ -26,6 +29,7 @@ function Navigation({ isLoaded }){
     <ul>
       <li>
         <NavLink exact to="/">Home</NavLink>
+        <NavLink to="/api/events">Events</NavLink>
         {isLoaded && sessionLinks}
       </li>
     </ul>
