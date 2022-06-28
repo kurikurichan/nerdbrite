@@ -48,6 +48,18 @@ router.get('/', asyncHandler(async (req, res) => {
     return res.json(events);
 }));
 
+// GET one event
+router.get('/:id(\\d+)', asyncHandler(async (req, res) => {
+    const id = req.params.id;
+    const event = await db.Event.findByPk(+id);
+
+    if (event) {
+        return res.json(event);
+    } else { // if event ID is invalid
+        res.status(404).json("Event not found");
+    }
+}));
+
 // GET new event form
 router.get('/new', asyncHandler(async (req, res) => {
     // need to send these to front end:

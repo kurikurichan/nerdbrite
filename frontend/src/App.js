@@ -8,6 +8,7 @@ import NewEventForm from './components/NewEventForm';
 import * as sessionActions from "./store/session";
 
 import Navigation from './components/Navigation';
+import EditEventForm from './components/EditEventForm';
 
 function App() {
   const dispatch = useDispatch();
@@ -33,6 +34,9 @@ function App() {
           </Route>
           <Route path="/api/events/new">
             <NewEventForm />
+          </Route>
+          <Route path="/api/events/:eventId/edit">
+            <EditEventForm />
           </Route>
         </Switch>
       )}

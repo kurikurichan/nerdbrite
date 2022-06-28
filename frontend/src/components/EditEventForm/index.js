@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect, useHistory } from 'react-router-dom';
-import { addEvent, getForm } from '../../store/events';
+import { addEvent, getEditForm } from '../../store/events';
 
 export default function EditEventForm() {
 
@@ -9,10 +9,12 @@ export default function EditEventForm() {
   const currentState = useSelector(state => state.events);
   const hostId = useSelector(state => state.session.user.id);
 
+  console.log("CURRENT STATE IN EDIT FORM!!!!!!: ", currentState);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
-      dispatch(getForm());
+      dispatch(getEditForm());
   }, [dispatch]);
 
 

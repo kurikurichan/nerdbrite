@@ -1,7 +1,9 @@
 import { csrfFetch } from './csrf';
 
 const LOAD = 'events/LOAD';
+const GET_ONE = 'events/GET_ONE';
 const LOAD_DATA = 'events/LOAD_DATA';
+// const LOAD_EDIT_DATA = 'events/LOAD_EDIT_DATA';
 const ADD_EVENT = 'events/ADD_EVENT';
 const UPDATE_EVENT = 'events/UPDATE_EVENT';
 const DELETE_EVENT = 'events/DELETE_EVENT';
@@ -16,6 +18,18 @@ const loadData = data => ({
     type: LOAD_DATA,
     data
 })
+
+// get a single event
+const getOne = event => ({
+    type: GET_ONE,
+    event
+})
+
+// same as loadData but we are also grabbing the existing event info
+// const loadEditData = data => ({
+//     type: LOAD_EDIT_DATA,
+//     data
+// });
 
 const add = newEvent => ({
     type: ADD_EVENT,
@@ -40,6 +54,17 @@ export const getEvents = () => async dispatch => {
     if (response.ok) {
         const list = await response.json();
         dispatch(load(list));
+    }
+};
+
+// Get one event
+export const getOneEvent = (eventId) => async dispatch => {
+
+    const response = await fetch(`/api/events/${eventId}`);
+
+    if (response.ok) {
+        const event = await response.json();
+        dispatch(getOne(event));
     }
 };
 
@@ -72,6 +97,18 @@ export const addEvent = (eventData) => async dispatch => {
         return event;
     }
 };
+
+// GET edit form with existing single event information
+export const getEditForm = (eventId) => async dispatch => {
+
+    // here we want to grab the categories, venues, & edit
+    const response = await csrfFetch(`/api/events/${eventId}/edit`);
+
+    if (response.ok) {
+        const allFormData = await response.json();
+        dispatch(loadData(allFormData));
+    }
+}
 
 // Put form to update existing event thunk
 export const updateEvent = (eventToUpdate, eventId) => async dispatch => {
@@ -123,17 +160,26 @@ const eventReducer = (state = {}, action) => {
                 ...allEvents
             };
         case LOAD_DATA:
-            const allData = {venues: [], categories: []};
+            const allData = {venues: [], categories: [], oldEvent: []};
             action.data.venues.forEach(venue => {
                 allData.venues[venue.id] = venue
             });
             action.data.categories.forEach(category => {
                 allData.categories[category.id] = category
             });
+            if (action.data.oldEvent.length > 0) { // basically check if we are loading the form for editing an event
+                allData.oldEvent.event = action.data.oldEvent;
+                console.log("finding old event for event store: ", allData.oldEvent);
+                return allData;
+            }
             return {
                 ...state,
                 ...allData
             }
+        case GET_ONE:
+            newState = { ...state };
+            newState.event = action.event;
+            return newState;
         case ADD_EVENT:
             newState = {};
             newState[action.newEvent.id] = action.newEvent;
