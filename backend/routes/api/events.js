@@ -9,6 +9,7 @@ const db = require('../../db/models');
 const router = express.Router();
 
 const eventValidator = [
+    // TODO: verify that date error handling works
     check("name") // note: later add a min length to this?
         .exists({ checkFalsy: true })
         .withMessage("Event requires a name")
@@ -29,6 +30,7 @@ const eventValidator = [
         .withMessage("Capacity cannot be less than 0"),
     handleValidationErrors
 ];
+(t.getTime() / 1000) - (Date.now() / 1000) >= 86400
 
 
 // GET events
@@ -79,7 +81,7 @@ router.post('/', requireAuth, eventValidator, asyncHandler(async (req, res) => {
         venueId: venueId.id,
         categoryId: categoryId.id,
         name,
-        date,
+        date: new Date(date),
         capacity
     });
 
