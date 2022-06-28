@@ -19,6 +19,7 @@ const eventValidator = [
         .exists({ checkFalsy: true })
         .withMessage("A date is required")
         .custom(date => {
+            // Note: can just compare date objects with < or >
             date = new Date(date);
             if (date.getTime() < Date.now()) {
                 throw new Error("Selected date cannot be in the past")
@@ -68,6 +69,35 @@ router.get('/new', asyncHandler(async (req, res) => {
     return res.json(venuesAndCategories);
 }));
 
+// GET edit event form
+router.get('/:id(\\d+)/edit', asyncHandler(async (req, res) => {
+    // need to send these to front end:
+    // - categories for the dropdown list
+    // - venues for the dropdown list - FOR NOW - eventually should be replaced
+
+    // find the specific event to edit
+    const id = req.params.id;
+    const eventToEdit = await db.Event.findByPk(id);
+
+    // Find & format the info for the form dropdowns
+    const venues = await db.Venue.findAll({
+        attributes: ["id", "name"]
+    });
+    const categories = await db.Category.findAll();
+
+    const dataNeededForEditForm = {};
+
+    dataNeededForEditForm.venues = venues;
+    dataNeededForEditForm.categories = categories;
+    dataNeededForEditForm.eventData = eventToEdit;
+
+    if (eventToEdit && req.user.id === eventToEdit.hostId) { // confirm that the same user is editing their own event
+        return res.json(dataNeededForEditForm);
+    } else throw new Error("Not authorized to edit this event");
+
+}));
+
+
 
 // POST a new event
 router.post('/', requireAuth, eventValidator, asyncHandler(async (req, res) => {
@@ -98,5 +128,65 @@ router.post('/', requireAuth, eventValidator, asyncHandler(async (req, res) => {
     return res.json(newEvent);
 
 }));
+
+// PUT, edit event form
+router.put('/:id(\\d+)', requireAuth, eventValidator, asyncHandler(async (req, res) => {
+
+    const { hostId, venue, category, name, date, capacity } = req.body;
+    const id = req.params.id;
+
+    // Find the event to edit
+    const eventToEdit = await db.Event.findByPk(id);
+
+    const venueId = await db.Venue.findOne({
+        where: { name: venue }
+    });
+
+    const categoryId = await db.Category.findOne({
+        where: { type: category }
+    });
+
+    let updatedEvent;
+
+    if (eventToEdit && req.user.id === eventToEdit.hostId) {
+        updatedEvent = await db.Event.update({
+            hostId,
+            venueId: venueId.id,
+            categoryId: categoryId.id,
+            name,
+            date: new Date(date),
+            capacity
+        });
+
+        await updatedEvent.save();
+        res.status(201);
+        return res.json(updatedEvent);
+    }
+    else {
+        throw new Error("Unauthorized or event was not found")
+        res.status(401).end();
+    }
+
+}));
+
+// DELETE, delete specific event
+router.delete('/:id(\\d+)', requireAuth, eventValidator, asyncHandler(async (req, res) => {
+
+    const id = req.params.id;
+    // find the thing to delete, verify it's in database
+    const eventToDelete = await db.Event.findByPk(id);
+
+    if (!eventToDelete) throw new Error('Event not found');
+
+    if (req.user.id === eventToDelete.hostId) {
+        await eventToDelete.destroy();
+        res.status(204).end(); // do I need a res.json??? some kind of message to the front end?
+    }
+    else throw new Error('Unauthorized');
+    res.status(401).end();
+
+}));
+
+
 
 module.exports = router;
