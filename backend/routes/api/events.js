@@ -91,7 +91,7 @@ router.get('/:id(\\d+)/edit', asyncHandler(async (req, res) => {
     dataNeededForEditForm.categories = categories;
     dataNeededForEditForm.eventData = eventToEdit;
 
-    if (eventToEdit && req.user.id === eventToEdit.hostId) { // confirm that the same user is editing their own event
+    if (eventToEdit && req.user.id === eventToEdit.hostId) { // do not give the frontend the info if this isn't the user's own event
         return res.json(dataNeededForEditForm);
     } else throw new Error("Not authorized to edit this event");
 
@@ -112,9 +112,6 @@ router.post('/', requireAuth, eventValidator, asyncHandler(async (req, res) => {
         where: { type: category }
     });
 
-    console.log("Category ID type: ", typeof categoryId.id);
-
-    // TODO: fix so that newEvent is getting the
     const newEvent = await db.Event.create({
         hostId,
         venueId: venueId.id,
@@ -148,7 +145,7 @@ router.put('/:id(\\d+)', requireAuth, eventValidator, asyncHandler(async (req, r
 
     let updatedEvent;
 
-    if (eventToEdit && req.user.id === eventToEdit.hostId) {
+    if (eventToEdit && req.user.id === eventToEdit.hostId) { // verify that user is editing their own event
         updatedEvent = await db.Event.update({
             hostId,
             venueId: venueId.id,
@@ -164,7 +161,6 @@ router.put('/:id(\\d+)', requireAuth, eventValidator, asyncHandler(async (req, r
     }
     else {
         throw new Error("Unauthorized or event was not found")
-        res.status(401).end();
     }
 
 }));
