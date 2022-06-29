@@ -5,6 +5,7 @@ const { check } = require("express-validator");
 
 const { requireAuth } = require("../../utils/auth");
 const db = require('../../db/models');
+const user = require('../../db/models/user');
 
 const router = express.Router();
 
@@ -50,8 +51,24 @@ router.get('/', asyncHandler(async (req, res) => {
 
 // GET one event
 router.get('/:id(\\d+)', asyncHandler(async (req, res) => {
+
     const id = req.params.id;
-    const event = await db.Event.findByPk(+id);
+    const event = await db.Event.findByPk(+id, {
+        include: [{
+            model: db.User,
+            attributes: ['id','username']
+        },
+        {
+            model: db.Venue,
+            attributes: ['name']
+        },
+        {
+            model: db.Category,
+            attributes: ['type']
+        }],
+        raw: true,
+        nest: true
+    });
 
     if (event) {
         return res.json(event);
