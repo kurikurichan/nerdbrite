@@ -12,7 +12,7 @@ function Navigation({ isLoaded }){
   if (sessionUser) {
     sessionLinks = (
       <>
-        <NavLink to="/api/events/new" title="Create a new event"><i class="fa-solid fa-plus"></i><p className="nav-text">Create an Event</p></NavLink>
+        <NavLink to="/api/events/new" title="Create a new event"><i className="fa-solid fa-plus"></i><p className="nav-text">Create an Event</p></NavLink>
         <ProfileButton user={sessionUser} />
       </>
     );

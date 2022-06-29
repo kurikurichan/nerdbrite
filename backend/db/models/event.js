@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   Event.associate = function(models) {
     // associations can be defined here
-    Event.hasMany(models.Ticket, { foreignKey: 'eventId' });
+    Event.hasMany(models.Ticket, { foreignKey: 'eventId', onDelete: "CASCADE", hooks:true });
 
     Event.belongsTo(models.User, { foreignKey: 'hostId' });
     Event.belongsTo(models.Venue, { foreignKey: 'venueId' });

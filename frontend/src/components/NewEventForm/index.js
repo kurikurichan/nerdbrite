@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Redirect, useHistory } from 'react-router-dom';
 import { addEvent, getForm } from '../../store/events';
 
+import './NewEventForm.css';
+
 export default function NewEventForm() {
 
   // has .categories & .venues for our deets
@@ -47,7 +49,7 @@ export default function NewEventForm() {
       });
 
     if (newEvent) {
-      // history.push(`/events/${newEvent.id}`);
+      history.push(`/api/events/${newEvent.id}`);
       console.log("SUCCESSS! new event created")
     }
   };
@@ -59,6 +61,7 @@ export default function NewEventForm() {
 
   return (
     <section className="new-event-form-section">
+      { currentState ?
       <form className="create-event-form" onSubmit={handleSubmit}>
         <ul>
           {errors.map(err =>
@@ -103,7 +106,8 @@ export default function NewEventForm() {
           />
         <button type="submit">Create new Event!</button>
         <button type="button" onClick={handleCancelClick}>Cancel</button>
-      </form>
+      </form> :
+      <p>Form Loading</p>}
     </section>
   )
 }
