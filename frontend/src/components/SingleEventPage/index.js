@@ -26,7 +26,7 @@ export default function SingleEventPage() {
 
     const handleClick = (e) => {
         // e.preventDefault();
-        history.push(`/api/events/${eventId}/edit`);
+        history.push(`/events/${eventId}/edit`);
     };
 
 

@@ -3,7 +3,6 @@ import { csrfFetch } from './csrf';
 const LOAD = 'events/LOAD';
 const GET_ONE = 'events/GET_ONE';
 const LOAD_DATA = 'events/LOAD_DATA';
-// const LOAD_EDIT_DATA = 'events/LOAD_EDIT_DATA';
 const ADD_EVENT = 'events/ADD_EVENT';
 const UPDATE_EVENT = 'events/UPDATE_EVENT';
 const DELETE_EVENT = 'events/DELETE_EVENT';
@@ -23,13 +22,7 @@ const loadData = data => ({
 const getOne = event => ({
     type: GET_ONE,
     event
-})
-
-// same as loadData but we are also grabbing the existing event info
-// const loadEditData = data => ({
-//     type: LOAD_EDIT_DATA,
-//     data
-// });
+});
 
 const add = newEvent => ({
     type: ADD_EVENT,
@@ -135,7 +128,7 @@ export const deleteEvent = (eventId) => async dispatch => {
         method: "DELETE"
     });
 
-    if (response.ok) { // uhhh verify if this works since I didn't do a res.json on the backend
+    if (response.ok) {
         dispatch(del(eventId));
     }
 };
@@ -165,7 +158,7 @@ const eventReducer = (state = {}, action) => {
                 ...allData
             }
         case GET_ONE:
-            newState = { ...state };
+            newState = {};
             newState.event = action.event;
             return newState;
         case ADD_EVENT:

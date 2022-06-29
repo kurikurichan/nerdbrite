@@ -1,19 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { Redirect, useHistory, useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { updateEvent, getOneEvent, getForm, deleteEvent } from '../../store/events';
 
 export default function EditEventForm({ eventLoaded }) {
 
-  // has .categories & .venues for our deets
   const event = useSelector(state => state.events.event);
   const categoryVenues = useSelector(state => state.events);
   const hostId = useSelector(state => state.session.user.id);
 
   const { eventId } = useParams();
-
-  // attempt to redirect user if store isn't loaded yet
-//   if (!eventLoaded) (<Redirect to={`/api/events/${eventId}`} />)
 
   const dispatch = useDispatch();
 
@@ -57,28 +53,25 @@ export default function EditEventForm({ eventLoaded }) {
     console.log("payload: ", payload);
 
     await(dispatch(updateEvent(payload, eventId)))
-      .catch(async (res) => {
-        const editData = res.json();
-        if (editData && editData.errors) {
-          setErrors(editData.errors);
-        }
+      .catch(async (err) => {
+        const editData = await err.json();
+        if (editData && editData.errors) setErrors(editData.errors);
     });
 
-    console.log("SUCCESSS! event updated");
-    history.push(`/api/events/${eventId}`);
+    history.push(`/events/${eventId}`);
 
   };
 
   const handleCancelClick = (e) => {
     e.preventDefault();
-    history.push(`/api/events/${eventId}`);
+    history.push(`/events/${eventId}`);
   }
 
   const handleDeleteClick = async (e) => {
     e.preventDefault(e);
 
     await dispatch(deleteEvent(eventId));
-    history.push('/api/events');
+    history.push('/events');
 
   }
   if (!event || !hostId || !categoryVenues) return (<p>Loading...</p>);

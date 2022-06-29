@@ -21,7 +21,7 @@ export default function Events() {
         <div>Events</div>
             <ul>
                 {Object.values(events).map((event) =>
-                <li key={event.id}><Link to={`/api/events/${event.id}`}>{event.name}</Link></li>)}
+                <li key={event.id}><Link to={`/events/${event.id}`}>{event.name}</Link></li>)}
             </ul>
     </>
   );
