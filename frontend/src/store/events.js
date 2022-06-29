@@ -38,7 +38,7 @@ const add = newEvent => ({
 
 const edit = oldEvent => ({
     type: UPDATE_EVENT,
-    oldEvent
+    oldEvent　
 })
 
 const del = eventToDelete => ({
@@ -160,18 +160,13 @@ const eventReducer = (state = {}, action) => {
                 ...allEvents
             };
         case LOAD_DATA:
-            const allData = {venues: [], categories: [], oldEvent: []};
+            const allData = {venues: [], categories: []};
             action.data.venues.forEach(venue => {
                 allData.venues[venue.id] = venue
             });
             action.data.categories.forEach(category => {
                 allData.categories[category.id] = category
             });
-            if (action.data.oldEvent.length > 0) { // basically check if we are loading the form for editing an event
-                allData.oldEvent.event = action.data.oldEvent;
-                console.log("finding old event for event store: ", allData.oldEvent);
-                return allData;
-            }
             return {
                 ...state,
                 ...allData

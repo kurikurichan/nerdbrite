@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { getEvents } from '../../store/events';
 import './events.css';
 
@@ -20,7 +21,7 @@ export default function Events() {
         <div>Events</div>
             <ul>
                 {Object.values(events).map((event) =>
-                <li key={event.id}>{event.name}</li>)}
+                <li key={event.id}><Link to={`/api/events/${event.id}`}>{event.name}</Link></li>)}
             </ul>
     </>
   );
