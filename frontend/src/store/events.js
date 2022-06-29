@@ -129,20 +129,17 @@ export const updateEvent = (eventToUpdate, eventId) => async dispatch => {
 };
 
 // Delete existing event, thunk
-export const deleteEvent = (eventToDelete, eventId) => async dispatch => {
+export const deleteEvent = (eventId) => async dispatch => {
 
     const response = await csrfFetch(`/api/events/${eventId}`, {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json"
-        },
-        body: JSON.stringify(eventToDelete)
+        }
     });
 
     if (response.ok) { // uhhh verify if this works since I didn't do a res.json on the backend
-        const event = await response.json();
-        dispatch(del(event));
-        return event;
+        dispatch(del(eventId));
     }
 };
 
@@ -156,7 +153,6 @@ const eventReducer = (state = {}, action) => {
                 allEvents[event.id] = event;
             });
             return {
-                ...state,
                 ...allEvents
             };
         case LOAD_DATA:

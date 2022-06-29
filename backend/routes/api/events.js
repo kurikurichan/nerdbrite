@@ -175,7 +175,7 @@ router.put('/:id(\\d+)', requireAuth, eventValidator, asyncHandler(async (req, r
     let updatedEvent;
 
     if (eventToEdit && req.user.id === eventToEdit.hostId) { // verify that user is editing their own event
-        updatedEvent = await db.Event.update({
+        updatedEvent = await eventToEdit.update({
             hostId,
             venueId: venueId.id,
             categoryId: categoryId.id,
@@ -195,17 +195,19 @@ router.put('/:id(\\d+)', requireAuth, eventValidator, asyncHandler(async (req, r
 }));
 
 // DELETE, delete specific event
-router.delete('/:id(\\d+)', requireAuth, eventValidator, asyncHandler(async (req, res) => {
+router.delete('/:id(\\d+)', requireAuth, asyncHandler(async (req, res) => {
 
     const id = req.params.id;
     // find the thing to delete, verify it's in database
     const eventToDelete = await db.Event.findByPk(id);
+    const copyOfEvent = eventToDelete;
 
     if (!eventToDelete) throw new Error('Event not found');
 
     if (req.user.id === eventToDelete.hostId) {
+        res.status(204);
+        res.json(copyOfEvent); // do I need a res.json??? some kind of message to the front end?
         await eventToDelete.destroy();
-        res.status(204).end(); // do I need a res.json??? some kind of message to the front end?
     }
     else throw new Error('Unauthorized');
     res.status(401).end();

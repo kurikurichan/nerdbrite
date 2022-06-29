@@ -56,7 +56,7 @@ export default function NewEventForm() {
 
   const handleCancelClick = (e) => {
     e.preventDefault();
-    history.push('/events');
+    history.push('/api/events');
   }
 
   return (

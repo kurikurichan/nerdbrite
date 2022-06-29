@@ -6,6 +6,7 @@ import SignupFormPage from './components/SignUpForm';
 import Events from './components/Events';
 import NewEventForm from './components/NewEventForm';
 import * as sessionActions from "./store/session";
+import * as eventActions from "./store/events";
 
 import Navigation from './components/Navigation';
 import EditEventForm from './components/EditEventForm';
@@ -14,10 +15,13 @@ import SingleEventPage from './components/SingleEventPage';
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
+  const [eventLoaded, setEventLoaded] = useState(false);
 
   useEffect(() => {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
+    dispatch(eventActions.getForm()).then(() => setEventLoaded(true));
   }, [dispatch]);
+
 
   return (
     <>
@@ -40,7 +44,7 @@ function App() {
             <SingleEventPage />
           </Route>
           <Route exact path="/api/events/:eventId/edit">
-            <EditEventForm />
+            <EditEventForm eventLoaded={eventLoaded}/>
           </Route>
         </Switch>
       )}
