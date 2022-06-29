@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { Redirect, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { addEvent, getForm } from '../../store/events';
 
 import './NewEventForm.css';
 
 export default function NewEventForm() {
 
-  // has .categories & .venues for our deets
   const currentState = useSelector(state => state.events);
   const hostId = useSelector(state => state.session.user.id);
 
@@ -27,9 +26,10 @@ export default function NewEventForm() {
   const [capacity, setCapacity] = useState(0);
   const [errors, setErrors] = useState([]);
 
-  // TODO: create form
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    setErrors([]);
 
     const payload = {
       hostId,
@@ -42,16 +42,14 @@ export default function NewEventForm() {
 
     console.log("payload: ", payload);
 
-    let newEvent = await dispatch(addEvent(payload))
+    const newEvent = await(dispatch(addEvent(payload)))
       .catch(async (res) => {
-        const formData = res.json();
+        const formData = await res.json();
         if (formData && formData.errors) setErrors(formData.errors);
-      });
+    });
 
-    if (newEvent) {
-      history.push(`/api/events/${newEvent.id}`);
-      console.log("SUCCESSS! new event created")
-    }
+    history.push(`/events/${newEvent.id}`);
+
   };
 
   const handleCancelClick = (e) => {
@@ -64,8 +62,9 @@ export default function NewEventForm() {
       { currentState ?
       <form className="create-event-form" onSubmit={handleSubmit}>
         <ul>
-          {errors.map(err =>
-            <li key={err}>{err}</li>)}
+        {errors.map((error, idx) => (
+          <li key={idx}>{error}</li>
+        ))}
         </ul>
         <input
           type="text"

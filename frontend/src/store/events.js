@@ -3,7 +3,6 @@ import { csrfFetch } from './csrf';
 const LOAD = 'events/LOAD';
 const GET_ONE = 'events/GET_ONE';
 const LOAD_DATA = 'events/LOAD_DATA';
-// const LOAD_EDIT_DATA = 'events/LOAD_EDIT_DATA';
 const ADD_EVENT = 'events/ADD_EVENT';
 const UPDATE_EVENT = 'events/UPDATE_EVENT';
 const DELETE_EVENT = 'events/DELETE_EVENT';
@@ -23,13 +22,7 @@ const loadData = data => ({
 const getOne = event => ({
     type: GET_ONE,
     event
-})
-
-// same as loadData but we are also grabbing the existing event info
-// const loadEditData = data => ({
-//     type: LOAD_EDIT_DATA,
-//     data
-// });
+});
 
 const add = newEvent => ({
     type: ADD_EVENT,
@@ -129,20 +122,14 @@ export const updateEvent = (eventToUpdate, eventId) => async dispatch => {
 };
 
 // Delete existing event, thunk
-export const deleteEvent = (eventToDelete, eventId) => async dispatch => {
+export const deleteEvent = (eventId) => async dispatch => {
 
     const response = await csrfFetch(`/api/events/${eventId}`, {
-        method: "DELETE",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(eventToDelete)
+        method: "DELETE"
     });
 
-    if (response.ok) { // uhhh verify if this works since I didn't do a res.json on the backend
-        const event = await response.json();
-        dispatch(del(event));
-        return event;
+    if (response.ok) {
+        dispatch(del(eventId));
     }
 };
 
@@ -156,7 +143,6 @@ const eventReducer = (state = {}, action) => {
                 allEvents[event.id] = event;
             });
             return {
-                ...state,
                 ...allEvents
             };
         case LOAD_DATA:
@@ -172,7 +158,7 @@ const eventReducer = (state = {}, action) => {
                 ...allData
             }
         case GET_ONE:
-            newState = { ...state };
+            newState = {};
             newState.event = action.event;
             return newState;
         case ADD_EVENT:

@@ -6,6 +6,7 @@ import SignupFormPage from './components/SignUpForm';
 import Events from './components/Events';
 import NewEventForm from './components/NewEventForm';
 import * as sessionActions from "./store/session";
+import * as eventActions from "./store/events";
 
 import Navigation from './components/Navigation';
 import EditEventForm from './components/EditEventForm';
@@ -14,10 +15,13 @@ import SingleEventPage from './components/SingleEventPage';
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
+  const [eventLoaded, setEventLoaded] = useState(false);
 
   useEffect(() => {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
+    dispatch(eventActions.getForm()).then(() => setEventLoaded(true));
   }, [dispatch]);
+
 
   return (
     <>
@@ -25,22 +29,22 @@ function App() {
       {isLoaded && (
         <Switch>
           <Route exact path="/">
-            <h1>splash page welcome</h1>
+            <h1>Welcome to nerdbrite!</h1>
           </Route>
           <Route path="/signup">
             <SignupFormPage />
           </Route>
-          <Route exact path="/api/events">
+          <Route exact path="/events">
             <Events />
           </Route>
-          <Route exact path="/api/events/new">
+          <Route exact path="/events/new">
             <NewEventForm />
           </Route>
-          <Route exact path="/api/events/:eventId">
+          <Route exact path="/events/:eventId">
             <SingleEventPage />
           </Route>
-          <Route exact path="/api/events/:eventId/edit">
-            <EditEventForm />
+          <Route exact path="/events/:eventId/edit">
+            <EditEventForm eventLoaded={eventLoaded}/>
           </Route>
         </Switch>
       )}
