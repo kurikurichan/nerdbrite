@@ -24,24 +24,12 @@ export default function EditEventForm({ eventLoaded }) {
 
   const history = useHistory();
 
-  // TODO: these states should be setting values that already exist from the event data
-//   const [venue, setVenue] = useState(currentState.event?.Venue.name);
-//   const [category, setCategory] = useState(currentState.event?.Category.type);
-//   const [name, setName] = useState(currentState.event?.name);
-//   const [date, setDate] = useState(new Date(currentState.event?.date).toLocaleDateString('en-CA'));
-//   const [capacity, setCapacity] = useState(currentState.event?.capacity);
-//   const [errors, setErrors] = useState([]);
-
-// redirect user if this isn't their event page
-// if (!eventId) history.push("/api/events");
-// if (hostId !== event.hostId) (<Redirect to={`/api/events/${eventId}`} />)
-
-const [venue, setVenue] = useState('');
-const [category, setCategory] = useState('');
-const [name, setName] = useState('');
-const [date, setDate] = useState(new Date().toLocaleDateString('en-CA'));
-const [capacity, setCapacity] = useState(0);
-const [errors, setErrors] = useState([]);
+  const [venue, setVenue] = useState('');
+  const [category, setCategory] = useState('');
+  const [name, setName] = useState('');
+  const [date, setDate] = useState(new Date().toLocaleDateString('en-CA'));
+  const [capacity, setCapacity] = useState(0);
+  const [errors, setErrors] = useState([]);
 
   // prefill fields with existing event data on initial page load
   useEffect(() => {
@@ -54,6 +42,8 @@ const [errors, setErrors] = useState([]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    setErrors([]);
 
     const payload = {
       hostId,
@@ -68,13 +58,10 @@ const [errors, setErrors] = useState([]);
 
     await(dispatch(updateEvent(payload, eventId)))
       .catch(async (res) => {
-      const editData = res.json();
-      console.log("The edit data: ", editData);
-      if (editData && editData.errors) {
-        setErrors(editData.errors);
-      } else {
-        console.log("did not get errors or something???")
-      }
+        const editData = res.json();
+        if (editData && editData.errors) {
+          setErrors(editData.errors);
+        }
     });
 
     console.log("SUCCESSS! event updated");
@@ -90,11 +77,8 @@ const [errors, setErrors] = useState([]);
   const handleDeleteClick = async (e) => {
     e.preventDefault(e);
 
-    const deleted = await dispatch(deleteEvent(eventId));
-    if (deleted) {
-        console.log("successfully deleted")
-        history.push('/api/events');
-    }
+    await dispatch(deleteEvent(eventId));
+    history.push('/api/events');
 
   }
   if (!event || !hostId || !categoryVenues) return (<p>Loading...</p>);
@@ -105,8 +89,9 @@ const [errors, setErrors] = useState([]);
             {event ?
             <form className="create-event-form" onSubmit={handleSubmit}>
                 <ul>
-                {errors.map(err =>
-                    <li key={err}>{err}</li>)}
+                  {errors.map((error, idx) => (
+                    <li key={idx}>{error}</li>
+                  ))}
                 </ul>
                 <input
                 type="text"

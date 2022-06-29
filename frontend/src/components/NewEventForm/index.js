@@ -31,6 +31,8 @@ export default function NewEventForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    setErrors([]);
+
     const payload = {
       hostId,
       venue,
@@ -42,16 +44,16 @@ export default function NewEventForm() {
 
     console.log("payload: ", payload);
 
-    let newEvent = await dispatch(addEvent(payload))
+    await(dispatch(addEvent(payload)))
       .catch(async (res) => {
-        const formData = res.json();
-        if (formData && formData.errors) setErrors(formData.errors);
-      });
+        const editData = res.json();
+        if (editData && editData.errors) {
+          setErrors(editData.errors);
+        }
+    });
 
-    if (newEvent) {
-      history.push(`/api/events/${newEvent.id}`);
-      console.log("SUCCESSS! new event created")
-    }
+    history.push(`/api/events/${newEvent.id}`);
+
   };
 
   const handleCancelClick = (e) => {
@@ -64,8 +66,9 @@ export default function NewEventForm() {
       { currentState ?
       <form className="create-event-form" onSubmit={handleSubmit}>
         <ul>
-          {errors.map(err =>
-            <li key={err}>{err}</li>)}
+        {errors.map((error, idx) => (
+          <li key={idx}>{error}</li>
+        ))}
         </ul>
         <input
           type="text"

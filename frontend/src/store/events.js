@@ -132,10 +132,7 @@ export const updateEvent = (eventToUpdate, eventId) => async dispatch => {
 export const deleteEvent = (eventId) => async dispatch => {
 
     const response = await csrfFetch(`/api/events/${eventId}`, {
-        method: "DELETE",
-        headers: {
-            "Content-Type": "application/json"
-        }
+        method: "DELETE"
     });
 
     if (response.ok) { // uhhh verify if this works since I didn't do a res.json on the backend
