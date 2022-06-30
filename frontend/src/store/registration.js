@@ -32,6 +32,7 @@ export const getOneUsersTix = (userId) => async dispatch => {
     if (response.ok) {
         const allTix = await response.json();
         dispatch(getAllTix(allTix));
+        return allTix;
     }
 };
 
@@ -77,9 +78,7 @@ const registrationReducer = (state = {}, action) => {
             action.tix.forEach(ticket => {
                 newState[ticket.id] = ticket;
             });
-            return {
-                ...newState
-            };
+            return newState;
         case NEW_TIX:
             newState = {};
             newState[action.tix.id] = action.tix;

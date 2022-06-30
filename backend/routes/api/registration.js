@@ -8,7 +8,6 @@ const db = require('../../db/models');
 
 const router = express.Router();
 
-// TODO: make registration validator
 const ticketValidator = [
     check("eventId")
         .exists("Need an event to register for"),
@@ -31,7 +30,7 @@ router.get('/:userId', requireAuth, asyncHandler(async (req, res, next) => {
     if (req.params.userId == req.user.id) {
         const tickets = await db.Ticket.findAll({
             where: {
-                id: req.params.userId
+                userId: req.params.userId
             },
             include: [{
                 model: db.Event,

@@ -6,6 +6,9 @@ import { getOneUsersTix } from '../../store/registration';
 export default function MyTicketsPage() {
 
     const tickets = useSelector(state => state.tickets);
+    console.log("tickets state: ", tickets);
+
+    console.log("typeof tickets: ", Array.isArray(tickets)) // so state.tickets is an object
 
     const { userId } = useParams();
 
@@ -16,12 +19,17 @@ export default function MyTicketsPage() {
     }, [dispatch]);
 
   return (
-    <div>
-        <h1>My Events</h1>
-        <ul id="list-tickets">
+    <>
+      <h1>My Events</h1>
+        { tickets ?
+          <ul id="list-tickets">
             {Object.values(tickets).map(ticket =>
-                <li key={ticket.id}><Link to={`/events/${ticket.Event.id}`}>{ticket.Event.name}</Link></li>)}
-        </ul>
-    </div>
+              <li key={ticket.id}><Link to={`/events/${ticket.Event.id}`}>{ticket.Event.name}</Link></li>)}
+          </ul>
+        : <p>Loading...</p> }
+      </>
   )
 }
+
+
+//pesticide gogole chrome
