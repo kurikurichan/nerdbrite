@@ -50,6 +50,9 @@ function App() {
           <Route exact path="/register/:userId">
             <MyTicketsPage />
           </Route>
+          <Route>
+            <p>Page not found</p>
+          </Route>
         </Switch>
       )}
     </>

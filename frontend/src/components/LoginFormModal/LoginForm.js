@@ -19,6 +19,12 @@ function LoginForm() {
     );
   };
 
+  const handleDemo = (e) => {
+    setCredential("Demo-lition");
+    setPassword("password");
+    return dispatch(sessionActions.login({ credential, password }));
+  }
+
   return (
     <form onSubmit={handleSubmit}>
       <ul>
@@ -45,6 +51,10 @@ function LoginForm() {
         />
       </label>
       <button type="submit">Log In</button>
+      <div className="demo">
+        <p>Want to try out the site without an account?</p>
+        <button type="submit" onClick={handleDemo}>Demo User</button>
+      </div>
     </form>
   );
 }

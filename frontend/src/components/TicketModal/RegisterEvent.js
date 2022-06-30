@@ -65,7 +65,7 @@ function RegisterEvent({ eventId }) {
             :
             <>
                 <h1>Register Today!</h1>
-                {errors.length && <p>Something went wrong</p>}
+                <div className="ticket-error">{errors.length > 0 && <p>Something went wrong</p>}</div>
                 <button id="registerButton" onClick={handleRegister}>Register Now</button>
             </>}
         </div>
