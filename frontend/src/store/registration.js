@@ -27,18 +27,19 @@ const delTix = tix => ({
 // get all tix for one user
 export const getOneUsersTix = (userId) => async dispatch => {
 
-    const response = await csrfFetch(`/api/registration/${userId}`);
+    const response = await csrfFetch(`/api/register/${userId}`);
 
     if (response.ok) {
         const allTix = await response.json();
         dispatch(getAllTix(allTix));
+        return allTix;
     }
 };
 
 // post new ticket/registration
 export const addEvent = (tixData) => async dispatch => {
 
-    const response = await csrfFetch('/api/registration', {
+    const response = await csrfFetch('/api/register', {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -54,20 +55,15 @@ export const addEvent = (tixData) => async dispatch => {
 };
 
 // Delete registration
-export const deleteRegistration = (regToDelete, regId) => async dispatch => {
+export const deleteRegistration = (regId) => async dispatch => {
 
-    const response = await csrfFetch(`/api/registration/${regId}`, {
-        method: "DELETE",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(regToDelete)
+    console.log("DeleteRegistration thunk hit ", regId);
+    const response = await csrfFetch(`/api/register/${regId}`, {
+        method: "DELETE"
     });
 
-    if (response.ok) { // uhhh verify if this works since I didn't do a res.json on the backend
-        const reg = await response.json();
-        dispatch(delTix(reg));
-        return reg;
+    if (response.ok) {
+        dispatch(delTix(regId));
     }
 };
 
@@ -82,10 +78,7 @@ const registrationReducer = (state = {}, action) => {
             action.tix.forEach(ticket => {
                 newState[ticket.id] = ticket;
             });
-            return {
-                ...state,
-                ...newState
-            };
+            return newState;
         case NEW_TIX:
             newState = {};
             newState[action.tix.id] = action.tix;

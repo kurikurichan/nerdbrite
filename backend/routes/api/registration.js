@@ -8,8 +8,11 @@ const db = require('../../db/models');
 
 const router = express.Router();
 
-// TODO: make registration validator
 const ticketValidator = [
+    check("eventId")
+        .exists("Need an event to register for"),
+    check("userId")
+        .exists("Must be a logged in user to register for event"),
     handleValidationErrors
 ]
 
@@ -17,22 +20,37 @@ const ticketValidator = [
 // Put in modal
 router.get('/', asyncHandler(async (req, res) => {
     const tickets = await db.Ticket.findAll();
-    return res.json(ticket);
+    return res.json(tickets);
 }));
 
 // GET list of all registrations for a user
 // visible only by the user
-router.get('/:userId', requireAuth, handleValidationErrors, asyncHandler(async (req, res) => {
-    const tickets = await db.Ticket.findAll({
-        where: {
-            id: req.params.userId
-        }
-    });
-    return res.json(tickets);
+router.get('/:userId', requireAuth, asyncHandler(async (req, res, next) => {
+
+    if (req.params.userId == req.user.id) {
+        const tickets = await db.Ticket.findAll({
+            where: {
+                userId: req.params.userId
+            },
+            include: [{
+                model: db.Event,
+                attributes: ['id', 'name']
+            }]
+        });
+
+        return res.json(tickets);
+
+    } else {
+        const err = new Error('Forbidden Content');
+        err.status = 403;
+        err.title = 'Forbidden';
+        err.errors = ["Cannot view another user's events"];
+        return next(err);
+    }
 }));
 
 // POST registration - create new registration
-router.post('/', requireAuth, handleValidationErrors, asyncHandler(async (req, res) => {
+router.post('/', requireAuth, ticketValidator, asyncHandler(async (req, res, next) => {
 
     const { eventId, userId } = req.body;
 
@@ -41,21 +59,24 @@ router.post('/', requireAuth, handleValidationErrors, asyncHandler(async (req, r
         userId
     });
 
-    res.status(201);
     return res.json(newReg);
+
+
 }));
 
 // DELETE registration
-router.delete('/:id(\\d+)', requireAuth, handleValidationErrors, asyncHandler(async (req, res) => {
+router.delete('/:regId(\\d+)', requireAuth, asyncHandler(async (req, res) => {
 
-    const regToDelete = await db.Ticket.findByPk(req.params.id);
+    const regToDelete = await db.Ticket.findByPk(+req.params.regId);
 
+    console.log("req: ", typeof req.user.id);
+    console.log("regToDelete: ", regToDelete);
+    console.log("regToDelete.userId", regToDelete.userId, typeof regToDelete.userId);
     if (regToDelete && req.user.id === regToDelete.userId) {
         await regToDelete.destroy();
-        res.status(204).end(); // maybe change later idk
+        res.status(204).json({"message": "success"})
     }
-    else throw new Error('Unauthorized');
-    res.status(401).end();
+    else res.json({"message": "failure"});
 }));
 
 module.exports = router;

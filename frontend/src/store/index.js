@@ -1,11 +1,13 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import eventReducer from './events';
+import registrationReducer from './registration';
 import sessionReducer from './session';
 
 const rootReducer = combineReducers({
     session: sessionReducer,
-    events: eventReducer // wow!!! this is how it shows up in the redux state :)
+    events: eventReducer, // wow!!! this is how it shows up in the redux state :)
+    tickets: registrationReducer
 });
 
 let enhancer;
