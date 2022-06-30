@@ -12,6 +12,8 @@ export default function SingleEventPage() {
         return state.events.event;
     });
 
+    console.log("event: ", event);
+
     const currentUser = useSelector(state => {
         return state.session.user
     });
@@ -23,11 +25,14 @@ export default function SingleEventPage() {
     const [isRegistered, setIsRegistered] = useState(false);
     const [regId, setRegId] = useState(null);
 
-
-
     useEffect(() => {
         dispatch(getOneEvent(+eventId));
     }, [dispatch]);
+
+    useEffect(() => {
+        setIsRegistered(event?.Tickets.id !== null);
+        console.log("isRegistered in single page: ", isRegistered);
+    },[isRegistered]);
 
     const eventDate = new Date(event?.date).toLocaleDateString('en-CA');
 

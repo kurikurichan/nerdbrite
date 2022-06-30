@@ -50,7 +50,7 @@ router.get('/:userId', requireAuth, asyncHandler(async (req, res, next) => {
 }));
 
 // POST registration - create new registration
-router.post('/', requireAuth, ticketValidator, asyncHandler(async (req, res) => {
+router.post('/', requireAuth, ticketValidator, asyncHandler(async (req, res, next) => {
 
     const { eventId, userId } = req.body;
 
@@ -59,8 +59,9 @@ router.post('/', requireAuth, ticketValidator, asyncHandler(async (req, res) => 
         userId
     });
 
-    res.status(201);
     return res.json(newReg);
+
+
 }));
 
 // DELETE registration

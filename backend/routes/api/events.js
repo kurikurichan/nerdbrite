@@ -50,10 +50,16 @@ router.get('/', asyncHandler(async (req, res) => {
 }));
 
 // GET one event
-router.get('/:id(\\d+)', asyncHandler(async (req, res) => {
+router.get('/:eventId(\\d+)', asyncHandler(async (req, res) => {
 
-    const id = req.params.id;
-    const event = await db.Event.findByPk(+id, {
+
+    /*
+    Find ONE event, for the single event page
+    IF the user is registered for this event, they should have a ticket already.
+    Right now if the user CREATED this event, it shows them as having a ticket for it.
+    */
+    const eventId = req.params.id;
+    const event = await db.Event.findByPk(+eventId, {
         include: [{
             model: db.User,
             attributes: ['id','username']
@@ -68,7 +74,7 @@ router.get('/:id(\\d+)', asyncHandler(async (req, res) => {
         },
         {
             model: db.Ticket,
-            attributes: ['id']
+            attributes: ['id', 'userId']
         }],
         raw: true,
         nest: true

@@ -8,8 +8,6 @@ export default function MyTicketsPage() {
     const tickets = useSelector(state => state.tickets);
     console.log("tickets state: ", tickets);
 
-    console.log("typeof tickets: ", Array.isArray(tickets)) // so state.tickets is an object
-
     const { userId } = useParams();
 
     const dispatch = useDispatch();
