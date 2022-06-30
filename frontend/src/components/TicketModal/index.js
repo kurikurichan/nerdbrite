@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Modal } from '../../context/Modal';
 import RegisterEvent from './RegisterEvent';
 
-function TicketModal() {
+function TicketModal({ eventId }) {
   const [showModal, setShowModal] = useState(false);
 
   return (
@@ -10,7 +10,7 @@ function TicketModal() {
       <button onClick={() => setShowModal(true)}>Register</button>
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
-          <RegisterEvent />
+          <RegisterEvent eventId={eventId} />
         </Modal>
       )}
     </>

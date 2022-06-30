@@ -54,20 +54,14 @@ export const addEvent = (tixData) => async dispatch => {
 };
 
 // Delete registration
-export const deleteRegistration = (regToDelete, regId) => async dispatch => {
+export const deleteRegistration = (regId) => async dispatch => {
 
     const response = await csrfFetch(`/api/register/${regId}`, {
-        method: "DELETE",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(regToDelete)
+        method: "DELETE"
     });
 
-    if (response.ok) { // uhhh verify if this works since I didn't do a res.json on the backend
-        const reg = await response.json();
-        dispatch(delTix(reg));
-        return reg;
+    if (response.ok) {
+        dispatch(delTix(regId));
     }
 };
 

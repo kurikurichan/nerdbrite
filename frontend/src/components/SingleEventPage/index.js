@@ -26,10 +26,10 @@ export default function SingleEventPage() {
         history.push(`/events/${eventId}/edit`);
     };
 
-    const registerClick = (e) => {
-        // e.preventDefault();
-        <TicketModal eventId={eventId} />
-    }
+    // const registerClick = (e) => {
+    //     // e.preventDefault();
+    //     <TicketModal eventId={eventId} />
+    // }
 
 
 
@@ -54,7 +54,7 @@ export default function SingleEventPage() {
                 </ul>
                 {currentUser.id === event.User.id &&
                     <button className="edit-event-button" onClick={handleClick}>Edit Event</button>}
-                <button className="register-button" onClick={registerClick}>Register for Event</button>
+                {currentUser && <TicketModal eventId={eventId} />}
             </div> :
         <p>Loading Event</p>
         }
