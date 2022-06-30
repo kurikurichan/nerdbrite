@@ -17,18 +17,33 @@ const ticketValidator = [
 // Put in modal
 router.get('/', asyncHandler(async (req, res) => {
     const tickets = await db.Ticket.findAll();
-    return res.json(ticket);
+    return res.json(tickets);
 }));
 
 // GET list of all registrations for a user
 // visible only by the user
-router.get('/:userId', requireAuth, handleValidationErrors, asyncHandler(async (req, res) => {
-    const tickets = await db.Ticket.findAll({
-        where: {
-            id: req.params.userId
-        }
-    });
-    return res.json(tickets);
+router.get('/:userId', requireAuth, handleValidationErrors, asyncHandler(async (req, res, next) => {
+
+    if (req.params.userId == req.user.id) {
+        const tickets = await db.Ticket.findAll({
+            where: {
+                id: req.params.userId
+            },
+            include: [{
+                model: db.Event,
+                attributes: ['id', 'name']
+            }]
+        });
+
+        return res.json(tickets);
+
+    } else {
+        const err = new Error('Forbidden Content');
+        err.status = 403;
+        err.title = 'Forbidden';
+        err.errors = ["Cannot view another user's events"];
+        return next(err);
+    }
 }));
 
 // POST registration - create new registration

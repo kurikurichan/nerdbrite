@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom'
 import { getOneEvent } from '../../store/events';
+import TicketModal from '../TicketModal';
 
 import './SingleEvent.css';
 
@@ -20,14 +21,15 @@ export default function SingleEventPage() {
 
     const dispatch = useDispatch();
 
-    // console.log("yes same user: ", currentUser?.id == event?.User.id);
-    // console.log("currentUser Id: ", currentUser?.id);
-    // console.log("event's user's id: ", event?.User.id);
-
     const handleClick = (e) => {
-        // e.preventDefault();
+        e.preventDefault();
         history.push(`/events/${eventId}/edit`);
     };
+
+    const registerClick = (e) => {
+        // e.preventDefault();
+        <TicketModal eventId={eventId} />
+    }
 
 
 
@@ -52,6 +54,7 @@ export default function SingleEventPage() {
                 </ul>
                 {currentUser.id === event.User.id &&
                     <button className="edit-event-button" onClick={handleClick}>Edit Event</button>}
+                <button className="register-button" onClick={registerClick}>Register for Event</button>
             </div> :
         <p>Loading Event</p>
         }
