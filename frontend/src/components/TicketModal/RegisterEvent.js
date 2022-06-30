@@ -7,6 +7,7 @@ function RegisterEvent({ eventId }) {
     const user = useSelector(state => state.session.user);
     // maybe possibly want event data as well? to display
 
+    // we also need the data of the registration we are looking at btw
     const dispatch = useDispatch();
 
     const [errors, setErrors] = useState([]);
@@ -24,38 +25,49 @@ function RegisterEvent({ eventId }) {
             userId: user.id
         }
 
-        console.log("is anyone there");
+        const newReg = await dispatch(ticketActions.addEvent({ tixData }))
+            .catch(async (res) => {
+                const data = await res.json();
+                if (data && data.errors) setErrors(data.errors);
+            }
+        );
 
-        const newReg = await dispatch(ticketActions.addEvent({tixData}));
-        console.log("newReg:", newReg)
-
-        // const newReg = await dispatch(ticketActions.addEvent({ tixData }))
-        //     .catch(async (res) => {
-        //         const data = await res.json();
-        //         if (data && data.errors) setErrors(data.errors);
-        //     }
-        // );
-
-        if (newReg) console.log("newReg: ", newReg);
+        if (newReg) {
+            setIsRegistered(true);
+            regId = newReg.id;
+        }
     };
 
     const handleUnregister = async(e) => {
         e.preventDefault();
         setErrors([]);
 
-        // await dispatch(ticketActions.deleteRegistration({ 1 }))
-        //     .catch(async (res) => {
-        //         const data = await res.json();
-        //         if (data && data.errors) setErrors(data.errors);
-        //     }
-        // );
+        const unregister = await dispatch(ticketActions.deleteRegistration({ regId }))
+            .catch(async (res) => {
+                const data = await res.json();
+                if (data && data.errors) setErrors(data.errors);
+            }
+        );
+
+        if (unregister) {
+            setIsRegistered(false);
+        }
+
     }
 
     return (
         <div className="registerModal">
-            <h1>Register Today!</h1>
-            {errors.length && <p>Something went wrong</p>}
-            <button id="registerButton" onSubmit={handleRegister}>Register Now</button>
+            { isRegistered ?
+            <>
+                <h2>You are registered for this event!</h2>
+                <button id="unregisterButton" onClick={handleUnregister}>Unregister</button>
+            </>
+            :
+            <>
+                <h1>Register Today!</h1>
+                {errors.length && <p>Something went wrong</p>}
+                <button id="registerButton" onClick={handleRegister}>Register Now</button>
+            </>}
         </div>
     );
 }
