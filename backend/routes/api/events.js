@@ -65,6 +65,10 @@ router.get('/:id(\\d+)', asyncHandler(async (req, res) => {
         {
             model: db.Category,
             attributes: ['type']
+        },
+        {
+            model: db.Ticket,
+            attributes: ['id']
         }],
         raw: true,
         nest: true

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom'
 import { getOneEvent } from '../../store/events';
@@ -8,9 +8,6 @@ import './SingleEvent.css';
 
 export default function SingleEventPage() {
 
-    const { eventId } = useParams();
-    const history = useHistory();
-
     const event = useSelector(state => {
         return state.events.event;
     });
@@ -19,31 +16,31 @@ export default function SingleEventPage() {
         return state.session.user
     });
 
+    const { eventId } = useParams();
+    const history = useHistory();
     const dispatch = useDispatch();
+
+    const [isRegistered, setIsRegistered] = useState(false);
+
+    useEffect(() => {
+        dispatch(getOneEvent(+eventId));
+    }, [dispatch]);
+
+
+    let regId;
+
+    const eventDate = new Date(event?.date).toLocaleDateString('en-CA');
 
     const handleClick = (e) => {
         e.preventDefault();
         history.push(`/events/${eventId}/edit`);
     };
 
-    // const registerClick = (e) => {
-    //     // e.preventDefault();
-    //     <TicketModal eventId={eventId} />
-    // }
-
-
-
-    useEffect(() => {
-        dispatch(getOneEvent(+eventId));
-    }, [dispatch]);
-
-    const eventDate = new Date(event?.date).toLocaleDateString('en-CA');
-
-
   return (
     <>
         {event ?
             <div className= "event-container">
+                <div hidden={true}>{ regId = event.Tickets.id }</div>
                 <h1 className="event-title">{event?.name}</h1>
                 <ul>
                     <li>Date: {eventDate}</li>
@@ -52,9 +49,9 @@ export default function SingleEventPage() {
                     <li>Event Host: {event.User.username}</li>
                     <li>Event Capacity: {event.capacity}</li>
                 </ul>
-                {currentUser.id === event.User.id &&
+                {currentUser && currentUser.id === event.User.id &&
                     <button className="edit-event-button" onClick={handleClick}>Edit Event</button>}
-                {currentUser && <TicketModal eventId={eventId} />}
+                {currentUser && <TicketModal eventId={eventId} regId={regId} isRegistered={isRegistered} setIsRegistered={setIsRegistered} />}
             </div> :
         <p>Loading Event</p>
         }

@@ -1,19 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import * as ticketActions from "../../store/registration";
 import { useDispatch, useSelector } from "react-redux";
 
-function RegisterEvent({ eventId }) {
+export default function RegisterEvent({ eventId, regId, isRegistered, setIsRegistered}) {
 
     const user = useSelector(state => state.session.user);
-    // maybe possibly want event data as well? to display
-
-    // we also need the data of the registration we are looking at btw
+    //may possibly want eventdata btw
     const dispatch = useDispatch();
 
     const [errors, setErrors] = useState([]);
-    const [isRegistered, setIsRegistered] = useState(false);
-
-    let regId;
 
     const handleRegister = async (e) => {
 
@@ -33,7 +28,6 @@ function RegisterEvent({ eventId }) {
         );
 
         if (newReg) {
-            setIsRegistered(true);
             regId = newReg.id;
         }
     };
@@ -49,12 +43,12 @@ function RegisterEvent({ eventId }) {
             }
         );
 
-        if (unregister) {
-            setIsRegistered(false);
-        }
-
     }
 
+    // would be cool to put a login button here and then stay in the modal.
+    if (!user) return (
+        <h2>You must be logged in to register for this event.</h2>
+        )
     return (
         <div className="registerModal">
             { isRegistered ?
@@ -66,10 +60,8 @@ function RegisterEvent({ eventId }) {
             <>
                 <h1>Register Today!</h1>
                 <div className="ticket-error">{errors.length > 0 && <p>Something went wrong</p>}</div>
-                <button id="registerButton" onClick={handleRegister}>Register Now</button>
+                <button id="registerButton" value={!isRegistered} onClick={handleRegister}>Register Now</button>
             </>}
         </div>
     );
 }
-
-export default RegisterEvent;
