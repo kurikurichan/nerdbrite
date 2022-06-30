@@ -11,6 +11,7 @@ import * as eventActions from "./store/events";
 import Navigation from './components/Navigation';
 import EditEventForm from './components/EditEventForm';
 import SingleEventPage from './components/SingleEventPage';
+import MyTicketsPage from './components/MyTicketsPage';
 
 function App() {
   const dispatch = useDispatch();
@@ -45,6 +46,9 @@ function App() {
           </Route>
           <Route exact path="/events/:eventId/edit">
             <EditEventForm eventLoaded={eventLoaded}/>
+          </Route>
+          <Route exact path="/register/:userId">
+            <MyTicketsPage />
           </Route>
         </Switch>
       )}

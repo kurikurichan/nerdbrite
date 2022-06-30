@@ -27,7 +27,7 @@ const delTix = tix => ({
 // get all tix for one user
 export const getOneUsersTix = (userId) => async dispatch => {
 
-    const response = await csrfFetch(`/api/registration/${userId}`);
+    const response = await csrfFetch(`/api/register/${userId}`);
 
     if (response.ok) {
         const allTix = await response.json();
@@ -38,7 +38,7 @@ export const getOneUsersTix = (userId) => async dispatch => {
 // post new ticket/registration
 export const addEvent = (tixData) => async dispatch => {
 
-    const response = await csrfFetch('/api/registration', {
+    const response = await csrfFetch('/api/register', {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -56,7 +56,7 @@ export const addEvent = (tixData) => async dispatch => {
 // Delete registration
 export const deleteRegistration = (regToDelete, regId) => async dispatch => {
 
-    const response = await csrfFetch(`/api/registration/${regId}`, {
+    const response = await csrfFetch(`/api/register/${regId}`, {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json"
@@ -83,7 +83,6 @@ const registrationReducer = (state = {}, action) => {
                 newState[ticket.id] = ticket;
             });
             return {
-                ...state,
                 ...newState
             };
         case NEW_TIX:
