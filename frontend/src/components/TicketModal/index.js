@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Modal } from '../../context/Modal';
 import RegisterEvent from './RegisterEvent';
 
-function TicketModal({ eventId, regId, isRegistered, setIsRegistered }) {
+function TicketModal({ eventId, regId, setRegId, isRegistered, setIsRegistered }) {
   const [showModal, setShowModal] = useState(false);
 
-  // POSSIBLY MAY CAUSE ISSUES!!!!
-  if (regId) setIsRegistered(true)
-  else setIsRegistered(false);
+  useEffect(() => {
+      if (regId) setIsRegistered(true)
+      else setIsRegistered(false);
+      console.log(`registered from index.js: ${isRegistered}`)
+  }, []);
 
   return (
     <> { !isRegistered &&
@@ -18,7 +20,7 @@ function TicketModal({ eventId, regId, isRegistered, setIsRegistered }) {
        }
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
-          <RegisterEvent eventId={eventId} regId={regId} isRegistered={isRegistered} setIsRegistered={setIsRegistered}/>
+          <RegisterEvent eventId={eventId} regId={regId} setRegId={setRegId} isRegistered={isRegistered} setIsRegistered={setIsRegistered}/>
         </Modal>
       )}
     </>

@@ -21,13 +21,13 @@ export default function SingleEventPage() {
     const dispatch = useDispatch();
 
     const [isRegistered, setIsRegistered] = useState(false);
+    const [regId, setRegId] = useState(null);
+
+
 
     useEffect(() => {
         dispatch(getOneEvent(+eventId));
     }, [dispatch]);
-
-
-    let regId;
 
     const eventDate = new Date(event?.date).toLocaleDateString('en-CA');
 
@@ -40,7 +40,6 @@ export default function SingleEventPage() {
     <>
         {event ?
             <div className= "event-container">
-                <div hidden={true}>{ regId = event.Tickets.id }</div>
                 <h1 className="event-title">{event?.name}</h1>
                 <ul>
                     <li>Date: {eventDate}</li>
@@ -51,7 +50,7 @@ export default function SingleEventPage() {
                 </ul>
                 {currentUser && currentUser.id === event.User.id &&
                     <button className="edit-event-button" onClick={handleClick}>Edit Event</button>}
-                {currentUser && <TicketModal eventId={eventId} regId={regId} isRegistered={isRegistered} setIsRegistered={setIsRegistered} />}
+                {currentUser && <TicketModal eventId={eventId} regId={regId} setRegId={setRegId} isRegistered={isRegistered} setIsRegistered={setIsRegistered} />}
             </div> :
         <p>Loading Event</p>
         }

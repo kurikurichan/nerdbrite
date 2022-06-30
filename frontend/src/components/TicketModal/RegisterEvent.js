@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import * as ticketActions from "../../store/registration";
 import { useDispatch, useSelector } from "react-redux";
 
-export default function RegisterEvent({ eventId, regId, isRegistered, setIsRegistered}) {
+export default function RegisterEvent({ eventId, regId, setRegId, isRegistered, setIsRegistered}) {
 
     const user = useSelector(state => state.session.user);
     //may possibly want eventdata btw
@@ -16,11 +16,11 @@ export default function RegisterEvent({ eventId, regId, isRegistered, setIsRegis
         setErrors([]);
 
         const tixData = {
-            eventId,
+            eventId: +eventId,
             userId: user.id
         }
 
-        const newReg = await dispatch(ticketActions.addEvent({ tixData }))
+        const newReg = await dispatch(ticketActions.addEvent(tixData))
             .catch(async (res) => {
                 const data = await res.json();
                 if (data && data.errors) setErrors(data.errors);
@@ -28,7 +28,9 @@ export default function RegisterEvent({ eventId, regId, isRegistered, setIsRegis
         );
 
         if (newReg) {
-            regId = newReg.id;
+            setIsRegistered(true);
+            console.log(newReg);
+            setRegId(newReg.id);
         }
     };
 
@@ -36,12 +38,17 @@ export default function RegisterEvent({ eventId, regId, isRegistered, setIsRegis
         e.preventDefault();
         setErrors([]);
 
-        const unregister = await dispatch(ticketActions.deleteRegistration({ regId }))
+        const unregister = await dispatch(ticketActions.deleteRegistration(regId ))
             .catch(async (res) => {
                 const data = await res.json();
                 if (data && data.errors) setErrors(data.errors);
             }
         );
+
+        if (unregister === undefined) {
+            setIsRegistered(false);
+            setRegId(null);
+        }
 
     }
 
@@ -60,7 +67,7 @@ export default function RegisterEvent({ eventId, regId, isRegistered, setIsRegis
             <>
                 <h1>Register Today!</h1>
                 <div className="ticket-error">{errors.length > 0 && <p>Something went wrong</p>}</div>
-                <button id="registerButton" value={!isRegistered} onClick={handleRegister}>Register Now</button>
+                <button id="registerButton" onClick={handleRegister}>Register Now</button>
             </>}
         </div>
     );

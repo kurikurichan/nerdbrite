@@ -10,6 +10,10 @@ const router = express.Router();
 
 // TODO: make registration validator
 const ticketValidator = [
+    check("eventId")
+        .exists("Need an event to register for"),
+    check("userId")
+        .exists("Must be a logged in user to register for event"),
     handleValidationErrors
 ]
 
@@ -22,7 +26,7 @@ router.get('/', asyncHandler(async (req, res) => {
 
 // GET list of all registrations for a user
 // visible only by the user
-router.get('/:userId', requireAuth, handleValidationErrors, asyncHandler(async (req, res, next) => {
+router.get('/:userId', requireAuth, asyncHandler(async (req, res, next) => {
 
     if (req.params.userId == req.user.id) {
         const tickets = await db.Ticket.findAll({
@@ -47,7 +51,7 @@ router.get('/:userId', requireAuth, handleValidationErrors, asyncHandler(async (
 }));
 
 // POST registration - create new registration
-router.post('/', requireAuth, handleValidationErrors, asyncHandler(async (req, res) => {
+router.post('/', requireAuth, ticketValidator, asyncHandler(async (req, res) => {
 
     const { eventId, userId } = req.body;
 
@@ -61,16 +65,18 @@ router.post('/', requireAuth, handleValidationErrors, asyncHandler(async (req, r
 }));
 
 // DELETE registration
-router.delete('/:id(\\d+)', requireAuth, handleValidationErrors, asyncHandler(async (req, res) => {
+router.delete('/:regId(\\d+)', requireAuth, asyncHandler(async (req, res) => {
 
-    const regToDelete = await db.Ticket.findByPk(req.params.id);
+    const regToDelete = await db.Ticket.findByPk(+req.params.regId);
 
+    console.log("req: ", typeof req.user.id);
+    console.log("regToDelete: ", regToDelete);
+    console.log("regToDelete.userId", regToDelete.userId, typeof regToDelete.userId);
     if (regToDelete && req.user.id === regToDelete.userId) {
         await regToDelete.destroy();
-        res.status(204).end(); // maybe change later idk
+        res.status(204).json({"message": "success"})
     }
-    else throw new Error('Unauthorized');
-    res.status(401).end();
+    else res.json({"message": "failure"});
 }));
 
 module.exports = router;
