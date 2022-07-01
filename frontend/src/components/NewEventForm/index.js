@@ -58,54 +58,57 @@ export default function NewEventForm() {
   }
 
   return (
-    <section className="new-event-form-section">
+    <section>
       { currentState ?
-      <form className="create-event-form" onSubmit={handleSubmit}>
-        <ul>
-        {errors.map((error, idx) => (
-          <li key={idx}>{error}</li>
-        ))}
-        </ul>
-        <input
-          type="text"
-          placeholder="Event Name"
-          required
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          />
-        <input
-          type="date"
-          defaultValue={new Date().toLocaleDateString('en-CA')}
-          required
-          onChange={(e) => setDate(e.target.value)}
-          />
-        <select
-          value={venue}
-          onChange={(e) => setVenue(e.target.value)}
-          >
-          <option value="" disabled>Venue</option>
-          {Array.isArray(currentState.venues) &&
-          currentState.venues.map(venue =>
-            <option key={venue.id}>{venue.name}</option>
-          )}
-        </select>
-        <select
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-          >
-          <option value="" disabled>Category</option>
-          {Array.isArray(currentState.categories) && currentState.categories.map(category =>
-            <option key={category.id}>{category.type}</option>
-          )}
-        </select>
-        <input
-          type="number"
-          value={capacity}
-          onChange={(e) => setCapacity(+e.target.value)}
-          />
-        <button type="submit">Create new Event!</button>
-        <button type="button" onClick={handleCancelClick}>Cancel</button>
-      </form> :
+      <div className="event-form-container">
+        <h1 id="event-title">Create a New Event</h1>
+        <form className="create-event-form" onSubmit={handleSubmit}>
+          <ul>
+          {errors.map((error, idx) => (
+            <li key={idx}>{error}</li>
+          ))}
+          </ul>
+          <input
+            type="text"
+            placeholder="Event Name"
+            required
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            />
+          <input
+            type="date"
+            defaultValue={new Date().toLocaleDateString('en-CA')}
+            required
+            onChange={(e) => setDate(e.target.value)}
+            />
+          <select
+            value={venue}
+            onChange={(e) => setVenue(e.target.value)}
+            >
+            <option value="" disabled>Venue</option>
+            {Array.isArray(currentState.venues) &&
+            currentState.venues.map(venue =>
+              <option key={venue.id}>{venue.name}</option>
+            )}
+          </select>
+          <select
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+            >
+            <option value="" disabled>Category</option>
+            {Array.isArray(currentState.categories) && currentState.categories.map(category =>
+              <option key={category.id}>{category.type}</option>
+            )}
+          </select>
+          <input
+            type="number"
+            value={capacity}
+            onChange={(e) => setCapacity(+e.target.value)}
+            />
+          <button type="submit">Create new Event!</button>
+          <button type="button" onClick={handleCancelClick}>Cancel</button>
+        </form>
+      </div> :
       <p>Form Loading</p>}
     </section>
   )

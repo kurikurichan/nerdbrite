@@ -47,11 +47,11 @@ export default function SingleEventPage() {
             <div className= "event-container">
                 <h1 className="event-title">{event?.name}</h1>
                 <ul>
-                    <li>Date: {eventDate}</li>
-                    <li>Venue: {event.Venue.name}</li>
-                    <li>Category: {event.Category.type}</li>
-                    <li>Event Host: {event.User.username}</li>
-                    <li>Event Capacity: {event.capacity}</li>
+                    <li className="single-event-items">Date: {eventDate}</li>
+                    <li className="single-event-items">Venue: {event.Venue.name}</li>
+                    <li className="single-event-items">Category: {event.Category.type}</li>
+                    <li className="single-event-items">Event Host: {event.User.username}</li>
+                    <li className="single-event-items">Event Capacity: {event.capacity}</li>
                 </ul>
                 {currentUser && currentUser.id === event.User.id &&
                     <button className="edit-event-button" onClick={handleClick}>Edit Event</button>}

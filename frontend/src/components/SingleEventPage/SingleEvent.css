@@ -1,0 +1,17 @@
+.event-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.event-container > * {
+    color: white;
+    border-radius: 3px;
+    box-sizing: border-box;
+    width: 25%;
+}
+
+.event-container > button {
+    margin-top: 5px;
+    width: 19%;
+}

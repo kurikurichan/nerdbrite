@@ -1,0 +1,21 @@
+/* .event-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    margin: 5px;
+    padding: 5px;
+    gap: 1px;
+    width: 350px;
+} */
+
+#all-events-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#all-events-container > ul > div > li {
+    font-size: 1.25em;
+}
