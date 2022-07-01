@@ -58,7 +58,7 @@ router.get('/:eventId(\\d+)', asyncHandler(async (req, res) => {
     IF the user is registered for this event, they should have a ticket already.
     Right now if the user CREATED this event, it shows them as having a ticket for it.
     */
-    const eventId = req.params.id;
+    const eventId = req.params.eventId;
     const event = await db.Event.findByPk(+eventId, {
         include: [{
             model: db.User,

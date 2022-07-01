@@ -17,12 +17,12 @@ export default function Events() {
     }, [dispatch]);
 
   return (
-    <>
-        <h1>Events</h1>
+    <div id="all-events-container">
+        <h1 id="events-title">Events</h1>
             <ul>
                 {Object.values(events).map((event) =>
-                <li key={event.id}><Link to={`/events/${event.id}`}>{event.name}</Link></li>)}
+                <div className="event-card"><li key={event.id}><Link to={`/events/${event.id}`}>{event.name}</Link></li></div>)}
             </ul>
-    </>
+    </div>
   );
 };

@@ -38,7 +38,9 @@ function App() {
           {isLoaded && (
             <Switch>
               <Route exact path="/">
-                <h1>Welcome to nerdbrite!</h1>
+                <h1 id="welcome-title">Welcome to nerdbrite!</h1>
+                <h2 className="splash-text">It's a big galaxy out there...</h2>
+                <p className="splash-body-text">Find your adventure today!</p>
               </Route>
               <Route path="/signup">
                 <SignupFormPage />
@@ -63,7 +65,7 @@ function App() {
               </Route>
             </Switch>
           )}
-          <img src={bg} className="bg"/>
+          <img src={bg} className="bg" alt="bg"/>
           </main>
         </div>
       <Footer />
