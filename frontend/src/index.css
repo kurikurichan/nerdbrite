@@ -93,13 +93,11 @@ button {
   background-color: initial;
   border: 1px solid #FF4742;
   border-radius: 6px;
-  box-shadow: rgba(0, 0, 0, 0.1) 1px 2px 4px;
+  box-shadow: rgba(24, 23, 23, 0.1) 1px 2px 4px;
   box-sizing: border-box;
   color: #FFFFFF;
-  cursor: pointer;
   display: inline-block;
-  font-size: 16px;
-  font-weight: 800;
+  font-size: 1.25em;
   line-height: 16px;
   min-height: 40px;
   outline: 0;
@@ -109,7 +107,6 @@ button {
   text-transform: none;
   user-select: none;
   -webkit-user-select: none;
-  touch-action: manipulation;
   vertical-align: middle;
 }
 
@@ -165,10 +162,12 @@ li {
 
 .splash-text {
     font-size: 2em;
+    text-align: center;
 }
 
 .splash-body-text {
     font-size: 1.8em;
+    text-align: center;
 }
 
 /* @counter-style {
@@ -187,4 +186,11 @@ li {
 
 label {
     font-weight: bold;
+}
+
+
+/* loading text */
+.loading {
+    font-size: 5em;
+    text-align: center;
 }

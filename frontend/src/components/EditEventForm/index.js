@@ -128,7 +128,7 @@ export default function EditEventForm({ eventLoaded }) {
                 <button className= "delete-button edit" onClick={handleDeleteClick}>Delete Event</button>
                 <button type="button" className="edit" onClick={handleCancelClick}>Cancel</button>
             </form> :
-            <p>Form Loading...</p>
+            <p className="loading">Form Loading...</p>
             }
         </section>
     </>

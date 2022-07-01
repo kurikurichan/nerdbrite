@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams, Link } from 'react-router-dom';
 import { getOneUsersTix } from '../../store/registration';
 
+import './MyTicketsPage.css';
+
 export default function MyTicketsPage() {
 
     const tickets = useSelector(state => state.tickets);
@@ -17,7 +19,7 @@ export default function MyTicketsPage() {
         dispatch(getOneUsersTix(userId))
     }, [dispatch]);
 
-  if (!Object.keys(tickets).length) return (<p className="error-message">Register for some events to see your tickets here!</p>);
+  if (!Object.keys(tickets).length) return (<p className="no-tix">Register for some events to see your tickets here!</p>);
 
   return (
     <>
@@ -29,7 +31,7 @@ export default function MyTicketsPage() {
                 <Link to={`/events/${ticket.Event.id}`}>{ticket.Event.name}</Link>
                 </li>)}
           </ul>
-        : <p>Loading...</p> }
+        : <p className="loading">Loading...</p> }
       </>
   )
 }
