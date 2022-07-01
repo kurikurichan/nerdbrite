@@ -33,6 +33,3 @@ export default function MyTicketsPage() {
       </>
   )
 }
-
-
-//pesticide gogole chrome

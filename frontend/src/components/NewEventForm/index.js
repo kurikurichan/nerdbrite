@@ -65,7 +65,7 @@ export default function NewEventForm() {
         <form className="create-event-form" onSubmit={handleSubmit}>
           <ul>
           {errors.map((error, idx) => (
-            <li key={idx}>{error}</li>
+            <li key={idx} className="errors">{error}</li>
           ))}
           </ul>
           <input
