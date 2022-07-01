@@ -199,7 +199,7 @@ router.put('/:id(\\d+)', requireAuth, eventValidator, asyncHandler(async (req, r
         return res.json(updatedEvent);
     }
     else {
-        throw new Error("Unauthorized or event was not found")
+        res.json("failure in update event");
     }
 
 }));
@@ -219,8 +219,7 @@ router.delete('/:id(\\d+)', requireAuth, asyncHandler(async (req, res) => {
         res.json(copyOfEvent); // do I need a res.json??? some kind of message to the front end?
         await eventToDelete.destroy();
     }
-    else throw new Error('Unauthorized');
-    res.status(401).end();
+    else res.json("Unauthorized");
 
 }));
 

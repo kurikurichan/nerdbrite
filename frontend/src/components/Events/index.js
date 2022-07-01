@@ -18,7 +18,7 @@ export default function Events() {
 
   return (
     <>
-        <div>Events</div>
+        <h1>Events</h1>
             <ul>
                 {Object.values(events).map((event) =>
                 <li key={event.id}><Link to={`/events/${event.id}`}>{event.name}</Link></li>)}
