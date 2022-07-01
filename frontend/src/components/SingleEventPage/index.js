@@ -69,7 +69,7 @@ export default function SingleEventPage() {
                     <button className="edit-event-button" onClick={handleClick}>Edit Event</button>}
                 {currentUser && <TicketModal eventId={eventId} regId={regId} setRegId={setRegId} isRegistered={isRegistered} setIsRegistered={setIsRegistered} />}
             </div> :
-        <p>Loading Event</p>
+        <p className="loading">Loading Event</p>
         }
     </>
     )
