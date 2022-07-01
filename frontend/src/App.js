@@ -7,11 +7,15 @@ import Events from './components/Events';
 import NewEventForm from './components/NewEventForm';
 import * as sessionActions from "./store/session";
 import * as eventActions from "./store/events";
+import bg from "./starrybackground.jpeg";
 
 import Navigation from './components/Navigation';
 import EditEventForm from './components/EditEventForm';
 import SingleEventPage from './components/SingleEventPage';
 import MyTicketsPage from './components/MyTicketsPage';
+
+import './index.css';
+import Footer from './Footer';
 
 function App() {
   const dispatch = useDispatch();
@@ -25,8 +29,11 @@ function App() {
 
 
   return (
-    <>
+    <div className="wrapper">
+    <header>
       <Navigation isLoaded={isLoaded} />
+    </header>
+    <main>
       {isLoaded && (
         <Switch>
           <Route exact path="/">
@@ -55,7 +62,10 @@ function App() {
           </Route>
         </Switch>
       )}
-    </>
+      <img src={bg} className="bg"/>
+      </main>
+      <Footer />
+    </div>
   );
 }
 

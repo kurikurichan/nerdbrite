@@ -13,7 +13,7 @@ function Navigation({ isLoaded }){
   if (sessionUser) {
     sessionLinks = (
       <>
-        <NavLink to="/events/new" title="Create a New Event"><i className="fa-solid fa-plus"></i></NavLink>
+        <NavLink to="/events/new" title="Create a New Event" exact={true}><i className="fa-solid fa-plus"></i></NavLink>
         <NavLink to={`/register/${sessionUser.id}`} title="My Events"><i className="fa-solid fa-ticket-simple"></i></NavLink>
         <ProfileButton user={sessionUser} />
       </>
@@ -31,7 +31,7 @@ function Navigation({ isLoaded }){
     <ul>
       <li>
         <NavLink exact to="/">Home</NavLink>
-        <NavLink to="/events">Events</NavLink>
+        <NavLink to="/events" exact={true}>Events</NavLink>
         {isLoaded && sessionLinks}
       </li>
     </ul>
