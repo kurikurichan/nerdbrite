@@ -7,7 +7,7 @@ export default function EditEventForm({ eventLoaded }) {
 
   const event = useSelector(state => state.events.event);
   const categoryVenues = useSelector(state => state.events);
-  const hostId = useSelector(state => state.session.user.id);
+  const user = useSelector(state => state.session.user);
 
   const { eventId } = useParams();
 
@@ -42,7 +42,7 @@ export default function EditEventForm({ eventLoaded }) {
     setErrors([]);
 
     const payload = {
-      hostId,
+      hostId: user.id,
       venue,
       category,
       name,
@@ -74,7 +74,8 @@ export default function EditEventForm({ eventLoaded }) {
     history.push('/events');
 
   }
-  if (!event || !hostId || !categoryVenues) return (<p>Loading...</p>);
+  if (!user) history.push('/');
+  if (!event || !user || !categoryVenues) return (<p>Loading...</p>);
   return (
     <>
         <h1>Edit Event</h1>
@@ -83,7 +84,7 @@ export default function EditEventForm({ eventLoaded }) {
             <form className="create-event-form" onSubmit={handleSubmit}>
                 <ul>
                   {errors.map((error, idx) => (
-                    <li key={idx}>{error}</li>
+                    <li key={idx} className="errors">{error}</li>
                   ))}
                 </ul>
                 <input
@@ -123,9 +124,9 @@ export default function EditEventForm({ eventLoaded }) {
                 value={capacity}
                 onChange={(e) => setCapacity(+e.target.value)}
                 />
-                <button type="submit">Edit Event</button>
-                <button className= "delete-button" onClick={handleDeleteClick}>Delete Event</button>
-                <button type="button" onClick={handleCancelClick}>Cancel</button>
+                <button type="submit" className="edit">Edit Event</button>
+                <button className= "delete-button edit" onClick={handleDeleteClick}>Delete Event</button>
+                <button type="button" className="edit" onClick={handleCancelClick}>Cancel</button>
             </form> :
             <p>Form Loading...</p>
             }

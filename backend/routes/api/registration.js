@@ -58,7 +58,11 @@ router.get('/:eventId/ticket', requireAuth, asyncHandler(async (req, res) => {
         where: {
             eventId,
             userId: req.user.id
-        }
+        },
+        include: [{
+            model: db.Event,
+            attributes: ['id', 'name']
+        }]
     });
     // should return null or a ticket object
     return res.json(currentUserTicket);
