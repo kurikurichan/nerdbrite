@@ -1,9 +1,16 @@
 import { csrfFetch } from './csrf';
 
 // actions
+const GET_ONE_TIX = 'registration/GET_ONE_TIX'
 const GET_ALL_TIX = 'registration/GET_ALL_TIX';
 const NEW_TIX = 'registration/NEW_TIX';
 const DEL_TIX = 'registration/DEL_TIX';
+
+//GET one ticket if it exists
+const getOneTix = tix => ({
+    type: GET_ONE_TIX,
+    tix
+});
 
 // GET list of all registrations for the user
 const getAllTix = tix => ({
@@ -24,6 +31,18 @@ const delTix = tix => ({
 });
 
 // thunks
+// get one ticket if it exists (for user & event)
+export const getOneTicket = (eventId) => async dispatch => {
+
+    const response = await csrfFetch(`/api/register/${eventId}/ticket`);
+
+    if (response.ok) {
+        const theTicket = await response.json();
+        dispatch(getOneTix(theTicket));
+        return theTicket;
+    }
+};
+
 // get all tix for one user
 export const getOneUsersTix = (userId) => async dispatch => {
 
@@ -73,6 +92,13 @@ const registrationReducer = (state = {}, action) => {
     let newState;
 
     switch (action.type) {
+        case GET_ONE_TIX:
+            newState = {};
+            // may get a null value back if the ticket doesn't exist for user
+            if (action.tix) {
+                newState[action.tix.id] = action.tix;
+            }
+            return newState;
         case GET_ALL_TIX:
             newState = {};
             action.tix.forEach(ticket => {

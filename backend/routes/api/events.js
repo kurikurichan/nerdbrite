@@ -5,7 +5,7 @@ const { check } = require("express-validator");
 
 const { requireAuth } = require("../../utils/auth");
 const db = require('../../db/models');
-const user = require('../../db/models/user');
+;
 
 const router = express.Router();
 
@@ -52,7 +52,6 @@ router.get('/', asyncHandler(async (req, res) => {
 // GET one event
 router.get('/:eventId(\\d+)', asyncHandler(async (req, res) => {
 
-
     /*
     Find ONE event, for the single event page
     IF the user is registered for this event, they should have a ticket already.
@@ -61,7 +60,7 @@ router.get('/:eventId(\\d+)', asyncHandler(async (req, res) => {
     const eventId = req.params.eventId;
     const event = await db.Event.findByPk(+eventId, {
         include: [{
-            model: db.User,
+            model: db.User, // Note: THIS is the Creator user, not necessarily the current user
             attributes: ['id','username']
         },
         {
@@ -71,10 +70,6 @@ router.get('/:eventId(\\d+)', asyncHandler(async (req, res) => {
         {
             model: db.Category,
             attributes: ['type']
-        },
-        {
-            model: db.Ticket,
-            attributes: ['id', 'userId']
         }],
         raw: true,
         nest: true

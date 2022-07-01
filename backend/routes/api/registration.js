@@ -49,6 +49,21 @@ router.get('/:userId', requireAuth, asyncHandler(async (req, res, next) => {
     }
 }));
 
+// GET one registration (for checking if user has a ticket on single event page)
+router.get('/:eventId/ticket', requireAuth, asyncHandler(async (req, res) => {
+
+    const eventId = req.params.eventId;
+
+    currentUserTicket = await db.Ticket.findOne({
+        where: {
+            eventId,
+            userId: req.user.id
+        }
+    });
+    // should return null or a ticket object
+    return res.json(currentUserTicket);
+}));
+
 // POST registration - create new registration
 router.post('/', requireAuth, ticketValidator, asyncHandler(async (req, res, next) => {
 

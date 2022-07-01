@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom'
 import { getOneEvent } from '../../store/events';
+import { getOneTicket } from '../../store/registration';
 import TicketModal from '../TicketModal';
 
 import './SingleEvent.css';
@@ -12,7 +13,9 @@ export default function SingleEventPage() {
         return state.events.event;
     });
 
-    console.log("event: ", event);
+    const usersTicket = useSelector(state => state.tickets);
+    console.log("the whole state rn length: ", +Object.keys(usersTicket)[0]);
+    //+Object.keys(usersTicket)[0]  is the id of registration if it exists
 
     const currentUser = useSelector(state => {
         return state.session.user
@@ -27,12 +30,21 @@ export default function SingleEventPage() {
 
     useEffect(() => {
         dispatch(getOneEvent(+eventId));
+        dispatch(getOneTicket(+eventId));
     }, [dispatch]);
 
     useEffect(() => {
-        setIsRegistered(event?.Tickets.id !== null);
+        if (Object.keys(usersTicket).length > 0) {
+            console.log("regId has a numeric value");
+            setRegId(+Object.keys(usersTicket)[0]);
+            setIsRegistered(Object.keys(usersTicket).length > 0);
+        } else {
+            setIsRegistered(false);
+            setRegId(null);
+        }
         console.log("isRegistered in single page: ", isRegistered);
-    },[isRegistered]);
+        console.log("regId from singleeventpage: ", regId);
+    });
 
     const eventDate = new Date(event?.date).toLocaleDateString('en-CA');
 

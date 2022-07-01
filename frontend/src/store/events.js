@@ -57,6 +57,7 @@ export const getOneEvent = (eventId) => async dispatch => {
 
     if (response.ok) {
         const event = await response.json();
+        console.log("event response from getoneevent: ", event);
         dispatch(getOne(event));
     }
 };
