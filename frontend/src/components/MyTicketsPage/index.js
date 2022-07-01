@@ -25,7 +25,9 @@ export default function MyTicketsPage() {
         { tickets && Object.keys(tickets).length ?
           <ul id="list-tickets">
             {Object.values(tickets).map(ticket =>
-              <li key={ticket.id}><Link to={`/events/${ticket.Event.id}`}>{ticket.Event.name}</Link></li>)}
+              <li key={ticket.id}>
+                <Link to={`/events/${ticket.Event.id}`}>{ticket.Event.name}</Link>
+                </li>)}
           </ul>
         : <p>Loading...</p> }
       </>

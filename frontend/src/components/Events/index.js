@@ -10,6 +10,8 @@ export default function Events() {
         return state.events;
     });
 
+    console.log("list of events state: ", events);
+
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -19,10 +21,16 @@ export default function Events() {
   return (
     <div id="all-events-container">
         <h1 id="events-title">Events</h1>
+        { events &&
             <ul>
-                {Object.values(events).map((event) =>
-                <div className="event-card"><li key={event.id}><Link to={`/events/${event.id}`}>{event.name}</Link></li></div>)}
+                {Object.values(events).map((event, i) =>
+                <div key={i} className="event-card">
+                    <li>
+                        <Link to={`/events/${event.id}`}>{event.name}</Link>
+                    </li>
+                </div>)}
             </ul>
+        }
     </div>
   );
 };
