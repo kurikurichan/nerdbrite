@@ -42,7 +42,7 @@ export default function MyTicketsPage() {
   if (!Object.keys(tickets).length) return (<p className="no-tix">Register for some events to see your tickets here!</p>);
 
   return (
-    <>
+    <div id="my-events">
       <h1>My Events</h1>
         { tickets && Object.keys(tickets).length ?
           <ul id="list-tickets">
@@ -52,6 +52,6 @@ export default function MyTicketsPage() {
                 </li>)}
           </ul>
         : <p className="loading">Loading...</p> }
-      </>
+      </div>
   )
 }

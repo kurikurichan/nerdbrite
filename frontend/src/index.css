@@ -7,6 +7,8 @@ html {
 /* Color Schemes */
 :root {
     --defaultYellow: rgb(250, 250, 99);
+    --stellarPurple: rgb(223, 202, 255);
+    --novaPurple: #b025f1;
 
 }
 
@@ -81,23 +83,23 @@ a {
 }
 
 a:hover {
-    color: var(--defaultYellow);
+    color: var(--stellarPurple);
 }
 
 .active {
-    color: var(--defaultYellow);
+    color: var(--stellarPurple);
 }
 
 /* Buttons */
 button {
   background-color: initial;
-  border: 1px solid #FF4742;
+  border: 1px solid var(--novaPurple);
   border-radius: 6px;
   box-shadow: rgba(24, 23, 23, 0.1) 1px 2px 4px;
   box-sizing: border-box;
   color: #FFFFFF;
   display: inline-block;
-  font-size: 1.25em;
+  font-size: 1.1em;
   line-height: 16px;
   min-height: 40px;
   outline: 0;
@@ -112,11 +114,19 @@ button {
 
 button:hover,
 button:active {
-  color: #FF4742;
+  color: var(--novaPurple);
 }
 
 button:active {
   opacity: .5;
+}
+
+.modal-button {
+    color: #333;
+}
+
+.modal-text {
+    color: #333;
 }
 
 

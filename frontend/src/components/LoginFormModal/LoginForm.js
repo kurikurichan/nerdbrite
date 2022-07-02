@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import * as sessionActions from "../../store/session";
 import { useDispatch } from "react-redux";
 
+import "./LoginForm.css";
+
 function LoginForm() {
   const dispatch = useDispatch();
   const [credential, setCredential] = useState("");
@@ -32,30 +34,34 @@ function LoginForm() {
           <li key={idx} className="errors">{error}</li>
         ))}
       </ul>
-      <label>
-        Username or Email
-        <input
-          className="signup-inputs"
-          type="text"
-          value={credential}
-          onChange={(e) => setCredential(e.target.value)}
-          required
-        />
-      </label>
-      <label>
-        Password
-        <input
-          className="signup-inputs"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-      </label>
-      <button type="submit">Log In</button>
+      <div className="login-field-format">
+        <label className="login-label modal-text">
+          Username or Email
+          <input
+            className="login-inputs"
+            type="text"
+            value={credential}
+            onChange={(e) => setCredential(e.target.value)}
+            required
+          />
+        </label>
+      </div>
+      <div className="login-field-format">
+        <label className="login-label modal-text">
+          Password
+          <input
+            className="login-inputs"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </label>
+      </div>
+      <button type="submit" className="modal-button">Log In</button>
       <div className="demo">
-        <p>Want to try out the site without an account?</p>
-        <button type="submit" onClick={handleDemo}>Demo User</button>
+        <p className="modal-text">Want to try out the site without an account?</p>
+        <button type="submit" onClick={handleDemo} className="modal-button">Demo User</button>
       </div>
     </form>
   );
