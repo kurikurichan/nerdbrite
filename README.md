@@ -1,5 +1,12 @@
 First fullstack personal project w/ react & redux ~ clone of eventbrite
 
+Uses:
+React
+Redux
+Node.js
+Postgres
+Sequelize
+
 Project Name: | Nerdbrite
 -- | --
 Clone: | Eventbrite
