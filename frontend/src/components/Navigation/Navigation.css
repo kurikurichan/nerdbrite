@@ -36,10 +36,19 @@
     align-items: center;
     justify-content: center;
 
+    background-color: #333;
+
     position: absolute;
     /* left: 50%; */
     transform: translateX(-25%);
-    padding-right: 6%;
+    /* padding-right: 6%; */
+    padding-left: 1%;
+    padding-right: 1%;
+    border-radius: 5px;
+    border: 1px transparent solid;
+    border-radius: 8px;
+    border-image: linear-gradient(to bottom left, #b025f1 0%, #278ffd 25%, #bafc38 50%, #fdca3c 75%, #fc1d94 100%);
+    border-image-slice: 1;
 }
 
 .profile-dropdown > * {
@@ -52,4 +61,6 @@
 
 #logout-button {
     border: 3px solid var(--novaPurple);
+    font-size: .8em;
+    font-weight: bold;
 }
