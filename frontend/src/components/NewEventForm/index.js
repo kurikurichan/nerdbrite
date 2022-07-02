@@ -70,43 +70,63 @@ export default function NewEventForm() {
             <li key={idx} className="errors">{error}</li>
           ))}
           </ul>
-          <input
-            type="text"
-            placeholder="Event Name"
-            required
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            />
-          <input
-            type="date"
-            defaultValue={new Date().toLocaleDateString('en-CA')}
-            required
-            onChange={(e) => setDate(e.target.value)}
-            />
-          <select
-            value={venue}
-            onChange={(e) => setVenue(e.target.value)}
-            >
-            <option value="" disabled>Venue</option>
-            {Array.isArray(currentState.venues) &&
-            currentState.venues.map(venue =>
-              <option key={venue.id}>{venue.name}</option>
-            )}
-          </select>
-          <select
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            >
-            <option value="" disabled>Category</option>
-            {Array.isArray(currentState.categories) && currentState.categories.map(category =>
-              <option key={category.id}>{category.type}</option>
-            )}
-          </select>
-          <input
-            type="number"
-            value={capacity}
-            onChange={(e) => setCapacity(+e.target.value)}
-            />
+          <label className="event-label">
+            Event Name
+            <input
+              className="event-input"
+              type="text"
+              placeholder="Event Name"
+              required
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              />
+          </label>
+          <label className="event-label">
+            Date of Event
+            <input
+              className="event-input"
+              type="date"
+              defaultValue={new Date().toLocaleDateString('en-CA')}
+              required
+              onChange={(e) => setDate(e.target.value)}
+              />
+          </label>
+          <label className="event-label">
+            Venue
+            <select
+              className="event-input"
+              value={venue}
+              onChange={(e) => setVenue(e.target.value)}
+              >
+              <option value="" disabled>Venue</option>
+              {Array.isArray(currentState.venues) &&
+              currentState.venues.map(venue =>
+                <option key={venue.id}>{venue.name}</option>
+              )}
+            </select>
+          </label>
+          <label className="event-label">
+            Category
+            <select
+              className="event-input"
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              >
+              <option value="" disabled>Category</option>
+              {Array.isArray(currentState.categories) && currentState.categories.map(category =>
+                <option key={category.id}>{category.type}</option>
+              )}
+            </select>
+          </label>
+          <label className="event-label">
+            Capacity
+            <input
+              className="event-input"
+              type="number"
+              value={capacity}
+              onChange={(e) => setCapacity(+e.target.value)}
+              />
+          </label>
           <button type="submit">Create new Event!</button>
           <button type="button" onClick={handleCancelClick}>Cancel</button>
         </form>
