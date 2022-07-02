@@ -15,6 +15,26 @@ export default function MyTicketsPage() {
 
     const dispatch = useDispatch();
 
+    // short circuit format
+    // const arr = tickets && Object.values(tickets);
+    // const something = "user" || "";
+
+    // let's attempt to move map up here to avoid pissing off react
+
+    /* Potential fixes are:
+    1.) Try adding another conditional for ticket.Event
+    2.) Make a variable that says something like arr= tickets && Object.values()
+    */
+    function mapTickets() {
+      return Object.values(tickets).map(ticket => {
+        return(
+          <li key={ticket.id}>
+            <Link to={`/events/${ticket.Event.id}`}>{ticket.Event.name}</Link>
+          </li>
+        )
+      })
+    }
+
     useEffect(() => {
         dispatch(getOneUsersTix(userId))
     }, [dispatch]);
@@ -22,7 +42,7 @@ export default function MyTicketsPage() {
   if (!Object.keys(tickets).length) return (<p className="no-tix">Register for some events to see your tickets here!</p>);
 
   return (
-    <>
+    <div id="my-events">
       <h1>My Events</h1>
         { tickets && Object.keys(tickets).length ?
           <ul id="list-tickets">
@@ -32,6 +52,6 @@ export default function MyTicketsPage() {
                 </li>)}
           </ul>
         : <p className="loading">Loading...</p> }
-      </>
+      </div>
   )
 }

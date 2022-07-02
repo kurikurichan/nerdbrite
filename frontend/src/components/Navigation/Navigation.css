@@ -14,22 +14,55 @@
     padding: 14px 28px;
     cursor: pointer;
     border: 1px transparent solid;
-    border-radius: 6px;
+    border-radius: 8px;
     border-image: linear-gradient(to bottom left, #b025f1 0%, #278ffd 25%, #bafc38 50%, #fdca3c 75%, #fc1d94 100%);
     border-image-slice: 1;
 }
 
-.profile-button:hover,
+/* .profile-button:hover,
 .profile-button:active {
     color:(--defaultYellow);
-}
+} */
 
-.button-container {
+/* .button-container {
+    display: block;
     position: relative;
-}
+} */
 
 .profile-dropdown {
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    background-color: #333;
+
     position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
+    /* left: 50%; */
+    transform: translateX(-25%);
+    /* padding-right: 6%; */
+    padding-left: 1%;
+    padding-right: 1%;
+    border-radius: 5px;
+    border: 1px transparent solid;
+    border-radius: 8px;
+    border-image: linear-gradient(to bottom left, #b025f1 0%, #278ffd 25%, #bafc38 50%, #fdca3c 75%, #fc1d94 100%);
+    border-image-slice: 1;
+}
+
+.profile-dropdown > * {
+    padding-bottom: 4px;
+}
+
+#nav-items > div > ul > li:nth-child(1) {
+    padding-top: 5px;
+}
+
+#logout-button {
+    border: 3px solid  rgb(49, 8, 53);
+    font-size: .8em;
+    font-weight: bold;
+    box-shadow: 0px 0px 8px var(--novaPurple);
+    background-color: rgb(49, 8, 53);
 }

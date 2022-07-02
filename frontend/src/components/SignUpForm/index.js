@@ -31,7 +31,7 @@ function SignupFormPage() {
 
   return (
     <div className="signup-wrapper">
-      <h1>Signup Today!</h1>
+      <h1 id="signup-title">Signup Today!</h1>
       <form className="signup" onSubmit={handleSubmit}>
         <ul className="errors">
           {errors.map((error, idx) => <li key={idx}>{error}</li>)}
@@ -39,7 +39,7 @@ function SignupFormPage() {
         <label className="label">
           Email
           <input
-            className="login-inputs"
+            className="signup-inputs"
             type="text"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -49,7 +49,7 @@ function SignupFormPage() {
         <label className="label">
           Username
           <input
-            className="login-inputs"
+            className="signup-inputs"
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
@@ -59,7 +59,7 @@ function SignupFormPage() {
         <label className="label">
           Password
           <input
-            className="login-inputs"
+            className="signup-inputs"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -69,14 +69,14 @@ function SignupFormPage() {
         <label className="label">
           Confirm Password
           <input
-            className="login-inputs"
+            className="signup-inputs"
             type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
           />
         </label>
-        <button type="submit">Sign Up</button>
+        <button type="submit" id="signup-button">Sign Up</button>
       </form>
     </div>
   );

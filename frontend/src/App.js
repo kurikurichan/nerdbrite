@@ -27,6 +27,10 @@ function App() {
     dispatch(eventActions.getForm()).then(() => setEventLoaded(true));
   }, [dispatch]);
 
+  useEffect(() => {
+    document.title = "nerdbrite";
+  }, []);
+
 
   return (
     <div className="wrapper">
@@ -40,7 +44,7 @@ function App() {
               <Route exact path="/">
                 <h1 id="welcome-title">Welcome to nerdbrite!</h1>
                 <h2 className="splash-text">It's a big galaxy out there...</h2>
-                <p className="splash-body-text">Find your adventure today!</p>
+                <p className="splash-body-text">Find an event for your nerdy hobby today!</p>
               </Route>
               <Route path="/signup">
                 <SignupFormPage />

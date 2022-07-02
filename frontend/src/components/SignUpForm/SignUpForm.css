@@ -1,19 +1,20 @@
 /* TODO: Signup form styling */
 
-.signup-wrapper {
+/* .signup-wrapper {
     display: flex;
+    position: static;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     width: 30%;
-}
-/* .signup {
+} */
+.signup {
     display: flex;
-    position: relative;
+    position: static;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-} */
+}
 
 .label, input {
     display: block;
@@ -30,6 +31,19 @@
 }
 
 
-.login-inputs {
+.signup-inputs {
     position: absolute;
+    padding: 5px;
+}
+
+.label {
+    margin-bottom: 40px;
+}
+
+#signup-title {
+    padding-top: 10%;
+}
+
+#signup-button {
+    margin-top: 10px;
 }

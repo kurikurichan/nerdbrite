@@ -6,11 +6,8 @@ function TicketModal({ eventId, regId, setRegId, isRegistered, setIsRegistered }
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-      console.log("we have entered the useEffect in index.js")
-      console.log("THE REGID IN INDEX.JS: ", regId);
       if (Number.isFinite(regId)) setIsRegistered(true)
       else setIsRegistered(false);
-      console.log(`registered from index.js: ${isRegistered}`)
   }, []);
 
   return (

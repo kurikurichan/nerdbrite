@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { updateEvent, getOneEvent, getForm, deleteEvent } from '../../store/events';
 
+import './EditEventForm.css';
+
 export default function EditEventForm({ eventLoaded }) {
 
   const event = useSelector(state => state.events.event);
@@ -87,43 +89,63 @@ export default function EditEventForm({ eventLoaded }) {
                     <li key={idx} className="errors">{error}</li>
                   ))}
                 </ul>
-                <input
-                type="text"
-                placeholder="Event Name"
-                required
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                />
-                <input
-                type="date"
-                defaultValue={new Date().toLocaleDateString('en-CA')}
-                required
-                onChange={(e) => setDate(e.target.value)}
-                />
-                <select
-                value={venue}
-                onChange={(e) => setVenue(e.target.value)}
-                >
-                <option value="" disabled>Venue</option>
-                {Array.isArray(categoryVenues.venues) &&
-                categoryVenues.venues.map(venue =>
-                    <option key={venue.id}>{venue.name}</option>
-                )}
-                </select>
-                <select
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-                >
-                <option value="" disabled>Category</option>
-                {Array.isArray(categoryVenues.categories) && categoryVenues.categories.map(category =>
-                    <option key={category.id}>{category.type}</option>
-                )}
-                </select>
-                <input
-                type="number"
-                value={capacity}
-                onChange={(e) => setCapacity(+e.target.value)}
-                />
+                <label className="event-label">
+                  Event Name
+                  <input
+                  className="event-input"
+                  type="text"
+                  placeholder="Event Name"
+                  required
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  />
+                </label>
+                <label className="event-label">
+                  Date of Event
+                  <input
+                  className="event-input"
+                  type="date"
+                  defaultValue={new Date().toLocaleDateString('en-CA')}
+                  required
+                  onChange={(e) => setDate(e.target.value)}
+                  />
+                </label>
+                <label className="event-label">
+                  Venue
+                  <select
+                    className="event-input"
+                    value={venue}
+                    onChange={(e) => setVenue(e.target.value)}
+                    >
+                    <option value="" disabled>Venue</option>
+                    {Array.isArray(categoryVenues.venues) &&
+                    categoryVenues.venues.map(venue =>
+                        <option key={venue.id}>{venue.name}</option>
+                    )}
+                  </select>
+                </label>
+                <label className="event-label">
+                  Category
+                  <select
+                  className="event-input"
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
+                  >
+                  <option value="" disabled>Category</option>
+                  {Array.isArray(categoryVenues.categories) && categoryVenues.categories.map(category =>
+                      <option key={category.id}>{category.type}</option>
+                  )}
+                  </select>
+                </label>
+                <label className="event-label">
+                  Max Capacity
+                  <input
+                  className="event-input"
+                  type="number"
+                  value={capacity}
+                  onChange={(e) => setCapacity(+e.target.value)}
+                  />
+                </label>
                 <button type="submit" className="edit">Edit Event</button>
                 <button className= "delete-button edit" onClick={handleDeleteClick}>Delete Event</button>
                 <button type="button" className="edit" onClick={handleCancelClick}>Cancel</button>
