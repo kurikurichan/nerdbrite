@@ -8,7 +8,7 @@ import './NewEventForm.css';
 export default function NewEventForm() {
 
   const currentState = useSelector(state => state.events);
-  const hostId = useSelector(state => state.session.user.id);
+  const user = useSelector(state => state.session.user);
 
   const dispatch = useDispatch();
 
@@ -32,7 +32,7 @@ export default function NewEventForm() {
     setErrors([]);
 
     const payload = {
-      hostId,
+      hostId: user.id,
       venue,
       category,
       name,
@@ -56,6 +56,8 @@ export default function NewEventForm() {
     e.preventDefault();
     history.push('/events');
   }
+
+  if (!user) history.push('/');
 
   return (
     <section>

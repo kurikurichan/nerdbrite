@@ -35,15 +35,12 @@ export default function SingleEventPage() {
 
     useEffect(() => {
         if (Object.keys(usersTicket).length > 0) {
-            console.log("regId has a numeric value");
             setRegId(+Object.keys(usersTicket)[0]);
             setIsRegistered(Object.keys(usersTicket).length > 0);
         } else {
             setIsRegistered(false);
             setRegId(null);
         }
-        console.log("isRegistered in single page: ", isRegistered);
-        console.log("regId from singleeventpage: ", regId);
     });
 
     const eventDate = new Date(event?.date).toLocaleDateString('en-CA');
