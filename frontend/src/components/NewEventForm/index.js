@@ -94,7 +94,7 @@ export default function NewEventForm() {
             <input
               className="event-input"
               type="date"
-              defaultValue={new Date().toLocaleDateString('en-CA')}
+              value={date}
               required
               onChange={(e) => setDate(e.target.value)}
               />
@@ -144,6 +144,7 @@ export default function NewEventForm() {
               rows="5"
               wrap="on"
               value={description}
+              required
               onChange={(e) => setDescription(e.target.value)}
               />
           </label>

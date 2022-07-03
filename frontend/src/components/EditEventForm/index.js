@@ -38,8 +38,8 @@ export default function EditEventForm({ eventLoaded }) {
       setName(event?.name);
       setDate(new Date(event?.date).toLocaleDateString('en-CA'));
       setCapacity(event?.capacity);
-      setCapacity(event?.description);
-      setCapacity(event?.image);
+      setDescription(event?.description);
+      setImage(event?.image);
   },[event]);
 
   const handleSubmit = async (e) => {
@@ -60,13 +60,13 @@ export default function EditEventForm({ eventLoaded }) {
 
     console.log("payload: ", payload);
 
-    await(dispatch(updateEvent(payload, eventId)))
+    const updatedEvent = await(dispatch(updateEvent(payload, eventId)))
       .catch(async (err) => {
         const editData = await err.json();
         if (editData && editData.errors) setErrors(editData.errors);
     });
 
-    history.push(`/events/${eventId}`);
+    if (updatedEvent) history.push(`/events/${eventId}`);
 
   };
 
@@ -83,7 +83,7 @@ export default function EditEventForm({ eventLoaded }) {
 
   }
   if (!user) history.push('/');
-  if (!event || !user || !categoryVenues) return (<p>Loading...</p>);
+  if (!event || !categoryVenues) return (<p>Loading...</p>);
   return (
     <>
         <h1>Edit Event</h1>
@@ -113,7 +113,7 @@ export default function EditEventForm({ eventLoaded }) {
                   <input
                   className="event-input"
                   type="date"
-                  defaultValue={new Date().toLocaleDateString('en-CA')}
+                  value={date}
                   required
                   onChange={(e) => setDate(e.target.value)}
                   />
@@ -160,6 +160,7 @@ export default function EditEventForm({ eventLoaded }) {
                     className="event-input textarea"
                     type="textarea"
                     value={description}
+                    required
                     onChange={(e) => setDescription(e.target.value)}
                     />
                 </label>

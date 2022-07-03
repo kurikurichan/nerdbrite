@@ -76,7 +76,6 @@ export const addEvent = (tixData) => async dispatch => {
 // Delete registration
 export const deleteRegistration = (regId) => async dispatch => {
 
-    console.log("DeleteRegistration thunk hit ", regId);
     const response = await csrfFetch(`/api/register/${regId}`, {
         method: "DELETE"
     });

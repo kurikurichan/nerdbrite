@@ -10,8 +10,6 @@ export default function Events() {
         return state.events;
     });
 
-    console.log("list of events state: ", events);
-
     const dispatch = useDispatch();
 
     useEffect(() => {

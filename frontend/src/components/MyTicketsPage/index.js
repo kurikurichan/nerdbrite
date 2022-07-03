@@ -9,7 +9,7 @@ export default function MyTicketsPage() {
 
     const tickets = useSelector(state => state.tickets);
     // tickets is Object, not array
-    console.log("tickets state: ", Object.values(tickets)[0]);
+    // console.log("tickets state: ", Object.values(tickets)[0]);
 
     const { userId } = useParams();
 

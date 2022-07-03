@@ -29,7 +29,6 @@ export default function RegisterEvent({ eventId, regId, setRegId, isRegistered, 
 
         if (newReg) {
             setIsRegistered(true);
-            console.log(newReg);
             setRegId(newReg.id);
         }
     };

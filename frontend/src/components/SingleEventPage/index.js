@@ -14,7 +14,7 @@ export default function SingleEventPage() {
     });
 
     const usersTicket = useSelector(state => state.tickets);
-    console.log("the whole state rn length: ", +Object.keys(usersTicket)[0]);
+    // console.log("the whole state rn length: ", +Object.keys(usersTicket)[0]);
     //+Object.keys(usersTicket)[0]  is the id of registration if it exists
 
     const currentUser = useSelector(state => {
