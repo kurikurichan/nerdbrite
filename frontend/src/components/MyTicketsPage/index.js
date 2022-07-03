@@ -19,12 +19,6 @@ export default function MyTicketsPage() {
     // const arr = tickets && Object.values(tickets);
     // const something = "user" || "";
 
-    // let's attempt to move map up here to avoid pissing off react
-
-    /* Potential fixes are:
-    1.) Try adding another conditional for ticket.Event
-    2.) Make a variable that says something like arr= tickets && Object.values()
-    */
     function mapTickets() {
       return Object.values(tickets).map(ticket =>
           <li key={ticket.id}>
@@ -42,7 +36,7 @@ export default function MyTicketsPage() {
   return (
     <div id="my-events">
       <h1>My Events</h1>
-        { tickets && Object.keys(tickets).length ?
+        { tickets && Object.values(tickets)["0"].Event ?
           <ul id="list-tickets">
             {mapTickets()}
           </ul>
