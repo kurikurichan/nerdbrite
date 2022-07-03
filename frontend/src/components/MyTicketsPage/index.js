@@ -35,7 +35,7 @@ export default function MyTicketsPage() {
 
   return (
     <div id="my-events">
-      <h1>My Events</h1>
+      <h1>My Tickets</h1>
         { tickets && Object.values(tickets)["0"].Event ?
           <ul id="list-tickets">
             {mapTickets()}

@@ -40,6 +40,39 @@ const eventValidator = [
     check("capacity")
         .custom(val => val >= 0)
         .withMessage("Capacity cannot be less than 0"),
+    // check("description")
+    //     .exists({ checkFalsy: true})
+    //     .withMessage("Please provide a description"),
+    handleValidationErrors
+];
+
+const editEventValidator = [
+    // TODO: verify that date error handling works
+    check("name") // note: later add a min length to this?
+        .exists({ checkFalsy: true })
+        .withMessage("Event requires a name")
+        .isLength({ max: 100 })
+        .withMessage("Event name cannot be longer than 100 characters"),
+    check("date")
+        .exists({ checkFalsy: true })
+        .withMessage("A date is required")
+        .custom(date => {
+            // Note: can just compare date objects with < or >
+            date = new Date(date);
+            if (date.getTime() < Date.now()) {
+                throw new Error("Selected date cannot be in the past")
+            }
+            return true;
+        }),
+    // check("categoryId")
+    //     .exists({ checkFalsy: true })
+    //     .withMessage("Please select a category"),
+    check("capacity")
+        .custom(val => val >= 0)
+        .withMessage("Capacity cannot be less than 0"),
+    // check("description")
+    //     .exists({ checkFalsy: true})
+    //     .withMessage("Please provide a description"),
     handleValidationErrors
 ];
 
@@ -104,7 +137,7 @@ router.get('/new', asyncHandler(async (req, res) => {
 }));
 
 // GET edit event form
-router.get('/:id(\\d+)/edit', asyncHandler(async (req, res) => {
+router.get('/:id(\\d+)/edit', requireAuth, editEventValidator, asyncHandler(async (req, res) => {
     // need to send these to front end:
     // - categories for the dropdown list
     // - venues for the dropdown list - FOR NOW - eventually should be replaced
