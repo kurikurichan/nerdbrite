@@ -26,13 +26,11 @@ export default function MyTicketsPage() {
     2.) Make a variable that says something like arr= tickets && Object.values()
     */
     function mapTickets() {
-      return Object.values(tickets).map(ticket => {
-        return(
+      return Object.values(tickets).map(ticket =>
           <li key={ticket.id}>
             <Link to={`/events/${ticket.Event.id}`}>{ticket.Event.name}</Link>
           </li>
         )
-      })
     }
 
     useEffect(() => {
@@ -46,10 +44,7 @@ export default function MyTicketsPage() {
       <h1>My Events</h1>
         { tickets && Object.keys(tickets).length ?
           <ul id="list-tickets">
-            {Object.values(tickets).map(ticket =>
-              <li key={ticket.id}>
-                <Link to={`/events/${ticket.Event.id}`}>{ticket.Event.name}</Link>
-                </li>)}
+            {mapTickets()}
           </ul>
         : <p className="loading">Loading...</p> }
       </div>
