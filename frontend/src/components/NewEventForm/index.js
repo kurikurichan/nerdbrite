@@ -24,6 +24,8 @@ export default function NewEventForm() {
   const [name, setName] = useState('');
   const [date, setDate] = useState(new Date().toLocaleDateString('en-CA'));
   const [capacity, setCapacity] = useState(0);
+  const [description, setDescription] = useState('');
+  const [image, setImage] = useState('');
   const [errors, setErrors] = useState([]);
 
   const handleSubmit = async (e) => {
@@ -37,7 +39,9 @@ export default function NewEventForm() {
       category,
       name,
       date,
-      capacity
+      capacity,
+      image,
+      description
     };
 
     console.log("payload: ", payload);
@@ -48,7 +52,9 @@ export default function NewEventForm() {
         if (formData && formData.errors) setErrors(formData.errors);
     });
 
-    history.push(`/events/${newEvent.id}`);
+    if (newEvent) {
+      history.push(`/events/${newEvent.id}`);
+    }
 
   };
 
@@ -65,11 +71,13 @@ export default function NewEventForm() {
       <div className="event-form-container">
         <h1 id="event-title">Create a New Event</h1>
         <form className="create-event-form" onSubmit={handleSubmit}>
-          <ul>
-          {errors.map((error, idx) => (
-            <li key={idx} className="errors">{error}</li>
-          ))}
-          </ul>
+          <div className = "errors-div">
+            <ul>
+            {errors.map((error, idx) => (
+              <li key={idx} className="errors">{error}</li>
+            ))}
+            </ul>
+          </div>
           <label className="event-label">
             Event Name
             <input
@@ -125,6 +133,27 @@ export default function NewEventForm() {
               type="number"
               value={capacity}
               onChange={(e) => setCapacity(+e.target.value)}
+              />
+          </label>
+          <label className="event-label">
+            Description
+            <input
+              className="textarea"
+              type="textarea"
+              cols="40"
+              rows="5"
+              wrap="on"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              />
+          </label>
+          <label className="event-label">
+            Image URL
+            <input
+              className="event-input"
+              type="text"
+              value={image}
+              onChange={(e) => setImage(e.target.value)}
               />
           </label>
           <button type="submit">Create new Event!</button>

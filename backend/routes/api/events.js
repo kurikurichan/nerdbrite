@@ -38,11 +38,22 @@ const eventValidator = [
     //     .exists({ checkFalsy: true })
     //     .withMessage("Please select a category"),
     check("capacity")
-        .custom(val => val >= 0)
-        .withMessage("Capacity cannot be less than 0"),
-    // check("description")
-    //     .exists({ checkFalsy: true})
-    //     .withMessage("Please provide a description"),
+        .custom(val => {
+            if (typeof val !== "number") throw new Error("Capacity must be a number")
+            else if (val >= 0) return true;
+            else throw new Error("Capacity cannot be less than 0");
+        }),
+    check("description")
+        .exists({ checkFalsy: true})
+        .withMessage("Please provide a description"),
+    check("image")
+        .custom(url => {
+            let extensions = ['.jpg', '.jpeg', '.png', '.gif', '.bmp'];
+            for (let format in extensions) {
+                if (!url.endsWith(format)) throw new Error("Image must be of type .jpg, .jpeg, .png, .gif, or .bmp");
+            }
+            return true;
+        }),
     handleValidationErrors
 ];
 
@@ -64,15 +75,23 @@ const editEventValidator = [
             }
             return true;
         }),
-    // check("categoryId")
-    //     .exists({ checkFalsy: true })
-    //     .withMessage("Please select a category"),
     check("capacity")
-        .custom(val => val >= 0)
-        .withMessage("Capacity cannot be less than 0"),
-    // check("description")
-    //     .exists({ checkFalsy: true})
-    //     .withMessage("Please provide a description"),
+        .custom(val => {
+            if (typeof val !== "number") throw new Error("Capacity must be a number")
+            else if (val >= 0) return true;
+            else throw new Error("Capacity cannot be less than 0");
+        }),
+    check("description")
+        .exists({ checkFalsy: true})
+        .withMessage("Please provide a description"),
+    check("image")
+        .custom(url => {
+            let extensions = ['.jpg', '.jpeg', '.png', '.gif', '.bmp'];
+            for (let format in extensions) {
+                if (!url.endsWith(format)) throw new Error("Image must be of type .jpg, .jpeg, .png, .gif, or .bmp");
+            }
+            return true;
+        }),
     handleValidationErrors
 ];
 
