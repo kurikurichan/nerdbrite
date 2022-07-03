@@ -34,9 +34,6 @@ const eventValidator = [
             }
             return true;
         }),
-    // check("categoryId")
-    //     .exists({ checkFalsy: true })
-    //     .withMessage("Please select a category"),
     check("capacity")
         .custom(val => {
             if (typeof val !== "number") throw new Error("Capacity must be a number")
@@ -46,14 +43,15 @@ const eventValidator = [
     check("description")
         .exists({ checkFalsy: true})
         .withMessage("Please provide a description"),
-    check("image")
-        .custom(url => {
-            let extensions = ['.jpg', '.jpeg', '.png', '.gif', '.bmp'];
-            for (let format in extensions) {
-                if (!url.endsWith(format)) throw new Error("Image must be of type .jpg, .jpeg, .png, .gif, or .bmp");
-            }
-            return true;
-        }),
+    // check("image")
+    //     .custom(url => {
+    //         let extensions = ['.jpg', '.jpeg', '.png', '.gif', '.bmp'];
+    //         let goodFormat = false;
+    //         for (let format in extensions) {
+    //             if (url.endsWith(format)) goodFormat = true;
+    //         }
+    //         return goodFormat;
+    //     }),
     handleValidationErrors
 ];
 
@@ -188,7 +186,7 @@ router.get('/:id(\\d+)/edit', requireAuth, editEventValidator, asyncHandler(asyn
 // POST a new event
 router.post('/', requireAuth, eventValidator, asyncHandler(async (req, res) => {
 
-    const { hostId, venue, category, name, date, capacity } = req.body;
+    const { hostId, venue, category, name, date, capacity, image, description } = req.body;
 
     const venueId = await db.Venue.findOne({
         where: { name: venue }
@@ -204,7 +202,9 @@ router.post('/', requireAuth, eventValidator, asyncHandler(async (req, res) => {
         categoryId: categoryId.id,
         name,
         date: new Date(date),
-        capacity
+        capacity,
+        image,
+        description
     });
 
     res.status(201);
@@ -215,7 +215,7 @@ router.post('/', requireAuth, eventValidator, asyncHandler(async (req, res) => {
 // PUT, edit event form
 router.put('/:id(\\d+)', requireAuth, eventValidator, asyncHandler(async (req, res) => {
 
-    const { hostId, venue, category, name, date, capacity } = req.body;
+    const { hostId, venue, category, name, date, capacity, image, description  } = req.body;
     const id = req.params.id;
 
     // Find the event to edit
@@ -238,7 +238,9 @@ router.put('/:id(\\d+)', requireAuth, eventValidator, asyncHandler(async (req, r
             categoryId: categoryId.id,
             name,
             date: new Date(date),
-            capacity
+            capacity,
+            image,
+            description
         });
 
         await updatedEvent.save();
