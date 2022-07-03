@@ -5,7 +5,7 @@ const img1 = "https://www.smashbros.com/assets_v2/img/fighter/falco/ss_1.jpg";
 const d2 = "So they're finally here, performing for you, If you know the words, you can join in too, Put your hands together, if you want to clap, As we take you through this monkey rap!";
 const img2 = "https://i.dailymail.co.uk/i/pix/2010/02/10/article-1249824-083527F7000005DC-550_634x422.jpg";
 const d3 = "Come all ye anime nerds to see anime stuff";
-const img3 = "https://preview.redd.it/jkr7e8p7w8871.jpg?width=640&format=pjpg&auto=webp&s=a1a4024eda8f81db05e187b8b41cd7fda6db4e25";
+const img3 = "https://i.pinimg.com/736x/66/9a/9c/669a9cba35f2f183b4f7f50acca73b68.jpg";
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
