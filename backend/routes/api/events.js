@@ -5,7 +5,6 @@ const { check } = require("express-validator");
 
 const { requireAuth } = require("../../utils/auth");
 const db = require('../../db/models');
-;
 
 const router = express.Router();
 
@@ -34,14 +33,76 @@ const eventValidator = [
             }
             return true;
         }),
-    // check("categoryId")
-    //     .exists({ checkFalsy: true })
-    //     .withMessage("Please select a category"),
     check("capacity")
-        .custom(val => val >= 0)
-        .withMessage("Capacity cannot be less than 0"),
+        .custom(val => {
+            if (typeof val !== "number") throw new Error("Capacity must be a number")
+            else if (val >= 0) return true;
+            else throw new Error("Capacity cannot be less than 0");
+        }),
+    check("description")
+        .exists({ checkFalsy: true})
+        .withMessage("Please provide a description"),
+    check("image")
+        .custom(url => {
+            if (url.length > 0) {
+                let extensions = ['.jpg', '.jpeg', '.png', '.gif', '.bmp'];
+                for (let format of extensions) {
+                    if (url.endsWith(format)) return true;
+                }
+                throw new Error("Image must be of type .jpg, .jpeg, .png, .gif, or type .bmp");
+            }
+            return true; // return true here in case url was not provided
+        }),
     handleValidationErrors
 ];
+
+const editEventValidator = [
+    // TODO: verify that date error handling works
+    check("name") // note: later add a min length to this?
+        .exists({ checkFalsy: true })
+        .withMessage("Event requires a name")
+        .isLength({ max: 100 })
+        .withMessage("Event name cannot be longer than 100 characters"),
+    check("date")
+        .exists({ checkFalsy: true })
+        .withMessage("A date is required")
+        .custom(date => {
+            // Note: can just compare date objects with < or >
+            date = new Date(date);
+            if (date.getTime() < Date.now()) {
+                throw new Error("Selected date cannot be in the past")
+            }
+            return true;
+        }),
+    check("capacity")
+        .custom(val => {
+            if (typeof val !== "number") throw new Error("Capacity must be a number")
+            else if (val >= 0) return true;
+            else throw new Error("Capacity cannot be less than 0");
+        }),
+    check("description")
+        .exists({ checkFalsy: true})
+        .withMessage("Please provide a description"),
+    check("image")
+        .custom(url => {
+            if (url.length > 0) {
+                let extensions = ['.jpg', '.jpeg', '.png', '.gif', '.bmp'];
+                for (let format of extensions) {
+                    if (url.endsWith(format)) return true;
+                }
+                throw new Error("Image must be of type .jpg, .jpeg, .png, .gif, or type .bmp");
+            }
+            return true; // return true here in case url was not provided
+        }),
+    handleValidationErrors
+];
+
+// dates are coming back as 1 day behind than they are supposed to ~.~
+function fixDate(date) {
+    let newDate = new Date(date);
+    newDate = new Date(newDate.getTime() + newDate.getTimezoneOffset() * 60000)
+    return newDate;
+}
 
 // GET events
 router.get('/', asyncHandler(async (req, res) => {
@@ -104,7 +165,7 @@ router.get('/new', asyncHandler(async (req, res) => {
 }));
 
 // GET edit event form
-router.get('/:id(\\d+)/edit', asyncHandler(async (req, res) => {
+router.get('/:id(\\d+)/edit', requireAuth, editEventValidator, asyncHandler(async (req, res) => {
     // need to send these to front end:
     // - categories for the dropdown list
     // - venues for the dropdown list - FOR NOW - eventually should be replaced
@@ -123,11 +184,10 @@ router.get('/:id(\\d+)/edit', asyncHandler(async (req, res) => {
 
     dataNeededForEditForm.venues = venues;
     dataNeededForEditForm.categories = categories;
-    dataNeededForEditForm.eventData = eventToEdit;
 
     if (eventToEdit && req.user.id === eventToEdit.hostId) { // do not give the frontend the info if this isn't the user's own event
         return res.json(dataNeededForEditForm);
-    } else throw new Error("Not authorized to edit this event");
+    } else res.json("Not authorized to edit this event");
 
 }));
 
@@ -136,7 +196,7 @@ router.get('/:id(\\d+)/edit', asyncHandler(async (req, res) => {
 // POST a new event
 router.post('/', requireAuth, eventValidator, asyncHandler(async (req, res) => {
 
-    const { hostId, venue, category, name, date, capacity } = req.body;
+    const { hostId, venue, category, name, date, capacity, image, description } = req.body;
 
     const venueId = await db.Venue.findOne({
         where: { name: venue }
@@ -151,8 +211,10 @@ router.post('/', requireAuth, eventValidator, asyncHandler(async (req, res) => {
         venueId: venueId.id,
         categoryId: categoryId.id,
         name,
-        date: new Date(date),
-        capacity
+        date: fixDate(date),
+        capacity,
+        image,
+        description
     });
 
     res.status(201);
@@ -163,7 +225,7 @@ router.post('/', requireAuth, eventValidator, asyncHandler(async (req, res) => {
 // PUT, edit event form
 router.put('/:id(\\d+)', requireAuth, eventValidator, asyncHandler(async (req, res) => {
 
-    const { hostId, venue, category, name, date, capacity } = req.body;
+    const { hostId, venue, category, name, date, capacity, image, description  } = req.body;
     const id = req.params.id;
 
     // Find the event to edit
@@ -179,14 +241,18 @@ router.put('/:id(\\d+)', requireAuth, eventValidator, asyncHandler(async (req, r
 
     let updatedEvent;
 
+    console.log("THE DATE!------------", typeof fixDate(date));
+
     if (eventToEdit && req.user.id === eventToEdit.hostId) { // verify that user is editing their own event
         updatedEvent = await eventToEdit.update({
             hostId,
             venueId: venueId.id,
             categoryId: categoryId.id,
             name,
-            date: new Date(date),
-            capacity
+            date: fixDate(date),
+            capacity,
+            image,
+            description
         });
 
         await updatedEvent.save();

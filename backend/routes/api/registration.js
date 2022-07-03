@@ -34,7 +34,7 @@ router.get('/:userId', requireAuth, asyncHandler(async (req, res, next) => {
             },
             include: [{
                 model: db.Event,
-                attributes: ['id', 'name']
+                attributes: ['id', 'name', 'image']
             }]
         });
 
@@ -61,7 +61,7 @@ router.get('/:eventId/ticket', requireAuth, asyncHandler(async (req, res) => {
         },
         include: [{
             model: db.Event,
-            attributes: ['id', 'name']
+            attributes: ['id', 'name', 'image']
         }]
     });
     // should return null or a ticket object
@@ -88,9 +88,6 @@ router.delete('/:regId(\\d+)', requireAuth, asyncHandler(async (req, res) => {
 
     const regToDelete = await db.Ticket.findByPk(+req.params.regId);
 
-    console.log("req: ", typeof req.user.id);
-    console.log("regToDelete: ", regToDelete);
-    console.log("regToDelete.userId", regToDelete.userId, typeof regToDelete.userId);
     if (regToDelete && req.user.id === regToDelete.userId) {
         await regToDelete.destroy();
         res.status(204).json({"message": "success"})

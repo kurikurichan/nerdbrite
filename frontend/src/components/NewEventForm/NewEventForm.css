@@ -22,3 +22,9 @@ input:valid+span::after {
     margin-bottom: 5px;
     height: 3em;
 }
+
+/* .textarea {
+    height: 5em;
+    margin-top:10px;
+    margin-bottom: 10px;
+} */

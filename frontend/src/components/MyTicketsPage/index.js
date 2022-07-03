@@ -9,7 +9,7 @@ export default function MyTicketsPage() {
 
     const tickets = useSelector(state => state.tickets);
     // tickets is Object, not array
-    console.log("tickets state: ", Object.values(tickets)[0]);
+    // console.log("tickets state: ", Object.values(tickets)[0]);
 
     const { userId } = useParams();
 
@@ -35,7 +35,7 @@ export default function MyTicketsPage() {
 
   return (
     <div id="my-events">
-      <h1>My Events</h1>
+      <h1>My Tickets</h1>
         { tickets && Object.values(tickets)["0"].Event ?
           <ul id="list-tickets">
             {mapTickets()}

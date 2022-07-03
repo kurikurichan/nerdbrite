@@ -33,6 +33,13 @@ module.exports = {
       capacity: {
         type: Sequelize.INTEGER
       },
+      image: {
+        type: Sequelize.STRING,
+      },
+      description: {
+        type: Sequelize.TEXT,
+        allowNull: false
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

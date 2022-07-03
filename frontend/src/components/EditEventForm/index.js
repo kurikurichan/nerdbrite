@@ -27,6 +27,8 @@ export default function EditEventForm({ eventLoaded }) {
   const [name, setName] = useState('');
   const [date, setDate] = useState(new Date().toLocaleDateString('en-CA'));
   const [capacity, setCapacity] = useState(0);
+  const [description, setDescription] = useState('');
+  const [image, setImage] = useState('');
   const [errors, setErrors] = useState([]);
 
   // prefill fields with existing event data on initial page load
@@ -36,6 +38,8 @@ export default function EditEventForm({ eventLoaded }) {
       setName(event?.name);
       setDate(new Date(event?.date).toLocaleDateString('en-CA'));
       setCapacity(event?.capacity);
+      setDescription(event?.description);
+      setImage(event?.image);
   },[event]);
 
   const handleSubmit = async (e) => {
@@ -49,18 +53,20 @@ export default function EditEventForm({ eventLoaded }) {
       category,
       name,
       date,
-      capacity
+      capacity,
+      image,
+      description
     };
 
     console.log("payload: ", payload);
 
-    await(dispatch(updateEvent(payload, eventId)))
+    const updatedEvent = await(dispatch(updateEvent(payload, eventId)))
       .catch(async (err) => {
         const editData = await err.json();
         if (editData && editData.errors) setErrors(editData.errors);
     });
 
-    history.push(`/events/${eventId}`);
+    if (updatedEvent) history.push(`/events/${eventId}`);
 
   };
 
@@ -77,18 +83,20 @@ export default function EditEventForm({ eventLoaded }) {
 
   }
   if (!user) history.push('/');
-  if (!event || !user || !categoryVenues) return (<p>Loading...</p>);
+  if (!event || !categoryVenues) return (<p>Loading...</p>);
   return (
     <>
         <h1>Edit Event</h1>
         <section className="new-event-form-section">
             {event ?
             <form className="create-event-form" onSubmit={handleSubmit}>
+              <div className="errors">
                 <ul>
                   {errors.map((error, idx) => (
                     <li key={idx} className="errors">{error}</li>
                   ))}
                 </ul>
+              </div>
                 <label className="event-label">
                   Event Name
                   <input
@@ -105,7 +113,7 @@ export default function EditEventForm({ eventLoaded }) {
                   <input
                   className="event-input"
                   type="date"
-                  defaultValue={new Date().toLocaleDateString('en-CA')}
+                  value={date}
                   required
                   onChange={(e) => setDate(e.target.value)}
                   />
@@ -145,6 +153,25 @@ export default function EditEventForm({ eventLoaded }) {
                   value={capacity}
                   onChange={(e) => setCapacity(+e.target.value)}
                   />
+                </label>
+                <label className="event-label">
+                  Description
+                  <input
+                    className="event-input textarea"
+                    type="textarea"
+                    value={description}
+                    required
+                    onChange={(e) => setDescription(e.target.value)}
+                    />
+                </label>
+                <label className="event-label">
+                  Image URL
+                  <input
+                    className="event-input"
+                    type="text"
+                    value={image}
+                    onChange={(e) => setImage(e.target.value)}
+                    />
                 </label>
                 <button type="submit" className="edit">Edit Event</button>
                 <button className= "delete-button edit" onClick={handleDeleteClick}>Delete Event</button>
