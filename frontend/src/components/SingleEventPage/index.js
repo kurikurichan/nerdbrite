@@ -65,13 +65,19 @@ export default function SingleEventPage() {
             <div className= "event-container">
                 <h1 className="event-title">{event?.name}</h1>
                 <img src={event.image} className="display-pic" onError={onErrorHandler} />
-                <ul>
-                    <li className="single-event-items">Date: {eventDate}</li>
-                    <li className="single-event-items">Venue: {event.Venue.name}</li>
-                    <li className="single-event-items">Category: {event.Category.type}</li>
-                    <li className="single-event-items">Event Host: {event.User.username}</li>
-                    <li className="single-event-items">Event Capacity: {event.capacity}</li>
+                <ul id="single-event-text">
+                    <h2>Date</h2>
+                    <li className="single-event-items">{eventDate}</li>
+                    <h2>Venue</h2>
+                    <li className="single-event-items">{event.Venue.name}</li>
+                    <h2>Category</h2>
+                    <li className="single-event-items">{event.Category.type}</li>
+                    <h2>Hosted by...</h2>
+                    <li className="single-event-items">{event.User.username}</li>
+                    <h2>Capacity</h2>
+                    <li className="single-event-items">{event.capacity}</li>
                 </ul>
+                <h2 className="description">About this Event</h2>
                 <div className="description">{event.description}</div>
                 {currentUser && currentUser.id === event.User.id &&
                     <button className="edit-event-button" onClick={handleClick}>Edit Event</button>}
