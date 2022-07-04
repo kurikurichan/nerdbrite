@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import * as ticketActions from "../../store/registration";
 import { useDispatch, useSelector } from "react-redux";
 
+import './RegisterEvent.css';
+
 export default function RegisterEvent({ eventId, regId, setRegId, isRegistered, setIsRegistered}) {
 
     const user = useSelector(state => state.session.user);
@@ -65,7 +67,7 @@ export default function RegisterEvent({ eventId, regId, setRegId, isRegistered, 
             :
             <>
                 <h1>Register Today!</h1>
-                <div className="ticket-error">{errors.length > 0 && <p>Something went wrong</p>}</div>
+                <div className="errors">{errors.length > 0 && <p>Something went wrong</p>}</div>
                 <button id="registerButton" onClick={handleRegister}>Register Now</button>
             </>}
         </div>

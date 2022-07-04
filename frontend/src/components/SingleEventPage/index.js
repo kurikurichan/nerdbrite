@@ -4,6 +4,7 @@ import { useParams, useHistory } from 'react-router-dom'
 import { getOneEvent } from '../../store/events';
 import { getOneTicket } from '../../store/registration';
 import TicketModal from '../TicketModal';
+import altImage from '../../alt_event_image.jpeg';
 
 import './SingleEvent.css';
 
@@ -27,6 +28,7 @@ export default function SingleEventPage() {
 
     const [isRegistered, setIsRegistered] = useState(false);
     const [regId, setRegId] = useState(null);
+    const [imgLoadError, setimgLoadError] = useState(true);
 
     useEffect(() => {
         dispatch(getOneEvent(+eventId));
@@ -43,11 +45,18 @@ export default function SingleEventPage() {
         }
     });
 
-    const eventDate = new Date(event?.date).toLocaleDateString('en-CA');
+    const eventDate = new Date(event?.date).toDateString();
 
     const handleClick = (e) => {
         e.preventDefault();
         history.push(`/events/${eventId}/edit`);
+    };
+
+    const onErrorHandler = (e) => {
+        if (imgLoadError) {
+            setimgLoadError(false);
+        };
+        e.target.src= altImage;
     };
 
   return (
@@ -55,15 +64,18 @@ export default function SingleEventPage() {
         {event ?
             <div className= "event-container">
                 <h1 className="event-title">{event?.name}</h1>
-                <img src={event.image} className="display-pic" alt="https://ichef.bbci.co.uk/news/976/cpsprodpb/C120/production/_104304494_mediaitem104304493.jpg" />
-                <ul>
-                    <li className="single-event-items">Date: {eventDate}</li>
-                    <li className="single-event-items">Venue: {event.Venue.name}</li>
-                    <li className="single-event-items">Category: {event.Category.type}</li>
-                    <li className="single-event-items">Event Host: {event.User.username}</li>
-                    <li className="single-event-items">Event Capacity: {event.capacity}</li>
+                <img src={event.image} className="display-pic" onError={onErrorHandler} />
+                <ul id="single-event-text">
+                    <li className="single-event-items" id="t2">{eventDate}</li>
+                    <li className="single-event-items" id="t4">at the {event.Venue.name}</li>
+                    <li className="single-event-items" id="t6">{event.Category.type}</li>
+                    <li className="single-event-items" id="t8">by {event.User.username}</li>
+                    <li className="single-event-items" id="t10">{event.capacity} can go</li>
                 </ul>
-                <div className="description">{event.description}</div>
+                <div className="description">
+                    <h2>About this Event</h2>
+                    {event.description}
+                </div>
                 {currentUser && currentUser.id === event.User.id &&
                     <button className="edit-event-button" onClick={handleClick}>Edit Event</button>}
                 {currentUser && <TicketModal eventId={eventId} regId={regId} setRegId={setRegId} isRegistered={isRegistered} setIsRegistered={setIsRegistered} />}

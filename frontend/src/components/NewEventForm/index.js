@@ -23,7 +23,7 @@ export default function NewEventForm() {
   const [category, setCategory] = useState('');
   const [name, setName] = useState('');
   const [date, setDate] = useState(new Date().toLocaleDateString('en-CA'));
-  const [capacity, setCapacity] = useState(0);
+  const [capacity, setCapacity] = useState(null);
   const [description, setDescription] = useState('');
   const [image, setImage] = useState('');
   const [errors, setErrors] = useState([]);
@@ -71,7 +71,7 @@ export default function NewEventForm() {
       <div className="event-form-container">
         <h1 id="event-title">Create a New Event</h1>
         <form className="create-event-form" onSubmit={handleSubmit}>
-          <div className = "errors-div">
+          <div className="errors-container">
             <ul>
             {errors.map((error, idx) => (
               <li key={idx} className="errors">{error}</li>
@@ -84,7 +84,6 @@ export default function NewEventForm() {
               className="event-input"
               type="text"
               placeholder="Event Name"
-              required
               value={name}
               onChange={(e) => setName(e.target.value)}
               />
@@ -95,7 +94,6 @@ export default function NewEventForm() {
               className="event-input"
               type="date"
               value={date}
-              required
               onChange={(e) => setDate(e.target.value)}
               />
           </label>
@@ -137,14 +135,12 @@ export default function NewEventForm() {
           </label>
           <label className="event-label">
             Description
-            <input
-              className="textarea"
-              type="textarea"
-              cols="40"
-              rows="5"
-              wrap="on"
+            <textarea
+              className="form-description"
               value={description}
-              required
+              rows="5"
+              cols="33"
+              wrap="soft"
               onChange={(e) => setDescription(e.target.value)}
               />
           </label>

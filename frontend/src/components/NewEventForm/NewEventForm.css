@@ -6,15 +6,11 @@ input:valid+span::after {
     content: '✓';
 }
 
-/* .event-form-container {
-    background-color: #333;
-
-} */
-
 .create-event-form {
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding-bottom: 10%;
 }
 
 .create-event-form > * {
@@ -23,8 +19,28 @@ input:valid+span::after {
     height: 3em;
 }
 
-/* .textarea {
-    height: 5em;
-    margin-top:10px;
-    margin-bottom: 10px;
-} */
+.form-description {
+
+    display: block;
+    height: auto;
+    position: absolute;
+    width: 20%;
+}
+
+textarea:invalid {
+    border: 2px dashed red;
+}
+
+textarea:valid {
+     border: 2px solid lime;
+}
+
+#root > div.wrapper > div > main > section > div > form > label:nth-child(8) {
+    margin-top: 2.5em;
+    margin-bottom: 1em;
+}
+
+.errors-container {
+    margin: 0.5em;
+    display: block;
+}

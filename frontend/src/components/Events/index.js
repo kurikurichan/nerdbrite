@@ -1,8 +1,10 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getEvents } from '../../store/events';
 import './events.css';
+
+import altImage from '../../alt_event_image.jpeg';
 
 export default function Events() {
 
@@ -12,23 +14,34 @@ export default function Events() {
 
     const dispatch = useDispatch();
 
+    const [imgLoadError, setimgLoadError] = useState(true);
+
+    const onErrorHandler = (e) => {
+        if (imgLoadError) {
+            setimgLoadError(false);
+        };
+        e.target.src= altImage;
+    };
+
     useEffect(() => {
         dispatch(getEvents());
     }, [dispatch]);
 
   return (
-    <div id="all-events-container">
+    <>
         <h1 id="events-title">Events</h1>
-        { events &&
-            <ul>
-                {Object.values(events).map((event, i) =>
-                <div key={i} className="event-card">
-                    <li>
-                        <Link to={`/events/${event.id}`}>{event.name}</Link>
-                    </li>
-                </div>)}
-            </ul>
-        }
-    </div>
+            { events && altImage &&
+                <div id="all-events-container">
+                    {Object.values(events).map((event, i) =>
+                    <div key={i} className="event-card">
+                        <Link to={`/events/${event.id}`}>
+                            <img src={event.image} className="card-pic" onError={onErrorHandler}/>
+                            <h2 className="cardText">{event.name}</h2>
+                        </Link>
+                            <h2 className="cardText">Date: {new Date(event.date).toLocaleDateString()}</h2>
+                    </div>)}
+                </div>
+            }
+    </>
   );
 };

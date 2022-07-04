@@ -16,6 +16,7 @@ import MyTicketsPage from './components/MyTicketsPage';
 
 import './index.css';
 import Footer from './Footer';
+import SplashPage from './components/SplashPage/SplashPage';
 
 function App() {
   const dispatch = useDispatch();
@@ -42,9 +43,7 @@ function App() {
           {isLoaded && (
             <Switch>
               <Route exact path="/">
-                <h1 id="welcome-title">Welcome to nerdbrite!</h1>
-                <h2 className="splash-text">It's a big galaxy out there...</h2>
-                <p className="splash-body-text">Find an event for your nerdy hobby today!</p>
+                <SplashPage />
               </Route>
               <Route path="/signup">
                 <SignupFormPage />

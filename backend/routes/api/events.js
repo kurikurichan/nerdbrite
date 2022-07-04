@@ -241,8 +241,6 @@ router.put('/:id(\\d+)', requireAuth, eventValidator, asyncHandler(async (req, r
 
     let updatedEvent;
 
-    console.log("THE DATE!------------", typeof fixDate(date));
-
     if (eventToEdit && req.user.id === eventToEdit.hostId) { // verify that user is editing their own event
         updatedEvent = await eventToEdit.update({
             hostId,
