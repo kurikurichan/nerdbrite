@@ -23,6 +23,7 @@ export default function Events() {
         e.target.src= altImage;
     };
 
+
     useEffect(() => {
         dispatch(getEvents());
     }, [dispatch]);
@@ -39,7 +40,9 @@ export default function Events() {
                         </Link>
                         <div className="cardText-container">
                         <Link to={`/events/${event.id}`}><h2 className="cardText">{event.name}</h2></Link>
-                            <h2 className="cardText">Date: {new Date(event.date).toLocaleDateString()}</h2>
+                            <h2 className="cardText">
+                                Date: {new Date(event.date).toLocaleString('en-US', { timeZone: 'UTC', year: "numeric", month: "numeric", day: "numeric" })}
+                            </h2>
                         </div>
                     </div>)}
                 </div>

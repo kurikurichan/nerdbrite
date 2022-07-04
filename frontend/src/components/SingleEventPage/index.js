@@ -45,7 +45,12 @@ export default function SingleEventPage() {
         }
     });
 
-    const eventDate = new Date(event?.date).toDateString();
+
+    // const eventDate = new Date(event?.date).toISOString().split('T')[0];
+    // console.log(eventDate);
+
+    const newDate = event ? new Date(event.date) : new Date();
+    const eventDate = newDate.toISOString().split('T')[0];
 
     const handleClick = (e) => {
         e.preventDefault();

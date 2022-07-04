@@ -25,7 +25,7 @@ export default function EditEventForm({ eventLoaded }) {
   const [venue, setVenue] = useState('');
   const [category, setCategory] = useState('');
   const [name, setName] = useState('');
-  const [date, setDate] = useState(new Date().toLocaleDateString('en-CA'));
+  const [date, setDate] = useState(new Date().toLocaleDateString('en-CA', { timeZone: 'UTC', year: "numeric", month: "numeric", day: "numeric"  }));
   const [capacity, setCapacity] = useState("");
   const [description, setDescription] = useState('');
   const [image, setImage] = useState('');
@@ -36,7 +36,7 @@ export default function EditEventForm({ eventLoaded }) {
       setVenue(event?.Venue.name);
       setCategory(event?.Category.type);
       setName(event?.name);
-      setDate(new Date(event?.date).toLocaleDateString('en-CA'));
+      // setDate(new Date(event?.date).toLocaleString('en-CA', { timeZone: 'UTC', year: "numeric", month: "numeric", day: "numeric" }));
       setCapacity(event?.capacity);
       setDescription(event?.description);
       setImage(event?.image);
@@ -172,9 +172,11 @@ export default function EditEventForm({ eventLoaded }) {
                       ))}
                       </ul>
                     </div>
-                    <button type="submit" className="edit">Edit Event</button>
-                    <button className= "delete-button edit" onClick={handleDeleteClick}>Delete Event</button>
-                    <button type="button" className="edit" onClick={handleCancelClick}>Cancel</button>
+                    <div className="button-row">
+                      <button type="submit" className="edit">Update Event</button>
+                      <button className= "delete-button edit" onClick={handleDeleteClick}>Delete Event</button>
+                      <button type="button" className="edit" onClick={handleCancelClick}>Cancel</button>
+                    </div>
                   </form>
                 </div> :
             <p className="loading">Form Loading...</p>

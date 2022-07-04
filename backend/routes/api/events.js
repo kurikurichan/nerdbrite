@@ -211,12 +211,15 @@ router.post('/', requireAuth, eventValidator, asyncHandler(async (req, res) => {
         where: { type: category }
     });
 
+    let newDate = fixDate(date);
+    console.log("Date in post new event path: ", newDate)
+
     const newEvent = await db.Event.create({
         hostId,
         venueId: venueId.id,
         categoryId: categoryId.id,
         name,
-        date: fixDate(date),
+        date: newDate,
         capacity,
         image,
         description

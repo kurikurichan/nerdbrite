@@ -46,3 +46,11 @@ input:valid+span::after {
     margin-top: 5px;
     height: 3em;
 }
+
+.button-row {
+    display: flex;
+}
+
+.button-row > button {
+    margin: 0.2em;
+}

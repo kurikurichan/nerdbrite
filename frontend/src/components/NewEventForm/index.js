@@ -23,7 +23,7 @@ export default function NewEventForm() {
   const [category, setCategory] = useState('');
   const [name, setName] = useState('');
   const [date, setDate] = useState(new Date().toLocaleDateString('en-CA'));
-  const [capacity, setCapacity] = useState("");
+  const [capacity, setCapacity] = useState(null);
   const [description, setDescription] = useState('');
   const [image, setImage] = useState('');
   const [errors, setErrors] = useState([]);
@@ -71,6 +71,13 @@ export default function NewEventForm() {
       <div className="event-form-container">
         <h1 id="event-title">Create a New Event</h1>
         <form className="create-event-form" onSubmit={handleSubmit}>
+          <div className="errors-container">
+            <ul>
+            {errors.map((error, idx) => (
+              <li key={idx} className="errors">{error}</li>
+            ))}
+            </ul>
+          </div>
           <label className="event-label">
             Event Name
             <input
@@ -146,15 +153,10 @@ export default function NewEventForm() {
               onChange={(e) => setImage(e.target.value)}
               />
           </label>
-          <div className="errors-container">
-            <ul>
-            {errors.map((error, idx) => (
-              <li key={idx} className="errors">{error}</li>
-            ))}
-            </ul>
+          <div className="button-row">
+            <button type="submit">Create new Event!</button>
+            <button type="button" onClick={handleCancelClick}>Cancel</button>
           </div>
-          <button type="submit">Create new Event!</button>
-          <button type="button" onClick={handleCancelClick}>Cancel</button>
         </form>
       </div> :
       <p>Form Loading</p>}
