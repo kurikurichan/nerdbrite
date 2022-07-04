@@ -55,6 +55,7 @@ export default function SingleEventPage() {
         {event ?
             <div className= "event-container">
                 <h1 className="event-title">{event?.name}</h1>
+                <img src={event.image} className="display-pic" alt="https://ichef.bbci.co.uk/news/976/cpsprodpb/C120/production/_104304494_mediaitem104304493.jpg" />
                 <ul>
                     <li className="single-event-items">Date: {eventDate}</li>
                     <li className="single-event-items">Venue: {event.Venue.name}</li>
@@ -62,6 +63,7 @@ export default function SingleEventPage() {
                     <li className="single-event-items">Event Host: {event.User.username}</li>
                     <li className="single-event-items">Event Capacity: {event.capacity}</li>
                 </ul>
+                <div className="description">{event.description}</div>
                 {currentUser && currentUser.id === event.User.id &&
                     <button className="edit-event-button" onClick={handleClick}>Edit Event</button>}
                 {currentUser && <TicketModal eventId={eventId} regId={regId} setRegId={setRegId} isRegistered={isRegistered} setIsRegistered={setIsRegistered} />}
