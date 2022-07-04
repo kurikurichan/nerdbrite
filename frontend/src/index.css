@@ -186,10 +186,6 @@ li {
     text-align: center;
 }
 
-/* @counter-style {
-
-} */
-
 .errors {
     list-style-type: '☆';
     color: red;
@@ -197,8 +193,6 @@ li {
     text-align: left;
     padding-left: 1em;
     padding-right: 1em;
-    /* padding: 15px 35px; */
-    /* margin: 25px 25px 25px 45px; */
 }
 
 
@@ -215,7 +209,6 @@ label {
 
 /* date */
 
-/* ::-webkit-datetime-edit { padding: .25em; } */
 ::-webkit-datetime-edit-text { padding: 0 0.4em; }
 ::-webkit-inner-spin-button { display: none; }
 

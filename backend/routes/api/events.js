@@ -20,16 +20,20 @@ const eventValidator = [
         .withMessage("A date is required")
         .custom(date => {
             // Note: can just compare date objects with < or >
-            date = new Date(date);
-            if (date.getTime() < Date.now()) {
+            let newDate = fixDate(new Date(date));
+            let today = fixDate(Date.now());
+            if (newDate < today) {
                 throw new Error("Selected date cannot be in the past")
             }
             return true;
         })
         .custom(date => {
-            date = new Date(date)
-            if ((date.getTime() / 1000) - (Date.now() / 1000) < 86400) {
-                throw new Error("Event cannot start within 24 hours")
+            // 86400 is 1 day in seconds
+            let newDate = fixDate(new Date(date));
+            const today = fixDate(Date.now());
+            const timeDifference = (newDate.getTime() / 1000) - (today.getTime() / 1000);
+            if (timeDifference < 86400 && timeDifference >= 0) {
+                throw new Error("Event cannot start today")
             }
             return true;
         }),
@@ -68,8 +72,9 @@ const editEventValidator = [
         .withMessage("A date is required")
         .custom(date => {
             // Note: can just compare date objects with < or >
-            date = new Date(date);
-            if (date.getTime() < Date.now()) {
+            let newDate = fixDate(new Date(date));
+            let today = fixDate(Date.now());
+            if (newDate < today) {
                 throw new Error("Selected date cannot be in the past")
             }
             return true;
@@ -99,8 +104,8 @@ const editEventValidator = [
 
 // dates are coming back as 1 day behind than they are supposed to ~.~
 function fixDate(date) {
-    let newDate = new Date(date);
-    newDate = new Date(newDate.getTime() + newDate.getTimezoneOffset() * 60000)
+    const newDate = new Date(date);
+    newDate.setUTCHours(0, 0, 0, 0);
     return newDate;
 }
 

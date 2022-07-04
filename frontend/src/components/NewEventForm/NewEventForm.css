@@ -13,34 +13,36 @@ input:valid+span::after {
     padding-bottom: 10%;
 }
 
-.create-event-form > * {
-    margin-top: 5px;
-    margin-bottom: 5px;
-    height: 3em;
-}
-
 .form-description {
 
     display: block;
     height: auto;
-    position: absolute;
-    width: 20%;
+    width: 100%;
 }
 
-textarea:invalid {
-    border: 2px dashed red;
-}
-
-textarea:valid {
-     border: 2px solid lime;
-}
-
-#root > div.wrapper > div > main > section > div > form > label:nth-child(8) {
+#root > div.wrapper > div > main > section > div > form > label:nth-child(7) {
     margin-top: 2.5em;
     margin-bottom: 1em;
 }
 
-.errors-container {
-    margin: 0.5em;
+.event-label,
+.event-input {
     display: block;
+    width: 25%;
+}
+
+.errors {
+    list-style-type: '☆';
+}
+
+
+.event-input {
+    width: 100%;
+    padding: 10px;
+}
+
+.event-label {
+    margin-bottom: 20px;
+    margin-top: 5px;
+    height: 3em;
 }
