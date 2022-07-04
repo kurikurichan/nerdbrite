@@ -1,7 +1,44 @@
-/* .create-event-form {
+input:invalid + span::after {
+    content: '✖';
+}
+
+input:valid+span::after {
+    content: '✓';
+}
+
+.create-event-form {
     display: flex;
-    flex-direction: row;
-} */
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 10%;
+}
+
+.create-event-form > * {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    height: 3em;
+}
+
+.form-description {
+
+    display: block;
+    height: auto;
+    position: absolute;
+    width: 20%;
+}
+
+textarea:invalid {
+    border: 2px dashed red;
+}
+
+textarea:valid {
+     border: 2px solid lime;
+}
+
+#root > div.wrapper > div > main > section > div > form > label:nth-child(8) {
+    margin-top: 2.5em;
+    margin-bottom: 1em;
+}
 
 .event-label,
 .event-input {

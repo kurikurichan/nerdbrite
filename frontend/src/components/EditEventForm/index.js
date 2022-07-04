@@ -85,98 +85,100 @@ export default function EditEventForm({ eventLoaded }) {
   if (!user) history.push('/');
   if (!event || !categoryVenues) return (<p>Loading...</p>);
   return (
-    <>
-        <h1>Edit Event</h1>
         <section className="new-event-form-section">
             {event ?
-            <form className="create-event-form" onSubmit={handleSubmit}>
-              <div className="errors">
-                <ul>
-                  {errors.map((error, idx) => (
-                    <li key={idx} className="errors">{error}</li>
-                  ))}
-                </ul>
-              </div>
-                <label className="event-label">
-                  Event Name
-                  <input
-                  className="event-input"
-                  type="text"
-                  placeholder="Event Name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  />
-                </label>
-                <label className="event-label">
-                  Date of Event
-                  <input
-                  className="event-input"
-                  type="date"
-                  value={date}
-                  onChange={(e) => setDate(e.target.value)}
-                  />
-                </label>
-                <label className="event-label">
-                  Venue
-                  <select
-                    className="event-input"
-                    value={venue}
-                    onChange={(e) => setVenue(e.target.value)}
-                    >
-                    <option value="" disabled>Venue</option>
-                    {Array.isArray(categoryVenues.venues) &&
-                    categoryVenues.venues.map(venue =>
-                        <option key={venue.id}>{venue.name}</option>
-                    )}
-                  </select>
-                </label>
-                <label className="event-label">
-                  Category
-                  <select
-                  className="event-input"
-                  value={category}
-                  onChange={(e) => setCategory(e.target.value)}
-                  >
-                  <option value="" disabled>Category</option>
-                  {Array.isArray(categoryVenues.categories) && categoryVenues.categories.map(category =>
-                      <option key={category.id}>{category.type}</option>
-                  )}
-                  </select>
-                </label>
-                <label className="event-label">
-                  Max Capacity
-                  <input
-                  className="event-input"
-                  type="number"
-                  value={capacity}
-                  onChange={(e) => setCapacity(+e.target.value)}
-                  />
-                </label>
-                <label className="event-label">
-                  Description
-                  <input
-                    className="event-input textarea"
-                    type="textarea"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                    />
-                </label>
-                <label className="event-label">
-                  Image URL
-                  <input
-                    className="event-input"
-                    type="text"
-                    value={image}
-                    onChange={(e) => setImage(e.target.value)}
-                    />
-                </label>
-                <button type="submit" className="edit">Edit Event</button>
-                <button className= "delete-button edit" onClick={handleDeleteClick}>Delete Event</button>
-                <button type="button" className="edit" onClick={handleCancelClick}>Cancel</button>
-            </form> :
+              <div className="event-form-container">
+                <h1 id="event-title">Edit Event</h1>
+                  <form className="create-event-form" onSubmit={handleSubmit}>
+                    <div className = "errors-div">
+                      <ul>
+                      {errors.map((error, idx) => (
+                        <li key={idx} className="errors">{error}</li>
+                      ))}
+                      </ul>
+                    </div>
+                    <label className="event-label">
+                      Event Name
+                      <input
+                        className="event-input"
+                        type="text"
+                        placeholder="Event Name"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        />
+                    </label>
+                    <label className="event-label">
+                      Date of Event
+                      <input
+                        className="event-input"
+                        type="date"
+                        value={date}
+                        onChange={(e) => setDate(e.target.value)}
+                        />
+                    </label>
+                    <label className="event-label">
+                      Venue
+                      <select
+                        className="event-input"
+                        value={venue}
+                        onChange={(e) => setVenue(e.target.value)}
+                        >
+                        <option value="" disabled>Venue</option>
+                        {Array.isArray(categoryVenues.venues) &&
+                        categoryVenues.venues.map(venue =>
+                          <option key={venue.id}>{venue.name}</option>
+                        )}
+                      </select>
+                    </label>
+                    <label className="event-label">
+                      Category
+                      <select
+                        className="event-input"
+                        value={category}
+                        onChange={(e) => setCategory(e.target.value)}
+                        >
+                        <option value="" disabled>Category</option>
+                        {Array.isArray(categoryVenues.categories) && categoryVenues.categories.map(category =>
+                          <option key={category.id}>{category.type}</option>
+                        )}
+                      </select>
+                    </label>
+                    <label className="event-label">
+                      Capacity
+                      <input
+                        className="event-input"
+                        type="number"
+                        value={capacity}
+                        onChange={(e) => setCapacity(+e.target.value)}
+                        />
+                    </label>
+                    <label className="event-label">
+                      Description
+                      <textarea
+                        className="form-description"
+                        value={description}
+                        rows="5"
+                        cols="33"
+                        wrap="soft"
+                        onChange={(e) => setDescription(e.target.value)}
+                        />
+                    </label>
+                    <label className="event-label">
+                      Image URL
+                      <input
+                        className="event-input"
+                        type="text"
+                        value={image}
+                        onChange={(e) => setImage(e.target.value)}
+                        />
+                    </label>
+                    <button type="submit" className="edit">Edit Event</button>
+                    <button className= "delete-button edit" onClick={handleDeleteClick}>Delete Event</button>
+                    <button type="button" className="edit" onClick={handleCancelClick}>Cancel</button>
+                  </form>
+                </div> :
             <p className="loading">Form Loading...</p>
             }
         </section>
-    </>
   )
 }

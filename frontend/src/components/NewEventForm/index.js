@@ -71,7 +71,7 @@ export default function NewEventForm() {
       <div className="event-form-container">
         <h1 id="event-title">Create a New Event</h1>
         <form className="create-event-form" onSubmit={handleSubmit}>
-          <div className = "errors-div">
+          <div className="errors-container">
             <ul>
             {errors.map((error, idx) => (
               <li key={idx} className="errors">{error}</li>
@@ -136,7 +136,7 @@ export default function NewEventForm() {
           <label className="event-label">
             Description
             <textarea
-              className="description"
+              className="form-description"
               value={description}
               rows="5"
               cols="33"

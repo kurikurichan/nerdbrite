@@ -223,3 +223,13 @@ label {
     max-height: 300px;
     max-width: 500px;
 }
+
+textarea {
+    resize: none;
+    overflow:auto;
+    background-color: #333;
+    color: white;
+    font-family: basic-sans, sans-serif;
+    font-style: normal;
+    font-weight: 100;
+}

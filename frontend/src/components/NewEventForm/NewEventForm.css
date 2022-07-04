@@ -6,11 +6,6 @@ input:valid+span::after {
     content: '✓';
 }
 
-/* .event-form-container {
-    background-color: #333;
-
-} */
-
 .create-event-form {
     display: flex;
     flex-direction: column;
@@ -19,27 +14,17 @@ input:valid+span::after {
 }
 
 .create-event-form > * {
-    /* display: flex;
-    flex-direction: row; */
     margin-top: 5px;
     margin-bottom: 5px;
     height: 3em;
 }
 
-/* .event-label {
-    display: flex;
-} */
+.form-description {
 
-#description {
-
-    /* margin-bottom: 50%; */
     display: block;
     height: auto;
     position: absolute;
     width: 20%;
-    resize: none;
-    overflow:auto;
-    background-color: #333;
 }
 
 textarea:invalid {
@@ -53,4 +38,9 @@ textarea:valid {
 #root > div.wrapper > div > main > section > div > form > label:nth-child(8) {
     margin-top: 2.5em;
     margin-bottom: 1em;
+}
+
+.errors-container {
+    margin: 0.5em;
+    display: block;
 }

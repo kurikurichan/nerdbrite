@@ -45,7 +45,7 @@ export default function SingleEventPage() {
         }
     });
 
-    const eventDate = new Date(event?.date).toLocaleDateString('en-CA');
+    const eventDate = new Date(event?.date).toDateString();
 
     const handleClick = (e) => {
         e.preventDefault();
@@ -66,19 +66,16 @@ export default function SingleEventPage() {
                 <h1 className="event-title">{event?.name}</h1>
                 <img src={event.image} className="display-pic" onError={onErrorHandler} />
                 <ul id="single-event-text">
-                    <h2>Date</h2>
-                    <li className="single-event-items">{eventDate}</li>
-                    <h2>Venue</h2>
-                    <li className="single-event-items">{event.Venue.name}</li>
-                    <h2>Category</h2>
-                    <li className="single-event-items">{event.Category.type}</li>
-                    <h2>Hosted by...</h2>
-                    <li className="single-event-items">{event.User.username}</li>
-                    <h2>Capacity</h2>
-                    <li className="single-event-items">{event.capacity}</li>
+                    <li className="single-event-items" id="t2">{eventDate}</li>
+                    <li className="single-event-items" id="t4">at the {event.Venue.name}</li>
+                    <li className="single-event-items" id="t6">{event.Category.type}</li>
+                    <li className="single-event-items" id="t8">by {event.User.username}</li>
+                    <li className="single-event-items" id="t10">{event.capacity} can go</li>
                 </ul>
-                <h2 className="description">About this Event</h2>
-                <div className="description">{event.description}</div>
+                <div className="description">
+                    <h2>About this Event</h2>
+                    {event.description}
+                </div>
                 {currentUser && currentUser.id === event.User.id &&
                     <button className="edit-event-button" onClick={handleClick}>Edit Event</button>}
                 {currentUser && <TicketModal eventId={eventId} regId={regId} setRegId={setRegId} isRegistered={isRegistered} setIsRegistered={setIsRegistered} />}
