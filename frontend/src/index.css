@@ -210,3 +210,8 @@ label {
 /* ::-webkit-datetime-edit { padding: .25em; } */
 ::-webkit-datetime-edit-text { padding: 0 0.4em; }
 ::-webkit-inner-spin-button { display: none; }
+
+.display-pic {
+    max-height: 300px;
+    max-width: 500px;
+}
