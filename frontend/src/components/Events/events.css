@@ -35,7 +35,7 @@
 }
 
 .card-pic {
-    height: 20vw;
+    /* height: 20vw; */
     width: 100%;
     object-fit: cover;
 }
