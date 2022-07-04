@@ -29,12 +29,17 @@
     flex-direction: column;
     width: 350px;
     height: 380px;
-    border: 1px solid red;
-    box-shadow: 0 0 5px red;
+    background-color: rgba(35, 34, 34, 0.6);
+    border: 1px solid var(--stellarPurple);
+    box-shadow: 0 0 5px var(--novaPurple);
 }
 
 .card-pic {
     height: 20vw;
     width: 100%;
     object-fit: cover;
+}
+
+.cardText {
+    text-align: center;
 }

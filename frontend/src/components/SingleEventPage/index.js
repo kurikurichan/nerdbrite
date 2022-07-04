@@ -28,6 +28,7 @@ export default function SingleEventPage() {
 
     const [isRegistered, setIsRegistered] = useState(false);
     const [regId, setRegId] = useState(null);
+    const [imgLoadError, setimgLoadError] = useState(true);
 
     useEffect(() => {
         dispatch(getOneEvent(+eventId));
@@ -51,15 +52,19 @@ export default function SingleEventPage() {
         history.push(`/events/${eventId}/edit`);
     };
 
+    const onErrorHandler = (e) => {
+        if (imgLoadError) {
+            setimgLoadError(false);
+        };
+        e.target.src= altImage;
+    };
+
   return (
     <>
         {event ?
             <div className= "event-container">
                 <h1 className="event-title">{event?.name}</h1>
-                <img src={event.image} className="display-pic" onError={({ img }) => {
-                    img.onerror = null;
-                    img.src= altImage;
-                }}/>
+                <img src={event.image} className="display-pic" onError={onErrorHandler} />
                 <ul>
                     <li className="single-event-items">Date: {eventDate}</li>
                     <li className="single-event-items">Venue: {event.Venue.name}</li>

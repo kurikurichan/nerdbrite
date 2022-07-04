@@ -110,6 +110,7 @@ button {
   user-select: none;
   -webkit-user-select: none;
   vertical-align: middle;
+  cursor: pointer;
 }
 
 button:hover,
