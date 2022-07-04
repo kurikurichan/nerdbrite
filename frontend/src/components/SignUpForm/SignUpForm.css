@@ -1,13 +1,5 @@
 /* TODO: Signup form styling */
 
-/* .signup-wrapper {
-    display: flex;
-    position: static;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 30%;
-} */
 .signup {
     display: flex;
     position: static;
@@ -20,11 +12,6 @@
     display: block;
     width: 25%;
 }
-
-/* .signup > label > input {
-    box-sizing: content-box;
-    width: 25%;
-} */
 
 .errors {
     list-style-type: '☆';

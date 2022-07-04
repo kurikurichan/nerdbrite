@@ -29,7 +29,7 @@
     flex-direction: column;
     width: 350px;
     height: 380px;
-    background-color: rgba(35, 34, 34, 0.6);
+    background-color: var(--bgColor);
     border: 1px solid var(--stellarPurple);
     box-shadow: 0 0 5px var(--novaPurple);
 }
