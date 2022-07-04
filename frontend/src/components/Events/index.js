@@ -36,9 +36,11 @@ export default function Events() {
                     <div key={i} className="event-card">
                         <Link to={`/events/${event.id}`}>
                             <img src={event.image} className="card-pic" onError={onErrorHandler}/>
-                            <h2 className="cardText">{event.name}</h2>
                         </Link>
+                        <div className="cardText-container">
+                        <Link to={`/events/${event.id}`}><h2 className="cardText">{event.name}</h2></Link>
                             <h2 className="cardText">Date: {new Date(event.date).toLocaleDateString()}</h2>
+                        </div>
                     </div>)}
                 </div>
             }
