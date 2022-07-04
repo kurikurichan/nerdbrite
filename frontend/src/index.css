@@ -21,7 +21,7 @@ body {
 
 /* set initial height & layout of header, body & footer */
 .wrapper {
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     position: relative;
     flex-direction: column;

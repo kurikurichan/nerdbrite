@@ -15,16 +15,43 @@ input:valid+span::after {
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    padding-bottom: 10%;
 }
 
 .create-event-form > * {
+    /* display: flex;
+    flex-direction: row; */
     margin-top: 5px;
     margin-bottom: 5px;
     height: 3em;
 }
 
-/* .textarea {
-    height: 5em;
-    margin-top:10px;
-    margin-bottom: 10px;
+/* .event-label {
+    display: flex;
 } */
+
+#description {
+
+    /* margin-bottom: 50%; */
+    display: block;
+    height: auto;
+    position: absolute;
+    width: 20%;
+    resize: none;
+    overflow:auto;
+    background-color: #333;
+}
+
+textarea:invalid {
+    border: 2px dashed red;
+}
+
+textarea:valid {
+     border: 2px solid lime;
+}
+
+#root > div.wrapper > div > main > section > div > form > label:nth-child(8) {
+    margin-top: 2.5em;
+    margin-bottom: 1em;
+}

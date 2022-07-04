@@ -103,7 +103,6 @@ export default function EditEventForm({ eventLoaded }) {
                   className="event-input"
                   type="text"
                   placeholder="Event Name"
-                  required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   />
@@ -114,7 +113,6 @@ export default function EditEventForm({ eventLoaded }) {
                   className="event-input"
                   type="date"
                   value={date}
-                  required
                   onChange={(e) => setDate(e.target.value)}
                   />
                 </label>
@@ -160,7 +158,6 @@ export default function EditEventForm({ eventLoaded }) {
                     className="event-input textarea"
                     type="textarea"
                     value={description}
-                    required
                     onChange={(e) => setDescription(e.target.value)}
                     />
                 </label>

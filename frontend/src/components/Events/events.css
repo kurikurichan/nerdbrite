@@ -12,10 +12,29 @@
 
 #all-events-container {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    padding: 0 30px;
 }
 
 #all-events-container > ul > div > li {
     font-size: 1.25em;
+}
+
+.event-card {
+    /* position: relative; */
+    display: flex;
+    flex-direction: column;
+    width: 350px;
+    height: 380px;
+    border: 1px solid red;
+    box-shadow: 0 0 5px red;
+}
+
+.card-pic {
+    height: 20vw;
+    width: 100%;
+    object-fit: cover;
 }

@@ -4,6 +4,7 @@ import { useParams, useHistory } from 'react-router-dom'
 import { getOneEvent } from '../../store/events';
 import { getOneTicket } from '../../store/registration';
 import TicketModal from '../TicketModal';
+import altImage from '../../alt_event_image.jpeg';
 
 import './SingleEvent.css';
 
@@ -55,7 +56,10 @@ export default function SingleEventPage() {
         {event ?
             <div className= "event-container">
                 <h1 className="event-title">{event?.name}</h1>
-                <img src={event.image} className="display-pic" alt="https://ichef.bbci.co.uk/news/976/cpsprodpb/C120/production/_104304494_mediaitem104304493.jpg" />
+                <img src={event.image} className="display-pic" onError={({ img }) => {
+                    img.onerror = null;
+                    img.src= altImage;
+                }}/>
                 <ul>
                     <li className="single-event-items">Date: {eventDate}</li>
                     <li className="single-event-items">Venue: {event.Venue.name}</li>
