@@ -38,11 +38,6 @@
     grid-area: e;
 }
 
-/* .single-event-items {
-    display: absolute;
-    vertical-align: top;
-} */
-
 .description {
     background-color: var(--bgColor);
     text-align: center;

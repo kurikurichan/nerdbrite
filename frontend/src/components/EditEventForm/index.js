@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { updateEvent, getOneEvent, getForm, deleteEvent } from '../../store/events';
 
-import './EditEventForm.css';
+import '../NewEventForm/NewEventForm.css';
 
 export default function EditEventForm({ eventLoaded }) {
 
@@ -26,7 +26,7 @@ export default function EditEventForm({ eventLoaded }) {
   const [category, setCategory] = useState('');
   const [name, setName] = useState('');
   const [date, setDate] = useState(new Date().toLocaleDateString('en-CA'));
-  const [capacity, setCapacity] = useState(0);
+  const [capacity, setCapacity] = useState("");
   const [description, setDescription] = useState('');
   const [image, setImage] = useState('');
   const [errors, setErrors] = useState([]);
@@ -90,13 +90,6 @@ export default function EditEventForm({ eventLoaded }) {
               <div className="event-form-container">
                 <h1 id="event-title">Edit Event</h1>
                   <form className="create-event-form" onSubmit={handleSubmit}>
-                    <div className = "errors-div">
-                      <ul>
-                      {errors.map((error, idx) => (
-                        <li key={idx} className="errors">{error}</li>
-                      ))}
-                      </ul>
-                    </div>
                     <label className="event-label">
                       Event Name
                       <input
@@ -172,6 +165,13 @@ export default function EditEventForm({ eventLoaded }) {
                         onChange={(e) => setImage(e.target.value)}
                         />
                     </label>
+                    <div className = "errors-div">
+                      <ul>
+                      {errors.map((error, idx) => (
+                        <li key={idx} className="errors">{error}</li>
+                      ))}
+                      </ul>
+                    </div>
                     <button type="submit" className="edit">Edit Event</button>
                     <button className= "delete-button edit" onClick={handleDeleteClick}>Delete Event</button>
                     <button type="button" className="edit" onClick={handleCancelClick}>Cancel</button>
