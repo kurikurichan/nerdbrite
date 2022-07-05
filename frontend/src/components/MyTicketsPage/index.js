@@ -7,8 +7,10 @@ import './MyTicketsPage.css';
 
 export default function MyTicketsPage() {
 
+
     const tickets = useSelector(state => state.tickets);
     const user = useSelector(state => state.session.user);
+
     // tickets is Object, not array
     // console.log("tickets state: ", Object.values(tickets)[0]);
 
@@ -23,19 +25,19 @@ export default function MyTicketsPage() {
 
     function mapTickets() {
       return Object.values(tickets).map(ticket =>
-          <li key={ticket.id}>
+        <li key={ticket.id}>
             <Link to={`/events/${ticket.Event.id}`}>{ticket.Event.name}</Link>
           </li>
         )
-    }
+      }
 
-    useEffect(() => {
+      useEffect(() => {
         dispatch(getOneUsersTix(userId))
-    }, [dispatch, userId]);
+      }, [dispatch, userId]);
 
 
   if (!user) history.push("/");
-  if (user.id !== +userId) return (<p className="no-tix">You are not authorized to view this page.</p>)
+  if (user && user.id !== +userId) return (<p className="no-tix">You are not authorized to view this page.</p>)
   if (!Object.keys(tickets).length) return (
     <>
       <h1>My Tickets</h1>
