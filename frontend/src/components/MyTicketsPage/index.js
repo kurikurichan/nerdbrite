@@ -31,10 +31,11 @@ export default function MyTicketsPage() {
 
     useEffect(() => {
         dispatch(getOneUsersTix(userId))
-    }, [dispatch]);
+    }, [dispatch, userId]);
 
 
   if (!user) history.push("/");
+  if (user.id !== +userId) return (<p className="no-tix">You are not authorized to view this page.</p>)
   if (!Object.keys(tickets).length) return (
     <>
       <h1>My Tickets</h1>

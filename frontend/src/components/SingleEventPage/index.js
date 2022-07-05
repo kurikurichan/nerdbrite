@@ -33,7 +33,7 @@ export default function SingleEventPage() {
     useEffect(() => {
         dispatch(getOneEvent(+eventId));
         dispatch(getOneTicket(+eventId));
-    }, [dispatch]);
+    }, [dispatch, eventId]);
 
     useEffect(() => {
         if (Object.keys(usersTicket).length > 0) {
@@ -43,7 +43,7 @@ export default function SingleEventPage() {
             setIsRegistered(false);
             setRegId(null);
         }
-    });
+    }, [usersTicket]);
 
 
     // const eventDate = new Date(event?.date).toISOString().split('T')[0];
@@ -69,7 +69,7 @@ export default function SingleEventPage() {
         {event ?
             <div className= "event-container">
                 <h1 className="event-title">{event?.name}</h1>
-                <img src={event.image} className="display-pic" onError={onErrorHandler} />
+                <img src={event.image} className="display-pic" onError={onErrorHandler} alt="some event" />
                 <ul id="single-event-text">
                     <li className="single-event-items" id="t2">{eventDate}</li>
                     <li className="single-event-items" id="t4">at the {event.Venue.name}</li>

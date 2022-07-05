@@ -5,10 +5,10 @@ import { updateEvent, getOneEvent, getForm, deleteEvent } from '../../store/even
 
 import '../NewEventForm/NewEventForm.css';
 
-export default function EditEventForm({ eventLoaded }) {
+export default function EditEventForm() {
 
-  const event = useSelector(state => state.events.event);
-  const categoryVenues = useSelector(state => state.events);
+  const event = useSelector(state => state.events.event && state.events.event);
+  const categoryVenues = useSelector(state => state.events && state.events);
   const user = useSelector(state => state.session.user);
 
   const { eventId } = useParams();
@@ -22,25 +22,27 @@ export default function EditEventForm({ eventLoaded }) {
 
   const history = useHistory();
 
-  const [venue, setVenue] = useState('');
-  const [category, setCategory] = useState('');
-  const [name, setName] = useState('');
-  const [date, setDate] = useState(new Date().toLocaleDateString('en-CA', { timeZone: 'UTC', year: "numeric", month: "numeric", day: "numeric"  }));
-  const [capacity, setCapacity] = useState('');
-  const [description, setDescription] = useState('');
-  const [image, setImage] = useState('');
+  const [venue, setVenue] = useState(event ? event.Venue.name : "");
+  const [category, setCategory] = useState(event ? event.Category.type : "");
+  const [name, setName] = useState(event ? event.name : "");
+  const [date, setDate] = useState(event ? new Date(event?.date).toLocaleString('en-CA', { timeZone: 'UTC', year: "numeric", month: "numeric", day: "numeric" }) : "");
+  const [capacity, setCapacity] = useState(event ? event.capacity : "");
+  const [description, setDescription] = useState(event ? event.description : "");
+  const [image, setImage] = useState(event ? event.image : "");
   const [errors, setErrors] = useState([]);
 
-  // prefill fields with existing event data on initial page load
+
   useEffect(() => {
-      setVenue(event?.Venue.name);
-      setCategory(event?.Category.type);
-      setName(event?.name);
-      setDate(new Date(event?.date).toLocaleString('en-CA', { timeZone: 'UTC', year: "numeric", month: "numeric", day: "numeric" }));
-      setCapacity(event?.capacity);
-      setDescription(event?.description);
-      setImage(event?.image);
-  },[event]);
+    if (event) {
+      setVenue(event.Venue.name);
+      setCategory(event.Category.type);
+      setName(event.name);
+      setDate(new Date(event.date).toLocaleString('en-CA', { timeZone: 'UTC', year: "numeric", month: "numeric", day: "numeric" }));
+      setCapacity(event.capacity);
+      setDescription(event.description);
+      setImage(event.image);
+    }
+}, [event]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -84,7 +86,7 @@ export default function EditEventForm({ eventLoaded }) {
   if (!event || !categoryVenues) return (<p>Loading...</p>);
   return (
         <section className="new-event-form-section">
-            {event ?
+            {event.date ?
               <div className="event-form-container">
                 <h1 id="event-title">Edit Event</h1>
                   <form className="create-event-form" onSubmit={handleSubmit}>
