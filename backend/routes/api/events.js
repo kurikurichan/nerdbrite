@@ -212,7 +212,6 @@ router.post('/', requireAuth, eventValidator, asyncHandler(async (req, res) => {
     });
 
     let newDate = fixDate(date);
-    console.log("Date in post new event path: ", newDate)
 
     const newEvent = await db.Event.create({
         hostId,

@@ -58,8 +58,6 @@ export default function EditEventForm({ eventLoaded }) {
       description
     };
 
-    console.log("payload: ", payload);
-
     const updatedEvent = await(dispatch(updateEvent(payload, eventId)))
       .catch(async (err) => {
         const editData = await err.json();

@@ -44,8 +44,6 @@ export default function NewEventForm() {
       description
     };
 
-    console.log("payload: ", payload);
-
     const newEvent = await(dispatch(addEvent(payload)))
       .catch(async (res) => {
         const formData = await res.json();
