@@ -170,7 +170,7 @@ router.get('/new', asyncHandler(async (req, res) => {
 }));
 
 // GET edit event form
-router.get('/:id(\\d+)/edit', requireAuth, editEventValidator, asyncHandler(async (req, res) => {
+router.get('/:id(\\d+)/edit', requireAuth, asyncHandler(async (req, res) => {
     // need to send these to front end:
     // - categories for the dropdown list
     // - venues for the dropdown list - FOR NOW - eventually should be replaced
@@ -231,7 +231,7 @@ router.post('/', requireAuth, eventValidator, asyncHandler(async (req, res) => {
 }));
 
 // PUT, edit event form
-router.put('/:id(\\d+)', requireAuth, eventValidator, asyncHandler(async (req, res) => {
+router.put('/:id(\\d+)', requireAuth, editEventValidator, asyncHandler(async (req, res) => {
 
     const { hostId, venue, category, name, date, capacity, image, description  } = req.body;
     const id = req.params.id;

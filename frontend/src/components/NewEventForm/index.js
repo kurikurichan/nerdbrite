@@ -71,13 +71,6 @@ export default function NewEventForm() {
       <div className="event-form-container">
         <h1 id="event-title">Create a New Event</h1>
         <form className="create-event-form" onSubmit={handleSubmit}>
-          <div className="errors-container">
-            <ul>
-            {errors.map((error, idx) => (
-              <li key={idx} className="errors">{error}</li>
-            ))}
-            </ul>
-          </div>
           <label className="event-label">
             Event Name
             <input
@@ -153,6 +146,13 @@ export default function NewEventForm() {
               onChange={(e) => setImage(e.target.value)}
               />
           </label>
+          <div className="errors-div">
+            <ul>
+            {errors.map((error, idx) => (
+              <li key={idx} className="errors">{error}</li>
+            ))}
+            </ul>
+          </div>
           <div className="button-row">
             <button type="submit">Create new Event!</button>
             <button type="button" onClick={handleCancelClick}>Cancel</button>
