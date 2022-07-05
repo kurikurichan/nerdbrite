@@ -19,29 +19,18 @@
     border-image-slice: 1;
 }
 
-/* .profile-button:hover,
-.profile-button:active {
-    color:(--defaultYellow);
-} */
-
-/* .button-container {
-    display: block;
-    position: relative;
-} */
-
 .profile-dropdown {
 
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    z-index: 100;
 
     background-color: #333;
 
     position: absolute;
-    /* left: 50%; */
     transform: translateX(-25%);
-    /* padding-right: 6%; */
     padding-left: 1%;
     padding-right: 1%;
     border-radius: 5px;

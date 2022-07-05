@@ -134,7 +134,7 @@ export default function NewEventForm() {
               rows="5"
               cols="33"
               wrap="soft"
-              maxlength="200"
+              maxLength="200"
               onChange={(e) => setDescription(e.target.value)}
               />
           </label>

@@ -35,7 +35,12 @@ export default function MyTicketsPage() {
 
 
   if (!user) history.push("/");
-  if (!Object.keys(tickets).length) return (<p className="no-tix">Register for some events to see your tickets here!</p>);
+  if (!Object.keys(tickets).length) return (
+    <>
+      <h1>My Tickets</h1>
+      <p className="no-tix">Register for some events to see your tickets here!</p>
+    </>
+    );
 
   return (
     <>
