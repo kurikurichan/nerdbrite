@@ -24,7 +24,6 @@ function LoginForm() {
   const handleDemo = (e) => {
     setCredential("Demo-lition");
     setPassword("password");
-    return dispatch(sessionActions.login({ credential, password }));
   }
 
   return (
@@ -59,7 +58,7 @@ function LoginForm() {
       <button type="submit" className="modal-button">Log In</button>
       <div className="demo">
         <p className="modal-text">Want to try out the site without an account?</p>
-        <button type="submit" onClick={handleDemo} className="modal-button">Demo User</button>
+        <button onClick={handleDemo} className="modal-button">Demo User</button>
       </div>
     </form>
   );
