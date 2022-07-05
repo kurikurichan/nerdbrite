@@ -59,7 +59,7 @@ Clone: | Eventbrite
 Feature List: | https://github.com/kurikurichan/nerdbrite/wiki/Features-List
 DB Schema Diagram: | https://github.com/kurikurichan/nerdbrite/wiki/Database-Schema
 Github: | https://github.com/kurikurichan/nerdbrite
-Scorecard: | https://docs.google.com/spreadsheets/d/1CKUy9Au3vrC6sLrUGJKOGoei6IOAjEbrLECsNcJ6Jbs/edit?usp=sharing
+Scorecard: | https://docs.google.com/spreadsheets/d/1uyIKckEQB1SsAg2inK3vy2-8_Dv5uNtkxiEi-7ZmnMU/edit#gid=1712141062
 Live Link: | https://nerdbrite.herokuapp.com/
 
 ## Installation instructions
