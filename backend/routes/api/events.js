@@ -41,6 +41,7 @@ const eventValidator = [
         .custom(val => {
             if (typeof val !== "number") throw new Error("Capacity must be a number")
             else if (val >= 0) return true;
+            else if (val > 1000000) throw new Error("Cannot have more than 1 million guests")
             else throw new Error("Capacity cannot be less than 0");
         }),
     check("description")
@@ -83,6 +84,7 @@ const editEventValidator = [
         .custom(val => {
             if (typeof val !== "number") throw new Error("Capacity must be a number")
             else if (val >= 0) return true;
+            else if (val > 1000000) throw new Error("Cannot have more than 1 million guests")
             else throw new Error("Capacity cannot be less than 0");
         }),
     check("description")
