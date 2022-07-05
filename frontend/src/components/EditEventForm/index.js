@@ -26,7 +26,7 @@ export default function EditEventForm({ eventLoaded }) {
   const [category, setCategory] = useState('');
   const [name, setName] = useState('');
   const [date, setDate] = useState(new Date().toLocaleDateString('en-CA', { timeZone: 'UTC', year: "numeric", month: "numeric", day: "numeric"  }));
-  const [capacity, setCapacity] = useState("");
+  const [capacity, setCapacity] = useState('');
   const [description, setDescription] = useState('');
   const [image, setImage] = useState('');
   const [errors, setErrors] = useState([]);
@@ -36,7 +36,7 @@ export default function EditEventForm({ eventLoaded }) {
       setVenue(event?.Venue.name);
       setCategory(event?.Category.type);
       setName(event?.name);
-      // setDate(new Date(event?.date).toLocaleString('en-CA', { timeZone: 'UTC', year: "numeric", month: "numeric", day: "numeric" }));
+      setDate(new Date(event?.date).toLocaleString('en-CA', { timeZone: 'UTC', year: "numeric", month: "numeric", day: "numeric" }));
       setCapacity(event?.capacity);
       setDescription(event?.description);
       setImage(event?.image);

@@ -23,7 +23,7 @@ export default function NewEventForm() {
   const [category, setCategory] = useState('');
   const [name, setName] = useState('');
   const [date, setDate] = useState(new Date().toLocaleDateString('en-CA'));
-  const [capacity, setCapacity] = useState(null);
+  const [capacity, setCapacity] = useState('');
   const [description, setDescription] = useState('');
   const [image, setImage] = useState('');
   const [errors, setErrors] = useState([]);
