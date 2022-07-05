@@ -139,6 +139,8 @@ export default function EditEventForm({ eventLoaded }) {
                       <input
                         className="event-input"
                         type="number"
+                        min="0"
+                        max="1000000"
                         value={capacity}
                         onChange={(e) => setCapacity(+e.target.value)}
                         />
@@ -151,6 +153,7 @@ export default function EditEventForm({ eventLoaded }) {
                         rows="5"
                         cols="33"
                         wrap="soft"
+                        maxlength="200"
                         onChange={(e) => setDescription(e.target.value)}
                         />
                     </label>
