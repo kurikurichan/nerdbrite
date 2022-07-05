@@ -38,8 +38,11 @@ var store = {
 ## Challenges of This Project
 
 There were many challenges but two in particular stand out to me...
+
 1.) Getting the event edit form to maintain its data even upon refresh. I tried all sorts of conditional rendering, until finally I found the solution - putting it all in an if statement in a useEffect block, rather than having conditionals on each one.
+
 2.) Dealing with the Javascript date issues between my local machine and Heroku. I first realized that whenever I edited an event, it would cause the day to go back by one with each edit. I fixed this on my local machine by using Date.getTime() and getTimeZoneOffset(). This worked until it was on Heroku, since it turns out that Heroku uses UTC time. I ended up implementing a helper function in the API routes to convert the dates to a proper format before sending them off into the database: 
+
 ```javascript
 function fixDate(date) {
     const newDate = new Date(date);
