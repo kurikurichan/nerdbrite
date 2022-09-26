@@ -33,6 +33,10 @@ footer {
     height: 3em;
 }
 
+header {
+    margin-bottom: 2%;
+}
+
 footer {
     margin-top: auto;
 }
@@ -168,8 +172,42 @@ li {
 
 /* Splash page stuff */
 
+#splash-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
 #welcome-title {
     font-size: 3em;
+}
+
+#splash-pic-container {
+    height: 600px;
+    width: 100%;
+    position: relative;
+}
+
+.next-event-btn {
+    position: absolute;
+    left: 15%;
+    bottom: 15%;
+    background-color: var(--novaPurple);
+}
+
+.next-event-btn:hover,
+.next-event-btn:active {
+    color: white;
+    background-color: #631387;
+
+}
+
+.splash-pic {
+    height: 600px;
+    width: 100%;
+    object-fit: cover;
+    object-position: 50% 40%;
 }
 
 .splash-text {
@@ -178,12 +216,6 @@ li {
 
 .splash-body-text {
     font-size: 1.8em;
-}
-
-#splash-1,
-#splash-2,
-#splash-3 {
-    text-align: center;
 }
 
 .errors {
