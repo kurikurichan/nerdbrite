@@ -28,11 +28,6 @@ function App() {
     dispatch(eventActions.getForm()).then(() => setEventLoaded(true));
   }, [dispatch]);
 
-  useEffect(() => {
-    document.title = "nerdbrite";
-  }, []);
-
-
   return (
     <div className="wrapper">
       <header>

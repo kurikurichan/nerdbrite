@@ -27,6 +27,8 @@ export default function NewEventForm() {
   const [description, setDescription] = useState('');
   const [image, setImage] = useState('');
   const [errors, setErrors] = useState([]);
+  // length for event description
+  const [red, setRed] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -61,11 +63,20 @@ export default function NewEventForm() {
     history.push('/events');
   }
 
+  // handle the text area thing
+  useEffect(() => {
+    if (description.length >= 200) {
+      setRed(true);
+    } else {
+      setRed(false);
+    }
+  }, [description] );
+
   if (!user) history.push('/');
+  if (!currentState) return null;
 
   return (
     <section>
-      { currentState ?
       <div className="event-form-container">
         <h1 id="event-title">Create a New Event</h1>
         <form className="create-event-form" onSubmit={handleSubmit}>
@@ -126,10 +137,10 @@ export default function NewEventForm() {
               onChange={(e) => setCapacity(+e.target.value)}
               />
           </label>
-          <label className="event-label">
+          <label className="event-label" id="txtarea">
             Description
             <textarea
-              className="form-description"
+              className="event-txtarea"
               value={description}
               rows="5"
               cols="33"
@@ -137,6 +148,7 @@ export default function NewEventForm() {
               maxLength="200"
               onChange={(e) => setDescription(e.target.value)}
               />
+              <p className={red ? 'description red' : 'description'}>{description.length}/200</p>
           </label>
           <label className="event-label">
             Image URL
@@ -159,8 +171,7 @@ export default function NewEventForm() {
             <button type="button" onClick={handleCancelClick}>Cancel</button>
           </div>
         </form>
-      </div> :
-      <p>Form Loading</p>}
+      </div>
     </section>
   )
 }

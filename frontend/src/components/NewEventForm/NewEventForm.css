@@ -6,33 +6,58 @@ input:valid+span::after {
     content: '✓';
 }
 
+.event-form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 5%;
+}
+
 .create-event-form {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-bottom: 10%;
+    width: 40%;
+    background-color: var(--bgColor);
+    padding-bottom: 1%;
 }
 
-.form-description {
+#event-title {
+    font-size: 2em;
+}
 
-    display: block;
+.event-txtarea {
     height: auto;
     width: 100%;
+    vertical-align: middle;
 }
 
-#root > div.wrapper > div > main > section > div > form > label:nth-child(7) {
-    margin-top: 2.5em;
-    margin-bottom: 1em;
+#txtarea {
+    margin-bottom: 18%;
+}
+
+.description {
+    font-size: .8em;
+    margin-left: 90%;
+    background-color: none;
+}
+
+.red {
+    color: red;
 }
 
 .event-label,
 .event-input {
-    display: block;
-    width: 25%;
+    width: 80%;
 }
 
 .errors {
     list-style-type: '☆';
+    margin-left: -3%;
+}
+
+.errors-div {
+    width: 80%;
 }
 
 

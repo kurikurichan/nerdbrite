@@ -30,6 +30,8 @@ export default function EditEventForm() {
   const [description, setDescription] = useState(event ? event.description : "");
   const [image, setImage] = useState(event ? event.image : "");
   const [errors, setErrors] = useState([]);
+    // length for event description
+    const [red, setRed] = useState(false);
 
 
   useEffect(() => {
@@ -82,6 +84,16 @@ export default function EditEventForm() {
     history.push('/events');
 
   }
+
+  // handle the text area thing
+  useEffect(() => {
+    if (description.length >= 200) {
+      setRed(true);
+    } else {
+      setRed(false);
+    }
+  }, [description] );
+
   if (!user) history.push('/');
   if (!event || !categoryVenues) return (<p>Loading...</p>);
   return (
@@ -147,10 +159,10 @@ export default function EditEventForm() {
                         onChange={(e) => setCapacity(+e.target.value)}
                         />
                     </label>
-                    <label className="event-label">
+                    <label className="event-label" id="txtarea">
                       Description
                       <textarea
-                        className="form-description"
+                        className="event-txtarea"
                         value={description}
                         rows="5"
                         cols="33"
@@ -158,6 +170,8 @@ export default function EditEventForm() {
                         maxLength="200"
                         onChange={(e) => setDescription(e.target.value)}
                         />
+                        <p className={red ? 'description red' : 'description'}>{description.length}/200</p>
+
                     </label>
                     <label className="event-label">
                       Image URL

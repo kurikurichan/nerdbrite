@@ -31,10 +31,19 @@ body {
 header,
 footer {
     height: 3em;
+    background-color: var(--bgColor);
+    padding: 10px 0 10px 0;
+}
+
+header {
+    margin-top: -1%;
+    margin-bottom: auto;
+    border-bottom: 1px solid var(--novaPurple);
 }
 
 footer {
     margin-top: auto;
+    border-top: 1px solid var(--novaPurple);
 }
 
 main {
@@ -119,9 +128,9 @@ button:active {
   color: var(--novaPurple);
 }
 
-button:active {
+/* button:active {
   opacity: .5;
-}
+} */
 
 .modal-button {
     color: #333;
@@ -168,8 +177,42 @@ li {
 
 /* Splash page stuff */
 
+#splash-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
 #welcome-title {
     font-size: 3em;
+}
+
+#splash-pic-container {
+    height: 600px;
+    width: 100%;
+    position: relative;
+}
+
+.next-event-btn {
+    position: absolute;
+    left: 15%;
+    bottom: 15%;
+    background-color:  #631387;
+    border: none;
+}
+
+.next-event-btn:hover,
+.next-event-btn:active {
+    color: white;
+    background-color: var(--novaPurple);
+}
+
+.splash-pic {
+    height: 600px;
+    width: 100%;
+    object-fit: cover;
+    object-position: 50% 40%;
 }
 
 .splash-text {
@@ -178,12 +221,6 @@ li {
 
 .splash-body-text {
     font-size: 1.8em;
-}
-
-#splash-1,
-#splash-2,
-#splash-3 {
-    text-align: center;
 }
 
 .errors {
