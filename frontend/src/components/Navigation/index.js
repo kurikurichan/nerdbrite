@@ -36,10 +36,10 @@ function Navigation({ isLoaded }){
   return (
     <div id="nav-items">
       <div id= "nav-left">
-        <Link exact to="/" className="nerd-logo">nerdbrite</Link>
+        <Link to="/" className="nerd-logo">nerdbrite</Link>
       </div>
       <div id="nav-right">
-        <NavLink to="/events" exact={true} className="navblocks" activeClassName='active'>
+        <NavLink to="/events" className="navblocks" activeClassName='active'>
           <i className="fa-solid fa-champagne-glasses"></i>
           <p>Events</p>
         </NavLink>
