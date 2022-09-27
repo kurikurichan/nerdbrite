@@ -1,7 +1,22 @@
+.single-event-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 5%;
+}
+
 .event-container {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    background-color: var(--bgColor);
+    width: 70%;
+    padding-bottom: 2%;
+}
+
+.event-title {
+    font-size: 2em;
 }
 
 #single-event-text {
@@ -14,8 +29,6 @@
             "b b b"
             "c d e";
     grid-gap: 1em;
-
-    background-color: var(--bgColor);
 }
 
 #t1, #t2 {
@@ -38,16 +51,16 @@
     grid-area: e;
 }
 
-.description {
-    background-color: var(--bgColor);
+.single-description {
     text-align: center;
     margin-top: 1em;
     margin-bottom: 2em;
 }
 
-.display-pic {
-    width: 50%;
-    object-fit: fill;
+.single-display-pic {
+    height: 350px;
+    object-fit: cover;
+    aspect-ratio: auto;
 }
 
 .event-container > * {
@@ -60,4 +73,8 @@
 .event-container > button {
     margin-top: 5px;
     width: 19%;
+}
+
+.edit-event-button {
+    margin-bottom: 5px;
 }

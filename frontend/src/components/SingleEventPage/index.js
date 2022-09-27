@@ -64,12 +64,12 @@ export default function SingleEventPage() {
         e.target.src= altImage;
     };
 
+    if (!event) return null;
   return (
-    <>
-        {event ?
+        <div className="single-event-wrapper">
+            <h1 className="event-title">{event.name}</h1>
             <div className= "event-container">
-                <h1 className="event-title">{event?.name}</h1>
-                <img src={event.image} className="display-pic" onError={onErrorHandler} alt="some event" />
+                <img src={event.image} className="single-display-pic" onError={onErrorHandler} alt="some event" />
                 <ul id="single-event-text">
                     <li className="single-event-items" id="t2">{eventDate}</li>
                     <li className="single-event-items" id="t4">at the {event.Venue.name}</li>
@@ -77,16 +77,14 @@ export default function SingleEventPage() {
                     <li className="single-event-items" id="t8">by {event.User.username}</li>
                     <li className="single-event-items" id="t10">{event.capacity} can go</li>
                 </ul>
-                <div className="description">
+                <div className="single-description">
                     <h2>About this Event</h2>
                     {event.description}
                 </div>
                 {currentUser && currentUser.id === event.User.id &&
                     <button className="edit-event-button" onClick={handleClick}>Edit Event</button>}
                 {currentUser && <TicketModal eventId={eventId} regId={regId} setRegId={setRegId} isRegistered={isRegistered} setIsRegistered={setIsRegistered} />}
-            </div> :
-        <p className="loading">Loading Event</p>
-        }
-    </>
+            </div>
+        </div>
     )
 }

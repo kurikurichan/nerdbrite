@@ -73,10 +73,10 @@ export default function NewEventForm() {
   }, [description] );
 
   if (!user) history.push('/');
+  if (!currentState) return null;
 
   return (
     <section>
-      { currentState ?
       <div className="event-form-container">
         <h1 id="event-title">Create a New Event</h1>
         <form className="create-event-form" onSubmit={handleSubmit}>
@@ -171,8 +171,7 @@ export default function NewEventForm() {
             <button type="button" onClick={handleCancelClick}>Cancel</button>
           </div>
         </form>
-      </div> :
-      <p>Form Loading</p>}
+      </div>
     </section>
   )
 }
