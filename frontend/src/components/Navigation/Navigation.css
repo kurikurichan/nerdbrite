@@ -1,12 +1,28 @@
 
 #nav-items {
     display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#nav-left,
+#nav-right {
+    display: flex;
+    align-items: center;
     justify-content: space-evenly;
 }
 
-#logo {
-    margin-right: 20px;
-    font-size: 30px;
+#nav-left {
+    margin-left: 2.5%;
+}
+
+#nav-right {
+    margin-right: 2.5%;
+    width: 40%;
+}
+
+.nerd-logo {
+    font-size: 2em;
 }
 
 .profile-button {
@@ -23,29 +39,25 @@
 
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     z-index: 100;
+    width: 120px;
 
     background-color: #333;
 
     position: absolute;
     transform: translateX(-25%);
-    padding-left: 1%;
-    padding-right: 1%;
     border-radius: 5px;
     border: 1px transparent solid;
     border-radius: 8px;
     border-image: linear-gradient(to bottom left, #b025f1 0%, #278ffd 25%, #bafc38 50%, #fdca3c 75%, #fc1d94 100%);
     border-image-slice: 1;
+    padding: 10px 10px 10px 10px;
 }
 
 .profile-dropdown > * {
     padding-bottom: 4px;
-}
-
-#nav-items > div > ul > li:nth-child(1) {
-    padding-top: 5px;
 }
 
 #logout-button {
