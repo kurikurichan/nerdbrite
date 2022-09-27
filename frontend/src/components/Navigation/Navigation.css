@@ -120,3 +120,10 @@
     background-color: var(--novaPurple);
     opacity: 1;
 }
+
+#userPic {
+    font-size: 16px;
+    background-color: #333;
+    padding: 13px;
+    border-radius: 100%;
+}

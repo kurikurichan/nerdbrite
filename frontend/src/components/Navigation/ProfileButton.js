@@ -36,9 +36,9 @@ function ProfileButton({ user }) {
   return (
     <div className="button-container">
       <div className="profile-button" onClick={openMenu}>
-        <i className="fas fa-solid fa-circle-user" />
-        <p style={{fontSize: "13px", fontWeight: "500", marginLeft: "5px"}}>{user.email}</p>
-        <i className="fa-solid fa-angle-down" style={{fontSize: "13px", marginLeft: "5px"}}></i>
+        <i className="fa-solid fa-user" id="userPic" />
+        <p style={{fontSize: "13px", fontWeight: "500", marginLeft: "7px"}}>{user.email}</p>
+        <i className="fa-solid fa-angle-down" style={{fontSize: "13px", marginLeft: "7px"}}></i>
       </div>
       {showMenu && (
         <ul className="profile-dropdown">
