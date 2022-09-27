@@ -12,7 +12,7 @@ export default function Events() {
         return state.events;
     });
 
-    console.log(events);
+    let filteredEvents = Object.values(events).filter(event => event.id);
 
     const dispatch = useDispatch();
 
@@ -30,12 +30,12 @@ export default function Events() {
         dispatch(getEvents());
     }, [dispatch]);
 
-    if (Object.values(events).length === 0) return null;
+    if (filteredEvents === 0) return null;
   return (
     <>
         <h1 id="events-title">Events</h1>
         <div id="event-card-container">
-            {Object.values(events).map((event, i) =>
+            {Object.values(filteredEvents).map((event, i) =>
             <div key={i} className="event-card">
                 <div className="top-half">
                     <Link to={`/events/${event.id}`}>
