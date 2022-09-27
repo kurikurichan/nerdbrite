@@ -98,7 +98,7 @@
     /* border-image: linear-gradient(to bottom left, #b025f1 0%, #278ffd 25%, #bafc38 50%, #fdca3c 75%, #fc1d94 100%); */
     border-image-slice: 1;
     padding: 10px 10px 10px 10px;
-    top: 37px;
+    top: 47px;
     right: 0;
 }
 
@@ -107,9 +107,16 @@
 }
 
 #logout-button {
-    border: 3px solid  rgb(49, 8, 53);
     font-size: .8em;
     font-weight: bold;
-    box-shadow: 0px 0px 8px var(--novaPurple);
-    background-color: rgb(49, 8, 53);
+    background-color:  #631387;
+    border: none;
+    transition: 0.2s;
+}
+
+#logout-button:hover,
+#logout-button:active {
+    color: white;
+    background-color: var(--novaPurple);
+    opacity: 1;
 }

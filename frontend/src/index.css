@@ -203,12 +203,14 @@ li {
     bottom: 15%;
     background-color:  #631387;
     border: none;
+    transition: 0.2s;
 }
 
 .next-event-btn:hover,
 .next-event-btn:active {
     color: white;
     background-color: var(--novaPurple);
+    opacity: 1;
 }
 
 .splash-pic {
