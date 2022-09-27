@@ -9,7 +9,9 @@ html {
     --defaultYellow: rgb(250, 250, 99);
     --stellarPurple: rgb(223, 202, 255);
     --novaPurple: #b025f1;
-    --bgColor: rgba(35, 34, 34, 0.6);
+    /* --bgColor: rgba(35, 34, 34, 0.6); */
+    --bgColor: rgba(44, 44, 44, 0.6);
+    --plumPurple: #631387;
 
 }
 
@@ -32,18 +34,19 @@ header,
 footer {
     height: 3em;
     background-color: var(--bgColor);
-    padding: 10px 0 10px 0;
+    /* padding: 10px 0 10px 0; */
 }
 
 header {
+    height: 4em;
     margin-top: -1%;
     margin-bottom: auto;
-    border-bottom: 1px solid var(--novaPurple);
+    border-bottom: 1px solid var(--plumPurple);
 }
 
 footer {
     margin-top: auto;
-    border-top: 1px solid var(--novaPurple);
+    border-top: 1px solid var(--plumPurple);
 }
 
 main {
@@ -93,11 +96,11 @@ a {
 }
 
 a:hover {
-    color: var(--stellarPurple);
+    color: var(--novaPurple);
 }
 
 .active {
-    color: var(--stellarPurple);
+    color: var(--novaPurple);
 }
 
 /* Buttons */
