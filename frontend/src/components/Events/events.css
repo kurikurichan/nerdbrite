@@ -1,20 +1,16 @@
 #events-title {
-    font-size: 2em;
     text-align: left;
     margin-left: 2.5%;
+    font-size: 30px;
 }
 
-#all-events-container {
+#event-card-container {
     display: flex;
     flex-direction: row;
     justify-content: center;
     flex-wrap: wrap;
     gap: 15px;
-    padding: 0 1em 1.5em;
-}
-
-#all-events-container > ul > div > li {
-    font-size: 1.25em;
+    padding-bottom: 2%;
 }
 
 .event-card {
@@ -24,23 +20,45 @@
     height: 380px;
     background-color: var(--bgColor);
     border: 1px solid var(--stellarPurple);
+    box-sizing: border-box;
     /* box-shadow: 0 0 5px var(--novaPurple); */
-    position: relative;
 }
 
 .card-pic {
     width: 100%;
-    max-height: 70%;
+    max-height: 50%;
     object-fit: cover;
-    aspect-ratio: 1 / 1;
+    aspect-ratio: 1;
 }
 
-.cardText-container {
-    position: absolute;
-    width: 100%;
-    bottom: 0;
+.bottom-half {
+    margin-top: -51%;
+    height: 100%;
+    padding: 0px 10px 0px 10px;
 }
 
-.cardText {
-    text-align: center;
+.cardDate,
+.cardVenue,
+.cardHost {
+    font-size: 15px;
+    line-height: 1.25em;
+}
+
+.cardTitle {
+    font-weight: 700;
+    -webkit-line-clamp: 3;
+    font-size: 19px;
+}
+
+.cardDate {
+    color: var(--stellarPurple);
+    font-weight: 600;
+}
+
+.cardVenue {
+    font-weight: 300;
+}
+
+.cardHost {
+    font-weight: 600;
 }

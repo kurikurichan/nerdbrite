@@ -113,7 +113,19 @@ function fixDate(date) {
 
 // GET events
 router.get('/', asyncHandler(async (req, res) => {
-    const events = await db.Event.findAll();
+    const events = await db.Event.findAll({
+        include: [{
+            model: db.User, // Note: THIS is the Creator user, not necessarily the current user
+            attributes: ['id','username']
+        },
+        {
+            model: db.Venue,
+            attributes: ['name']
+        }],
+        raw: true,
+        nest: true
+    });
+    console.log("---------", events);
     return res.json(events);
 }));
 
