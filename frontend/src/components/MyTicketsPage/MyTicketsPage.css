@@ -41,6 +41,7 @@
     width: 150px;
     margin-top: 10px;
     position: relative;
+    line-height: .8em;
 }
 
 .ticketName,

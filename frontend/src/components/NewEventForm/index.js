@@ -86,6 +86,7 @@ export default function NewEventForm() {
               className="event-input"
               type="text"
               placeholder="Event Name"
+              maxLength={100}
               value={name}
               onChange={(e) => setName(e.target.value)}
               />
@@ -134,6 +135,7 @@ export default function NewEventForm() {
               min="0"
               max="1000000"
               value={capacity}
+              maxLength={8}
               onChange={(e) => setCapacity(+e.target.value)}
               />
           </label>
@@ -145,7 +147,7 @@ export default function NewEventForm() {
               rows="5"
               cols="33"
               wrap="soft"
-              maxLength="200"
+              maxLength={200}
               onChange={(e) => setDescription(e.target.value)}
               />
               <p className={red ? 'description red' : 'description'}>{description.length}/200</p>
