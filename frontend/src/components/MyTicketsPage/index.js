@@ -4,6 +4,7 @@ import { useParams, Link, useHistory } from 'react-router-dom';
 import { getOneUsersTix } from '../../store/registration';
 
 import './MyTicketsPage.css';
+import ticket from './ticketstub.png';
 
 export default function MyTicketsPage() {
 
@@ -25,9 +26,15 @@ export default function MyTicketsPage() {
 
     function mapTickets() {
       return Object.values(tickets).map(ticket =>
-        <li key={ticket.id}>
-            <Link to={`/events/${ticket.Event.id}`}>{ticket.Event.name}</Link>
-          </li>
+          <div key={ticket.id} className="real-ticket">
+            <Link to={`/events/${ticket.Event.id}`}>
+              <div id="ticket-container">
+                <p className="ticketName">{ticket.Event.name}</p>
+                <p id="admitOne">ADMIT ONE</p>
+              </div>
+            </Link>
+
+          </div>
         )
       }
 
@@ -49,11 +56,10 @@ export default function MyTicketsPage() {
     <>
       <h1>My Tickets</h1>
       <div id="my-events">
-        { tickets && Object.values(tickets)["0"].Event ?
-          <ul id="list-tickets">
+        { Object.values(tickets)["0"].Event &&
+          <div id="list-tickets">
             {mapTickets()}
-          </ul>
-        : <p className="loading">Loading...</p> }
+          </div> }
       </div>
     </>
   )
