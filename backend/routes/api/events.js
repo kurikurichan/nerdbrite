@@ -125,7 +125,6 @@ router.get('/', asyncHandler(async (req, res) => {
         raw: true,
         nest: true
     });
-    console.log("---------", events);
     return res.json(events);
 }));
 
@@ -256,17 +255,24 @@ router.put('/:id(\\d+)', requireAuth, editEventValidator, asyncHandler(async (re
         where: { name: venue }
     });
 
-    const categoryId = await db.Category.findOne({
+    let categoryId = await db.Category.findOne({
         where: { type: category }
-    });
+    }).id;
 
     let updatedEvent;
+
+    // fix the category name issue
+    // category from form is type string
+    // category from auto update is type int
+
+    if (typeof category === "number") categoryId = category;
+
 
     if (eventToEdit && req.user.id === eventToEdit.hostId) { // verify that user is editing their own event
         updatedEvent = await eventToEdit.update({
             hostId,
             venueId: venueId.id,
-            categoryId: categoryId.id,
+            categoryId,
             name,
             date: fixDate(date),
             capacity,
@@ -276,6 +282,7 @@ router.put('/:id(\\d+)', requireAuth, editEventValidator, asyncHandler(async (re
 
         await updatedEvent.save();
         res.status(201);
+        console.log("--------------", updatedEvent);
         return res.json(updatedEvent);
     }
     else {
