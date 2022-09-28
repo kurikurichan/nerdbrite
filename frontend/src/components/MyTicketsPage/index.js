@@ -53,14 +53,12 @@ export default function MyTicketsPage() {
     );
 
   return (
-    <>
-      <h1>My Tickets</h1>
+    <div className="tickets-wrapper">
+      <h1 style={{textAlign: "left", marginLeft: "2.5%", fontSize:"2em"}}>My Tickets</h1>
       <div id="my-events">
         { Object.values(tickets)["0"].Event &&
-          <div id="list-tickets">
-            {mapTickets()}
-          </div> }
+            mapTickets() }
       </div>
-    </>
+    </div>
   )
 }
