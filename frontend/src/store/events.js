@@ -76,16 +76,30 @@ export const getForm = () => async dispatch => {
 // Post form to create NEW event thunk
 export const addEvent = (eventData) => async dispatch => {
 
+    const { hostId, venue, category, name, date, capacity, image, description } = eventData;
+    const formData = new FormData();
+    formData.append("hostId", hostId);
+    formData.append("venue", venue);
+    formData.append("category", category);
+    formData.append("name", name);
+    formData.append("date", date);
+    formData.append("capacity", capacity);
+    formData.append("description", description);
+
+    // single file image
+    if (image) formData.append("image", image);
+
     const response = await csrfFetch('/api/events', {
         method: "POST",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "multipart/form-data"
         },
-        body: JSON.stringify(eventData)
+        body: formData
     });
 
     if (response.ok) {
         const event = await response.json();
+        console.log("event post response: ", event);
         dispatch(add(event));
         return event;
     }
@@ -162,7 +176,7 @@ const eventReducer = (state = {}, action) => {
             newState.event = action.event;
             return newState;
         case ADD_EVENT:
-            newState = {};
+            newState = {...state};
             newState[action.newEvent.id] = action.newEvent;
             return newState;
         case UPDATE_EVENT:

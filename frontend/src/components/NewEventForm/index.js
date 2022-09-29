@@ -58,6 +58,11 @@ export default function NewEventForm() {
 
   };
 
+  const updateFile = (e) => {
+    const file = e.target.files[0];
+    if (file) setImage(file);
+  };
+
   const handleCancelClick = (e) => {
     e.preventDefault();
     history.push('/events');
@@ -156,9 +161,8 @@ export default function NewEventForm() {
             Image URL
             <input
               className="event-input"
-              type="text"
-              value={image}
-              onChange={(e) => setImage(e.target.value)}
+              type="file"
+              onChange={updateFile}
               />
           </label>
           <div className="errors-div">
