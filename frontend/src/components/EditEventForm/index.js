@@ -85,6 +85,11 @@ export default function EditEventForm() {
 
   }
 
+  const updateFile = (e) => {
+    const file = e.target.files[0];
+    if (file) setImage(file);
+  };
+
   // handle the text area thing
   useEffect(() => {
     if (description.length >= 200) {
@@ -176,12 +181,11 @@ export default function EditEventForm() {
 
                     </label>
                     <label className="event-label">
-                      Image URL
+                      Image
                       <input
                         className="event-input"
-                        type="text"
-                        value={image}
-                        onChange={(e) => setImage(e.target.value)}
+                        type="file"
+                        onChange={updateFile}
                         />
                     </label>
                     <div className = "errors-div">

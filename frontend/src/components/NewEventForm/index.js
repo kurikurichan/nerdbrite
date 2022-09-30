@@ -25,7 +25,7 @@ export default function NewEventForm() {
   const [date, setDate] = useState(new Date().toLocaleDateString('en-CA'));
   const [capacity, setCapacity] = useState('');
   const [description, setDescription] = useState('');
-  const [image, setImage] = useState('');
+  const [image, setImage] = useState(null);
   const [errors, setErrors] = useState([]);
   // length for event description
   const [red, setRed] = useState(false);
@@ -56,6 +56,11 @@ export default function NewEventForm() {
       history.push(`/events/${newEvent.id}`);
     }
 
+  };
+
+  const updateFile = (e) => {
+    const file = e.target.files[0];
+    if (file) setImage(file);
   };
 
   const handleCancelClick = (e) => {
@@ -153,12 +158,11 @@ export default function NewEventForm() {
               <p className={red ? 'description red' : 'description'}>{description.length}/200</p>
           </label>
           <label className="event-label">
-            Image URL
+            Image
             <input
               className="event-input"
-              type="text"
-              value={image}
-              onChange={(e) => setImage(e.target.value)}
+              type="file"
+              onChange={updateFile}
               />
           </label>
           <div className="errors-div">

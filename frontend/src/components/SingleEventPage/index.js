@@ -69,7 +69,7 @@ export default function SingleEventPage() {
         <div className="single-event-wrapper">
             <h1 className="event-title">{event.name}</h1>
             <div className= "event-container">
-                <img src={event.image} className="single-display-pic" onError={onErrorHandler} alt="some event" />
+                <img src={event.image || altImage} className="single-display-pic" onError={onErrorHandler} alt="some event" />
                 <ul id="single-event-text">
                     <li className="single-event-items" id="t2">{eventDate}</li>
                     <li className="single-event-items" id="t4">at the {event.Venue.name}</li>

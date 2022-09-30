@@ -2,6 +2,7 @@ const express = require('express');
 const asyncHandler = require('express-async-handler');
 const { handleValidationErrors } = require("../../utils/validation");
 const { check } = require("express-validator");
+const { singlePublicFileUpload, singleMulterUpload } = require("../../awsS3");
 
 const { requireAuth } = require("../../utils/auth");
 const db = require('../../db/models');
@@ -39,6 +40,7 @@ const eventValidator = [
         }),
     check("capacity")
         .custom(val => {
+            val = +val;
             if (typeof val !== "number") throw new Error("Capacity must be a number")
             else if (val >= 0) return true;
             else if (val > 1000000) throw new Error("Cannot have more than 1 million guests")
@@ -47,17 +49,17 @@ const eventValidator = [
     check("description")
         .exists({ checkFalsy: true})
         .withMessage("Please provide a description"),
-    check("image")
-        .custom(url => {
-            if (url.length > 0) {
-                let extensions = ['.jpg', '.jpeg', '.png', '.gif', '.bmp'];
-                for (let format of extensions) {
-                    if (url.endsWith(format)) return true;
-                }
-                throw new Error("Image must be of type .jpg, .jpeg, .png, .gif, or type .bmp");
-            }
-            return true; // return true here in case url was not provided
-        }),
+    // check("image")
+    //     .custom(url => {
+    //         if (url.length > 0) {
+    //             let extensions = ['.jpg', '.jpeg', '.png', '.gif', '.bmp'];
+    //             for (let format of extensions) {
+    //                 if (url.endsWith(format)) return true;
+    //             }
+    //             throw new Error("Image must be of type .jpg, .jpeg, .png, .gif, or type .bmp");
+    //         }
+    //         return true; // return true here in case url was not provided
+    //     }),
     handleValidationErrors
 ];
 
@@ -82,6 +84,7 @@ const editEventValidator = [
         }),
     check("capacity")
         .custom(val => {
+            val = +val;
             if (typeof val !== "number") throw new Error("Capacity must be a number")
             else if (val >= 0) return true;
             else if (val > 1000000) throw new Error("Cannot have more than 1 million guests")
@@ -90,17 +93,17 @@ const editEventValidator = [
     check("description")
         .exists({ checkFalsy: true})
         .withMessage("Please provide a description"),
-    check("image")
-        .custom(url => {
-            if (url.length > 0) {
-                let extensions = ['.jpg', '.jpeg', '.png', '.gif', '.bmp'];
-                for (let format of extensions) {
-                    if (url.endsWith(format)) return true;
-                }
-                throw new Error("Image must be of type .jpg, .jpeg, .png, .gif, or type .bmp");
-            }
-            return true; // return true here in case url was not provided
-        }),
+    // check("image")
+    //     .custom(url => {
+    //         if (url.length > 0) {
+    //             let extensions = ['.jpg', '.jpeg', '.png', '.gif', '.bmp'];
+    //             for (let format of extensions) {
+    //                 if (url.endsWith(format)) return true;
+    //             }
+    //             throw new Error("Image must be of type .jpg, .jpeg, .png, .gif, or type .bmp");
+    //         }
+    //         return true; // return true here in case url was not provided
+    //     }),
     handleValidationErrors
 ];
 
@@ -125,7 +128,6 @@ router.get('/', asyncHandler(async (req, res) => {
         raw: true,
         nest: true
     });
-    console.log("---------", events);
     return res.json(events);
 }));
 
@@ -213,9 +215,11 @@ router.get('/:id(\\d+)/edit', requireAuth, asyncHandler(async (req, res) => {
 
 
 // POST a new event
-router.post('/', requireAuth, eventValidator, asyncHandler(async (req, res) => {
+router.post('/', requireAuth, singleMulterUpload("image"), eventValidator, asyncHandler(async (req, res) => {
 
-    const { hostId, venue, category, name, date, capacity, image, description } = req.body;
+    const { hostId, venue, category, name, date, capacity, description } = req.body;
+    let image;
+    if (req.file) image = await singlePublicFileUpload(req.file);
 
     const venueId = await db.Venue.findOne({
         where: { name: venue }
@@ -244,9 +248,10 @@ router.post('/', requireAuth, eventValidator, asyncHandler(async (req, res) => {
 }));
 
 // PUT, edit event form
-router.put('/:id(\\d+)', requireAuth, editEventValidator, asyncHandler(async (req, res) => {
+router.put('/:id(\\d+)', requireAuth, singleMulterUpload("image"), editEventValidator, asyncHandler(async (req, res) => {
 
-    const { hostId, venue, category, name, date, capacity, image, description  } = req.body;
+
+    const { hostId, venue, category, name, date, capacity, description } = req.body;
     const id = req.params.id;
 
     // Find the event to edit
@@ -261,6 +266,11 @@ router.put('/:id(\\d+)', requireAuth, editEventValidator, asyncHandler(async (re
     });
 
     let updatedEvent;
+
+    // basically if someone doesn't upload a pic again, reload the old pic
+    let image;
+    if (req.file) image = await singlePublicFileUpload(req.file);
+    else image = eventToEdit.image;
 
     if (eventToEdit && req.user.id === eventToEdit.hostId) { // verify that user is editing their own event
         updatedEvent = await eventToEdit.update({
