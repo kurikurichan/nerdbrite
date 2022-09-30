@@ -79,3 +79,28 @@ input:valid+span::after {
 .button-row > button {
     margin: 0.2em;
 }
+
+input::file-selector-button {
+    background-color: var(--plumPurple);
+    border: 0;
+    border-radius: 6px;
+    box-shadow: rgba(24, 23, 23, 0.1) 1px 2px 4px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    display: inline-block;
+    font-size: 1.1em;
+    line-height: 16px;
+    min-height: 40px;
+    outline: 0;
+    padding: 8px 14px;
+    text-align: center;
+    text-rendering: geometricprecision;
+    text-transform: none;
+    user-select: none;
+    -webkit-user-select: none;
+    vertical-align: middle;
+    cursor: pointer;
+    transition: 0.2s;
+
+    margin-right: 20px;
+}

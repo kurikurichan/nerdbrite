@@ -4,7 +4,7 @@ import './Footer.css'
 export default function Footer() {
   return (
     <footer>
-        <p className="footer-text">2022 Krista Strucke</p>
+        <p className="footer-text">©2022 Krista Strucke</p>
         <div id="social-links">
             <a href="https://github.com/kurikurichan" target="_blank">
                 <i className="fa-brands fa-github-alt"></i>
