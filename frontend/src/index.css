@@ -207,7 +207,9 @@ li {
 }
 
 .next-event-btn:hover,
-.next-event-btn:active {
+.next-event-btn:active,
+input::file-selector-button:hover,
+input::file-selector-button:active {
     color: white;
     background-color: var(--novaPurple);
     opacity: 1;
