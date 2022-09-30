@@ -83,6 +83,7 @@ input::file-selector-button {
     -webkit-user-select: none;
     vertical-align: middle;
     cursor: pointer;
+    transition: 0.2s;
 
     margin-right: 10%;
 }
