@@ -220,7 +220,6 @@ router.post('/', requireAuth, singleMulterUpload("image"), eventValidator, async
     const { hostId, venue, category, name, date, capacity, description } = req.body;
     let image;
     if (req.file) image = await singlePublicFileUpload(req.file);
-    console.log('------------------------', req.file);
 
     const venueId = await db.Venue.findOne({
         where: { name: venue }
@@ -253,7 +252,6 @@ router.put('/:id(\\d+)', requireAuth, singleMulterUpload("image"), editEventVali
 
 
     const { hostId, venue, category, name, date, capacity, description } = req.body;
-    const image = await singlePublicFileUpload(req.file);
     const id = req.params.id;
 
     // Find the event to edit
@@ -268,6 +266,11 @@ router.put('/:id(\\d+)', requireAuth, singleMulterUpload("image"), editEventVali
     });
 
     let updatedEvent;
+
+    // basically if someone doesn't upload a pic again, reload the old pic
+    let image;
+    if (req.file) image = await singlePublicFileUpload(req.file);
+    else image = eventToEdit.image;
 
     if (eventToEdit && req.user.id === eventToEdit.hostId) { // verify that user is editing their own event
         updatedEvent = await eventToEdit.update({
