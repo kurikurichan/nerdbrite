@@ -120,12 +120,25 @@ export const getEditForm = (eventId) => async dispatch => {
 // Put form to update existing event thunk
 export const updateEvent = (eventToUpdate, eventId) => async dispatch => {
 
+    const { hostId, venue, category, name, date, capacity, image, description } = eventToUpdate;
+    const formData = new FormData();
+    formData.append("hostId", hostId);
+    formData.append("venue", venue);
+    formData.append("category", category);
+    formData.append("name", name);
+    formData.append("date", date);
+    formData.append("capacity", capacity);
+    formData.append("description", description);
+
+    // single file image
+    if (image) formData.append("image", image);
+
     const response = await csrfFetch(`/api/events/${eventId}`, {
         method: "PUT",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "multipart/form-data"
         },
-        body: JSON.stringify(eventToUpdate)
+        body: formData
     });
 
     if (response.ok) {
@@ -180,7 +193,7 @@ const eventReducer = (state = {}, action) => {
             newState[action.newEvent.id] = action.newEvent;
             return newState;
         case UPDATE_EVENT:
-            newState = {};
+            newState = {...state};
             newState[action.oldEvent.id] = action.oldEvent;
             return newState;
         case DELETE_EVENT:

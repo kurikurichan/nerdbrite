@@ -25,7 +25,7 @@ export default function NewEventForm() {
   const [date, setDate] = useState(new Date().toLocaleDateString('en-CA'));
   const [capacity, setCapacity] = useState('');
   const [description, setDescription] = useState('');
-  const [image, setImage] = useState('');
+  const [image, setImage] = useState(null);
   const [errors, setErrors] = useState([]);
   // length for event description
   const [red, setRed] = useState(false);
@@ -158,7 +158,7 @@ export default function NewEventForm() {
               <p className={red ? 'description red' : 'description'}>{description.length}/200</p>
           </label>
           <label className="event-label">
-            Image URL
+            Image
             <input
               className="event-input"
               type="file"

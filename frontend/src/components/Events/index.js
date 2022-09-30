@@ -39,7 +39,7 @@ export default function Events() {
             <div key={i} className="event-card">
                 <div className="top-half">
                     <Link to={`/events/${event.id}`}>
-                        <img src={event.image} className="card-pic" onError={onErrorHandler} alt="event"/>
+                        <img src={event.image || altImage} className="card-pic" onError={onErrorHandler} alt="event"/>
                     </Link>
                 </div>
                 <div className="bottom-half">
