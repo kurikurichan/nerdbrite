@@ -120,10 +120,6 @@ router.get('/', asyncHandler(async (req, res) => {
         include: [{
             model: db.User, // Note: THIS is the Creator user, not necessarily the current user
             attributes: ['id','username']
-        },
-        {
-            model: db.Venue,
-            attributes: ['name']
         }],
         raw: true,
         nest: true
@@ -144,10 +140,6 @@ router.get('/:eventId(\\d+)', asyncHandler(async (req, res) => {
         include: [{
             model: db.User, // Note: THIS is the Creator user, not necessarily the current user
             attributes: ['id','username']
-        },
-        {
-            model: db.Venue,
-            attributes: ['name']
         },
         {
             model: db.Category,
@@ -172,74 +164,37 @@ router.get('/new', asyncHandler(async (req, res) => {
     // Venues should be found via google maps tbh but will have a dropdown for now
     // Venues should also be able to be created. That is TBD
 
-    const venues = await db.Venue.findAll({
-        attributes: ["id", "name"]
-    });
     const categories = await db.Category.findAll();
 
-    const venuesAndCategories = {};
-
-    venuesAndCategories.venues = venues;
-    venuesAndCategories.categories = categories;
-
-    return res.json(venuesAndCategories);
+    return res.json(categories);
 }));
-
-// GET edit event form
-router.get('/:id(\\d+)/edit', requireAuth, asyncHandler(async (req, res) => {
-    // need to send these to front end:
-    // - categories for the dropdown list
-    // - venues for the dropdown list - FOR NOW - eventually should be replaced
-
-    // find the specific event to edit
-    const id = req.params.id;
-    const eventToEdit = await db.Event.findByPk(id);
-
-    // Find & format the info for the form dropdowns
-    const venues = await db.Venue.findAll({
-        attributes: ["id", "name"]
-    });
-    const categories = await db.Category.findAll();
-
-    const dataNeededForEditForm = {};
-
-    dataNeededForEditForm.venues = venues;
-    dataNeededForEditForm.categories = categories;
-
-    if (eventToEdit && req.user.id === eventToEdit.hostId) { // do not give the frontend the info if this isn't the user's own event
-        return res.json(dataNeededForEditForm);
-    } else res.json("Not authorized to edit this event");
-
-}));
-
-
 
 // POST a new event
 router.post('/', requireAuth, singleMulterUpload("image"), eventValidator, asyncHandler(async (req, res) => {
 
-    const { hostId, venue, category, name, date, capacity, description } = req.body;
+    const { hostId, category, name, date, capacity, description, venueName, address, city, state, zipcode, lat, lng  } = req.body;
     let image;
     if (req.file) image = await singlePublicFileUpload(req.file);
-
-    const venueId = await db.Venue.findOne({
-        where: { name: venue }
-    });
 
     const categoryId = await db.Category.findOne({
         where: { type: category }
     });
 
-    let newDate = fixDate(date);
-
     const newEvent = await db.Event.create({
         hostId,
-        venueId: venueId.id,
         categoryId: categoryId.id,
         name,
-        date: newDate,
+        date: fixDate(date),
         capacity,
         image,
-        description
+        description,
+        venueName,
+        address,
+        city,
+        state,
+        zipcode,
+        lat,
+        lng
     });
 
     res.status(201);
@@ -251,15 +206,11 @@ router.post('/', requireAuth, singleMulterUpload("image"), eventValidator, async
 router.put('/:id(\\d+)', requireAuth, singleMulterUpload("image"), editEventValidator, asyncHandler(async (req, res) => {
 
 
-    const { hostId, venue, category, name, date, capacity, description } = req.body;
+    const { hostId, category, name, date, capacity, description, venueName, address, city, state, zipcode, lat, lng } = req.body;
     const id = req.params.id;
 
     // Find the event to edit
     const eventToEdit = await db.Event.findByPk(id);
-
-    const venueId = await db.Venue.findOne({
-        where: { name: venue }
-    });
 
     const categoryId = await db.Category.findOne({
         where: { type: category }
@@ -275,13 +226,19 @@ router.put('/:id(\\d+)', requireAuth, singleMulterUpload("image"), editEventVali
     if (eventToEdit && req.user.id === eventToEdit.hostId) { // verify that user is editing their own event
         updatedEvent = await eventToEdit.update({
             hostId,
-            venueId: venueId.id,
             categoryId: categoryId.id,
             name,
             date: fixDate(date),
             capacity,
             image,
-            description
+            description,
+            venueName,
+            address,
+            city,
+            state,
+            zipcode,
+            lat,
+            lng
         });
 
         await updatedEvent.save();
