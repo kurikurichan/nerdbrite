@@ -22,13 +22,14 @@ export default function EditEventForm() {
 
   const history = useHistory();
 
-  const [venue, setVenue] = useState(event ? event.Venue.name : "");
+  const [venue, setVenue] = useState(event ? event.venueName : "");
   const [category, setCategory] = useState(event ? event.Category.type : "");
   const [name, setName] = useState(event ? event.name : "");
   const [date, setDate] = useState(event ? new Date(event?.date).toLocaleString('en-CA', { timeZone: 'UTC', year: "numeric", month: "numeric", day: "numeric" }) : "");
   const [capacity, setCapacity] = useState(event ? event.capacity : "");
   const [description, setDescription] = useState(event ? event.description : "");
   const [image, setImage] = useState(event ? event.image : "");
+
   const [errors, setErrors] = useState([]);
     // length for event description
     const [red, setRed] = useState(false);
@@ -36,7 +37,7 @@ export default function EditEventForm() {
 
   useEffect(() => {
     if (event) {
-      setVenue(event.Venue.name);
+      setVenue(event.venueName);
       setCategory(event.Category.type);
       setName(event.name);
       setDate(new Date(event.date).toLocaleString('en-CA', { timeZone: 'UTC', year: "numeric", month: "numeric", day: "numeric" }));
@@ -53,7 +54,7 @@ export default function EditEventForm() {
 
     const payload = {
       hostId: user.id,
-      venue,
+      venueName: venue,
       category,
       name,
       date,

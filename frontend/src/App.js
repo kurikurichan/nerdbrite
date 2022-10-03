@@ -18,6 +18,7 @@ import './index.css';
 import Footer from './Footer';
 import SplashPage from './components/SplashPage/SplashPage';
 
+
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);

@@ -80,7 +80,7 @@ export default function SingleEventPage() {
                     <img src={event.image || altImage} className="single-display-pic" onError={onErrorHandler} alt="some event" />
                     <ul id="single-event-text">
                         <li className="single-event-items" id="t2">{eventDate}</li>
-                        <li className="single-event-items" id="t4">at the {event.Venue.name}</li>
+                        <li className="single-event-items" id="t4">at the {event.venueName}</li>
                         <li className="single-event-items" id="t6">{event.Category.type}</li>
                         <li className="single-event-items" id="t8">by {event.User.username}</li>
                         <li className="single-event-items" id="t10">{event.capacity} can go</li>

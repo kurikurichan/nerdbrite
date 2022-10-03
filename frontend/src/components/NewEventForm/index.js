@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { addEvent, getForm } from '../../store/events';
+import { Autocomplete } from '@react-google-maps/api';
 
 import './NewEventForm.css';
 
@@ -26,6 +27,14 @@ export default function NewEventForm() {
   const [capacity, setCapacity] = useState('');
   const [description, setDescription] = useState('');
   const [image, setImage] = useState(null);
+  const [address, setAddress] = useState("");
+  // const []
+
+
+
+
+  // const { hostId, category, name, date, capacity, image, description, venueName, address, city, state, zipcode, lat, lng } = eventData;
+
   const [errors, setErrors] = useState([]);
   // length for event description
   const [red, setRed] = useState(false);
@@ -37,7 +46,7 @@ export default function NewEventForm() {
 
     const payload = {
       hostId: user.id,
-      venue,
+      venueName: venue,
       category,
       name,
       date,
@@ -165,6 +174,17 @@ export default function NewEventForm() {
               onChange={updateFile}
               />
           </label>
+          {/* <Autocomplete>
+            <label className="event-label">
+              Address of Event
+              <input
+                className="event-input"
+                type="text"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+                />
+            </label>
+          </Autocomplete> */}
           <div className="errors-div">
             <ul>
             {errors.map((error, idx) => (

@@ -4,7 +4,6 @@ import { useParams, Link, useHistory } from 'react-router-dom';
 import { getOneUsersTix } from '../../store/registration';
 
 import './MyTicketsPage.css';
-import ticket from './ticketstub.png';
 
 export default function MyTicketsPage() {
 

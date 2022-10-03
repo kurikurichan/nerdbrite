@@ -194,7 +194,7 @@ const eventReducer = (state = {}, action) => {
             };
         case LOAD_DATA:
             const allData = {categories: []};
-            action.data.categories.forEach(category => {
+            action.data.forEach(category => {
                 allData.categories[category.id] = category
             });
             return {
