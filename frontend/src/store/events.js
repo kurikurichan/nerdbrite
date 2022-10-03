@@ -7,6 +7,8 @@ const ADD_EVENT = 'events/ADD_EVENT';
 const UPDATE_EVENT = 'events/UPDATE_EVENT';
 const DELETE_EVENT = 'events/DELETE_EVENT';
 
+const GET_MAP = 'events/GET_MAP';
+
 const load = list => ({
     type: LOAD,
     list
@@ -16,7 +18,7 @@ const load = list => ({
 const loadData = data => ({
     type: LOAD_DATA,
     data
-})
+});
 
 // get a single event
 const getOne = event => ({
@@ -32,12 +34,17 @@ const add = newEvent => ({
 const edit = oldEvent => ({
     type: UPDATE_EVENT,
     oldEvent　
-})
+});
 
 const del = eventToDelete => ({
     type: DELETE_EVENT,
     eventToDelete
-})
+});
+
+const mapK = mapKey => ({
+    type: GET_MAP,
+    payload: mapKey
+});
 
 // Get all events thunk
 export const getEvents = () => async dispatch => {
@@ -160,6 +167,19 @@ export const deleteEvent = (eventId) => async dispatch => {
     }
 };
 
+// get googs map key
+export const getMapKey = () => async dispatch => {
+
+    const response = await csrfFetch('/api/events/mapKey', {
+        method: "GET"
+    });
+
+    if (response.ok) {
+        const kagi = await response.json();
+        dispatch(mapK(kagi));
+    }
+}
+
 const eventReducer = (state = {}, action) => {
 
     let newState;
@@ -185,9 +205,7 @@ const eventReducer = (state = {}, action) => {
                 ...allData
             }
         case GET_ONE:
-            newState = {};
-            newState.event = action.event;
-            return newState;
+            return {...state, event: action.event}
         case ADD_EVENT:
             newState = {...state};
             newState[action.newEvent.id] = action.newEvent;
@@ -200,6 +218,8 @@ const eventReducer = (state = {}, action) => {
             newState = { ...state };
             delete newState[action.eventToDelete];
             return newState;
+        case GET_MAP:
+            return {...state, googleKey: action.payload};
 
         default:
             return state;

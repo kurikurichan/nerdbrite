@@ -313,6 +313,10 @@ router.delete('/:id(\\d+)', requireAuth, asyncHandler(async (req, res) => {
 
 }));
 
+router.get('/mapKey', asyncHandler(async (req, res) => {
+    return res.json(process.env.MAPS_KEY);
+}));
+
 
 
 module.exports = router;
