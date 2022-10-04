@@ -4,8 +4,8 @@ import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
 export default function GoogMap({ mapKey, center }) {
 
     const { isLoaded, loadError } = useJsApiLoader({
-        googleMapsApiKey: mapKey
-        // libraries: ['places']// ,
+        googleMapsApiKey: mapKey,
+        libraries: ['places']// ,
         // ...otherOptions
     });
 

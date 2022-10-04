@@ -94,7 +94,7 @@ export default function SingleEventPage() {
                     {currentUser && <TicketModal eventId={eventId} regId={regId} setRegId={setRegId} isRegistered={isRegistered} setIsRegistered={setIsRegistered} />}
                 </div>
                 <div className="right-side">
-                    {typeof mapKey === 'string' && <GoogMap mapKey={mapKey} center={center}/>}
+                    {typeof mapKey === 'string' && <GoogMap mapKey={mapKey} center={center} />}
                 </div>
             </div>
 

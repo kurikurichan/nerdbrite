@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { addEvent, getForm } from '../../store/events';
-import { Autocomplete } from '@react-google-maps/api';
+import { useJsApiLoader, Autocomplete } from '@react-google-maps/api';
 
 import './NewEventForm.css';
 
-export default function NewEventForm() {
+const libraries = ['places'];
+
+export default function NewEventForm({ mapKey }) {
 
   const currentState = useSelector(state => state.events);
   const user = useSelector(state => state.session.user);
@@ -16,6 +18,12 @@ export default function NewEventForm() {
   useEffect(() => {
       dispatch(getForm());
   }, [dispatch]);
+
+  const { isLoaded, loadError } = useJsApiLoader({
+    googleMapsApiKey: mapKey,
+    libraries// ,
+    // ...otherOptions
+});
 
 
   const history = useHistory();
@@ -89,7 +97,7 @@ export default function NewEventForm() {
   if (!user) history.push('/');
   if (!currentState) return null;
 
-  return (
+  return  isLoaded && (
     <section>
       <div className="event-form-container">
         <h1 id="event-title">Create a New Event</h1>
@@ -115,18 +123,15 @@ export default function NewEventForm() {
               />
           </label>
           <label className="event-label">
-            Venue
-            <select
-              className="event-input"
-              value={venue}
-              onChange={(e) => setVenue(e.target.value)}
-              >
-              <option value="" disabled>Venue</option>
-              {Array.isArray(currentState.venues) &&
-              currentState.venues.map(venue =>
-                <option key={venue.id}>{venue.name}</option>
-              )}
-            </select>
+              Venue
+            <Autocomplete>
+              <input
+                className="event-input"
+                type="text"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+                />
+            </Autocomplete>
           </label>
           <label className="event-label">
             Category
@@ -174,17 +179,6 @@ export default function NewEventForm() {
               onChange={updateFile}
               />
           </label>
-          {/* <Autocomplete>
-            <label className="event-label">
-              Address of Event
-              <input
-                className="event-input"
-                type="text"
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
-                />
-            </label>
-          </Autocomplete> */}
           <div className="errors-div">
             <ul>
             {errors.map((error, idx) => (

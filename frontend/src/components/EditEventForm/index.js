@@ -3,9 +3,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { updateEvent, getOneEvent, getForm, deleteEvent } from '../../store/events';
 
+import { useJsApiLoader, Autocomplete } from '@react-google-maps/api';
+
+
 import '../NewEventForm/NewEventForm.css';
 
-export default function EditEventForm() {
+const libraries = ['places'];
+
+export default function EditEventForm({ mapKey }) {
 
   const event = useSelector(state => state.events.event && state.events.event);
   const categoryVenues = useSelector(state => state.events && state.events);
@@ -29,6 +34,7 @@ export default function EditEventForm() {
   const [capacity, setCapacity] = useState(event ? event.capacity : "");
   const [description, setDescription] = useState(event ? event.description : "");
   const [image, setImage] = useState(event ? event.image : "");
+  const [address, setAddress] = useState("");
 
   const [errors, setErrors] = useState([]);
     // length for event description
@@ -100,9 +106,15 @@ export default function EditEventForm() {
     }
   }, [description] );
 
+  const { isLoaded, loadError } = useJsApiLoader({
+    googleMapsApiKey: mapKey,
+    libraries// ,
+    // ...otherOptions
+});
+
   if (!user) history.push('/');
   if (!event || !categoryVenues) return (<p>Loading...</p>);
-  return (
+  return isLoaded && (
         <section className="new-event-form-section">
             {event.date ?
               <div className="event-form-container">
@@ -130,17 +142,14 @@ export default function EditEventForm() {
                     </label>
                     <label className="event-label">
                       Venue
-                      <select
-                        className="event-input"
-                        value={venue}
-                        onChange={(e) => setVenue(e.target.value)}
-                        >
-                        <option value="" disabled>Venue</option>
-                        {Array.isArray(categoryVenues.venues) &&
-                        categoryVenues.venues.map(venue =>
-                          <option key={venue.id}>{venue.name}</option>
-                        )}
-                      </select>
+                      <Autocomplete>
+                        <input
+                          className="event-input"
+                          type="text"
+                          value={address}
+                          onChange={(e) => setAddress(e.target.value)}
+                          />
+                      </Autocomplete>
                     </label>
                     <label className="event-label">
                       Category

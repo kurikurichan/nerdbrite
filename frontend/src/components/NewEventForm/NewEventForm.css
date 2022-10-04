@@ -47,7 +47,8 @@ input:valid+span::after {
 }
 
 .event-label,
-.event-input {
+.event-input,
+.event-input.pac-target-input {
     width: 80%;
 }
 
@@ -61,7 +62,8 @@ input:valid+span::after {
 }
 
 
-.event-input {
+.event-input,
+.event-input.pac-target-input {
     width: 100%;
     padding: 10px;
 }

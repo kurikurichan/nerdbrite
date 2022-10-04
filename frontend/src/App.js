@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Route, Switch } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import SignupFormPage from './components/SignUpForm';
 import Events from './components/Events';
@@ -14,18 +14,21 @@ import EditEventForm from './components/EditEventForm';
 import SingleEventPage from './components/SingleEventPage';
 import MyTicketsPage from './components/MyTicketsPage';
 
+import { getMapKey } from './store/events';
+
 import './index.css';
 import Footer from './Footer';
 import SplashPage from './components/SplashPage/SplashPage';
-
 
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
   const [eventLoaded, setEventLoaded] = useState(false);
 
+  const mapKey = useSelector(state => state.events.googleKey);
+
   useEffect(() => {
-    dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
+    dispatch(sessionActions.restoreUser()).then(() => dispatch(getMapKey())).then(() => setIsLoaded(true));
     dispatch(eventActions.getForm()).then(() => setEventLoaded(true));
   }, [dispatch]);
 
@@ -48,7 +51,7 @@ function App() {
                 <Events />
               </Route>
               <Route exact path="/events/new">
-                <NewEventForm />
+                <NewEventForm mapKey={mapKey} />
               </Route>
               <Route exact path="/events/:eventId">
                 <SingleEventPage />
