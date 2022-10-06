@@ -94,6 +94,14 @@ export default function NewEventForm({ mapKey }) {
     }
   }, [description] );
 
+  // do address stuff
+  useEffect(() => {
+    if (address.length > 5) {
+      console.log(address)
+      let bits = address.split(' ');
+    }
+  }, [address])
+
   if (!user) history.push('/');
   if (!currentState) return null;
 
@@ -130,6 +138,7 @@ export default function NewEventForm({ mapKey }) {
                 type="text"
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
+                onBlur={(e) => setAddress(e.target.value)}
                 />
             </Autocomplete>
           </label>
