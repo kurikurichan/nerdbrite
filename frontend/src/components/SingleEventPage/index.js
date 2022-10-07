@@ -15,10 +15,9 @@ export default function SingleEventPage() {
         return state.events.event;
     });
 
-    const mapKey = useSelector(state => state.events.googleKey);
+    console.log(event);
 
-    // center for now - replace w single event lat & long once that's available
-    const center = { lat: 48.8000, lng: 2.2900 };
+    const mapKey = useSelector(state => state.events.googleKey);
 
     const usersTicket = useSelector(state => state.tickets);
     // console.log("the whole state rn length: ", +Object.keys(usersTicket)[0]);
@@ -35,11 +34,18 @@ export default function SingleEventPage() {
     const [isRegistered, setIsRegistered] = useState(false);
     const [regId, setRegId] = useState(null);
     const [imgLoadError, setimgLoadError] = useState(true);
+    // latitude and longitude for map
+    const [center, setCent] = useState({lat: 39.9931438, lng: 74.78793929999999})
 
     useEffect(() => {
         dispatch(getOneEvent(+eventId));
         dispatch(getOneTicket(+eventId));
     }, [dispatch, eventId]);
+
+    // update center coordinates
+    useEffect(() => {
+        if (event && Object.keys(event).length > 0) setCent({ lat: +event.lat, lng: +event.lng})
+    }, [event]);
 
     // get map key
     useEffect(() => {
@@ -89,7 +95,7 @@ export default function SingleEventPage() {
         });
     };
 
-    if (!event) return null;
+    if (!event || Object.keys(event).length === 0) return null;
   return (
         <div className="single-event-wrapper">
             <h1 className="event-title">{event.name}</h1>
@@ -116,7 +122,7 @@ export default function SingleEventPage() {
                     <p>{formatDate()}</p>
                     <h2><i className="fa-solid fa-location-dot" style={{marginRight: "5px"}}></i>Location:</h2>
                     <p style={{fontWeight: "bold"}}>{event.venueName}</p>
-                    <p>{event.address}, {event.city}, {event.state}, {event.zipcode}</p>
+                    <p>{event.address}</p>
                     {typeof mapKey === 'string' && <GoogMap mapKey={mapKey} center={center} />}
                 </div>
             </div>

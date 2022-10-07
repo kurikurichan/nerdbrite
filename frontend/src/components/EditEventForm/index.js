@@ -34,6 +34,8 @@ export default function EditEventForm({ mapKey }) {
   const [description, setDescription] = useState(event ? event.description : "");
   const [image, setImage] = useState(event ? event.image : "");
   const [address, setAddress] = useState("");
+  const [lat, setLat] = useState("");
+  const [lng, setLng] = useState("");
 
   const [ libraries ] = useState(['places']);
 
@@ -52,6 +54,9 @@ export default function EditEventForm({ mapKey }) {
       setCapacity(event.capacity);
       setDescription(event.description);
       setImage(event.image);
+      setAddress(event.address);
+      setLat(event.lat);
+      setLng(event.lng);
     }
 }, [event]);
 
@@ -68,7 +73,10 @@ export default function EditEventForm({ mapKey }) {
       date,
       capacity,
       image,
-      description
+      description,
+      address,
+      lat,
+      lng
     };
 
     const updatedEvent = await(dispatch(updateEvent(payload, eventId)))
@@ -131,6 +139,15 @@ export default function EditEventForm({ mapKey }) {
                         maxLength={100}
                         value={name}
                         onChange={(e) => setName(e.target.value)}
+                        />
+                    </label>
+                    <label className="event-label">
+                      Venue Name
+                      <input
+                        className="event-input"
+                        type="text"
+                        value={venue}
+                        onChange={(e) => setVenue(e.target.value)}
                         />
                     </label>
                     <label className="event-label">

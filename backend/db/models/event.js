@@ -10,9 +10,6 @@ module.exports = (sequelize, DataTypes) => {
     description: DataTypes.TEXT,
     venueName: DataTypes.STRING,
     address: DataTypes.STRING,
-    city: DataTypes.STRING,
-    state: DataTypes.STRING,
-    zipcode: DataTypes.STRING,
     lat: DataTypes.DECIMAL,
     lng: DataTypes.DECIMAL
   }, {});

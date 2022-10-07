@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { addEvent, getForm } from '../../store/events';
@@ -44,6 +44,9 @@ export default function NewEventForm({ mapKey }) {
   const [description, setDescription] = useState('');
   const [image, setImage] = useState(null);
   const [address, setAddress] = useState("");
+  // I named these weirdly so that they do not override the var names in geocode
+  const [latt, setLat] = useState("");
+  const [lngg, setLng] = useState("");
 
   // const { hostId, category, name, date, capacity, image, description, venueName, address, city, state, zipcode, lat, lng } = eventData;
 
@@ -64,7 +67,10 @@ export default function NewEventForm({ mapKey }) {
       date,
       capacity,
       image,
-      description
+      description,
+      address,
+      lat: latt,
+      lng: lngg
     };
 
     const newEvent = await(dispatch(addEvent(payload)))
@@ -106,19 +112,29 @@ export default function NewEventForm({ mapKey }) {
         (response) => {
           const { lat, lng } = response.results[0].geometry.location;
             console.log(lat, lng);
+            setLat(lat);
+            setLng(lng);
         },
         (error) => {
           console.error(error);
         }
       );
 
+      // match the title thing and set it as venueName
+
+      // either it is 4 segments long and does not start with a number
+      // or > 4 segments long and is first one
+
+      let splitted = address.split(',');
+      if (splitted.length === 4 && +splitted[0].slice(0, 2) === false) setVenue(splitted[0]);
+      else if (splitted.length > 4 && splitted[splitted.length - 1] === ' USA') setVenue(splitted[0]);
     }
-  }, [address])
+  }, [address]);
 
   if (!user) history.push('/');
   if (!currentState) return null;
 
-  return  isLoaded && (
+  return isLoaded && (
     <section>
       <div className="event-form-container">
         <h1 id="event-title">Create a New Event</h1>
@@ -144,7 +160,16 @@ export default function NewEventForm({ mapKey }) {
               />
           </label>
           <label className="event-label">
-              Venue
+            Venue Name
+            <input
+              className="event-input"
+              type="text"
+              value={venue}
+              onChange={(e) => setVenue(e.target.value)}
+              />
+          </label>
+          <label className="event-label">
+              Address
             <Autocomplete>
               <input
                 className="event-input"

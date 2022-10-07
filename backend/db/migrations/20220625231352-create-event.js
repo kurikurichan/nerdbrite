@@ -43,15 +43,6 @@ module.exports = {
         type: Sequelize.STRING(100),
         allowNull: false
       },
-      city: {
-        type: Sequelize.STRING(35)
-      },
-      state: {
-        type: Sequelize.STRING(15)
-      },
-      zipcode: {
-        type: Sequelize.STRING(12)
-      },
       lat: {
         type: Sequelize.DECIMAL
       },

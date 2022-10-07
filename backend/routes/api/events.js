@@ -172,7 +172,9 @@ router.get('/new', asyncHandler(async (req, res) => {
 // POST a new event
 router.post('/', requireAuth, singleMulterUpload("image"), eventValidator, asyncHandler(async (req, res) => {
 
-    const { hostId, category, name, date, capacity, description, venueName, address, city, state, zipcode, lat, lng  } = req.body;
+    const { hostId, category, name, date, capacity, description, venueName, address, lat, lng  } = req.body;
+
+    console.log("------------", req.body);
     let image;
     if (req.file) image = await singlePublicFileUpload(req.file);
 
@@ -190,9 +192,6 @@ router.post('/', requireAuth, singleMulterUpload("image"), eventValidator, async
         description,
         venueName,
         address,
-        city,
-        state,
-        zipcode,
         lat,
         lng
     });
@@ -206,7 +205,7 @@ router.post('/', requireAuth, singleMulterUpload("image"), eventValidator, async
 router.put('/:id(\\d+)', requireAuth, singleMulterUpload("image"), editEventValidator, asyncHandler(async (req, res) => {
 
 
-    const { hostId, category, name, date, capacity, description, venueName, address, city, state, zipcode, lat, lng } = req.body;
+    const { hostId, category, name, date, capacity, description, venueName, address, lat, lng } = req.body;
     const id = req.params.id;
 
     // Find the event to edit
@@ -234,9 +233,6 @@ router.put('/:id(\\d+)', requireAuth, singleMulterUpload("image"), editEventVali
             description,
             venueName,
             address,
-            city,
-            state,
-            zipcode,
             lat,
             lng
         });

@@ -83,21 +83,21 @@ export const getForm = () => async dispatch => {
 // Post form to create NEW event thunk
 export const addEvent = (eventData) => async dispatch => {
 
-    const { hostId, category, name, date, capacity, image, description, venueName, address, city, state, zipcode, lat, lng } = eventData;
-    let toAppend = [hostId, category, name, date, capacity, description, venueName, address, city, state, zipcode, lat, lng];
+    const { hostId, category, name, date, capacity, image, description, venueName, address, lat, lng } = eventData;
     const formData = new FormData();
-    // formData.append("hostId", hostId);
-    // formData.append("venue", venue);
-    // formData.append("category", category);
-    // formData.append("name", name);
-    // formData.append("date", date);
-    // formData.append("capacity", capacity);
-    // formData.append("description", description);
+    formData.append("hostId", hostId);
+    formData.append("venueName", venueName);
+    formData.append("category", category);
+    formData.append("name", name);
+    formData.append("date", date);
+    formData.append("capacity", capacity);
+    formData.append("description", description);
+    formData.append("address", address);
+    formData.append("lat", lat);
+    formData.append("lng", lng);
 
-    // append these all to formdata without having to write out each one???
-    toAppend.forEach(varr => {
-        formData.append(Object.keys({varr})[0], varr);
-    })
+
+    console.log(formData);
 
 
     // single file image
@@ -121,21 +121,18 @@ export const addEvent = (eventData) => async dispatch => {
 // Put form to update existing event thunk
 export const updateEvent = (eventToUpdate, eventId) => async dispatch => {
 
-    const { hostId, category, name, date, capacity, image, description, venueName, address, city, state, zipcode, lat, lng } = eventToUpdate;
-    let toAppend = [hostId, category, name, date, capacity, description, venueName, address, city, state, zipcode, lat, lng];
+    const { hostId, category, name, date, capacity, image, description, venueName, address, lat, lng } = eventToUpdate;
     const formData = new FormData();
-    // formData.append("hostId", hostId);
-    // formData.append("venue", venue);
-    // formData.append("category", category);
-    // formData.append("name", name);
-    // formData.append("date", date);
-    // formData.append("capacity", capacity);
-    // formData.append("description", description);
-
-    // append these all to formdata without having to write out each one???
-    toAppend.forEach(varr => {
-        formData.append(Object.keys({varr})[0], varr);
-    });
+    formData.append("hostId", hostId);
+    formData.append("venueName", venueName);
+    formData.append("category", category);
+    formData.append("name", name);
+    formData.append("date", date);
+    formData.append("capacity", capacity);
+    formData.append("description", description);
+    formData.append("address", address);
+    formData.append("lat", lat);
+    formData.append("lng", lng);
 
     // single file image
     if (image) formData.append("image", image);
