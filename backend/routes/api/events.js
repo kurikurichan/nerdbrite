@@ -38,6 +38,11 @@ const eventValidator = [
             }
             return true;
         }),
+    check("venueName")
+        .exists({ checkFalsy: true })
+        .withMessage("Venue name is required")
+        .isLength({ max: 75 })
+        .withMessage("Venue name cannot be longer than 75 characters"),
     check("capacity")
         .custom(val => {
             val = +val;
@@ -82,6 +87,11 @@ const editEventValidator = [
             }
             return true;
         }),
+    check("venueName")
+        .exists({ checkFalsy: true })
+        .withMessage("Venue name is required")
+        .isLength({ max: 75 })
+        .withMessage("Venue name cannot be longer than 75 characters"),
     check("capacity")
         .custom(val => {
             val = +val;
