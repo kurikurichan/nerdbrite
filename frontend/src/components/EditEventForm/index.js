@@ -8,8 +8,6 @@ import { useJsApiLoader, Autocomplete } from '@react-google-maps/api';
 
 import '../NewEventForm/NewEventForm.css';
 
-const libraries = ['places'];
-
 export default function EditEventForm({ mapKey }) {
 
   const event = useSelector(state => state.events.event && state.events.event);
@@ -27,6 +25,7 @@ export default function EditEventForm({ mapKey }) {
 
   const history = useHistory();
 
+
   const [venue, setVenue] = useState(event ? event.venueName : "");
   const [category, setCategory] = useState(event ? event.Category.type : "");
   const [name, setName] = useState(event ? event.name : "");
@@ -35,6 +34,9 @@ export default function EditEventForm({ mapKey }) {
   const [description, setDescription] = useState(event ? event.description : "");
   const [image, setImage] = useState(event ? event.image : "");
   const [address, setAddress] = useState("");
+
+  const [ libraries ] = useState(['places']);
+
 
   const [errors, setErrors] = useState([]);
     // length for event description

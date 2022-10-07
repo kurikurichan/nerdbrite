@@ -1,11 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
 
 export default function GoogMap({ mapKey, center }) {
 
+    const [ libraries ] = useState(['places']);
+
     const { isLoaded, loadError } = useJsApiLoader({
         googleMapsApiKey: mapKey,
-        libraries: ['places']// ,
+        libraries// ,
         // ...otherOptions
     });
 

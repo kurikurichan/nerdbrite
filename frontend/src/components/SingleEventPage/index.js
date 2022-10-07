@@ -71,6 +71,24 @@ export default function SingleEventPage() {
         e.target.src= altImage;
     };
 
+    //  get and format long date
+    const formatDate = () => {
+        const dateToFormat = new Date(event.date);
+        const weekdays = [
+            "Sunday",
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday"
+        ]
+        return weekdays[dateToFormat.getDay()] + ", " +
+        dateToFormat.toLocaleDateString('en-CA', {
+            dateStyle: "long"
+        });
+    };
+
     if (!event) return null;
   return (
         <div className="single-event-wrapper">
@@ -86,7 +104,7 @@ export default function SingleEventPage() {
                         <li className="single-event-items" id="t10">{event.capacity} can go</li>
                     </ul>
                     <div className="single-description">
-                        <h2>About this Event</h2>
+                        <h2><i className="fa-solid fa-star" style={{marginRight: "5px"}}></i>About this Event</h2>
                         {event.description}
                     </div>
                     {currentUser && currentUser.id === event.User.id &&
@@ -94,6 +112,11 @@ export default function SingleEventPage() {
                     {currentUser && <TicketModal eventId={eventId} regId={regId} setRegId={setRegId} isRegistered={isRegistered} setIsRegistered={setIsRegistered} />}
                 </div>
                 <div className="right-side">
+                    <h2><i className="fa-regular fa-calendar"  style={{marginRight: "5px"}}></i>Date and time:</h2>
+                    <p>{formatDate()}</p>
+                    <h2><i className="fa-solid fa-location-dot" style={{marginRight: "5px"}}></i>Location:</h2>
+                    <p style={{fontWeight: "bold"}}>{event.venueName}</p>
+                    <p>{event.address}, {event.city}, {event.state}, {event.zipcode}</p>
                     {typeof mapKey === 'string' && <GoogMap mapKey={mapKey} center={center} />}
                 </div>
             </div>

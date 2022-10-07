@@ -57,7 +57,7 @@ function App() {
                 <SingleEventPage />
               </Route>
               <Route exact path="/events/:eventId/edit">
-                <EditEventForm eventLoaded={eventLoaded}/>
+                <EditEventForm eventLoaded={eventLoaded} mapKey={mapKey} />
               </Route>
               <Route exact path="/register/:userId">
                 <MyTicketsPage />

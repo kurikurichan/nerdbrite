@@ -3,10 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { addEvent, getForm } from '../../store/events';
 import { useJsApiLoader, Autocomplete } from '@react-google-maps/api';
+import Geocode from "react-geocode";
 
 import './NewEventForm.css';
-
-const libraries = ['places'];
 
 export default function NewEventForm({ mapKey }) {
 
@@ -19,12 +18,21 @@ export default function NewEventForm({ mapKey }) {
       dispatch(getForm());
   }, [dispatch]);
 
+  const [ libraries ] = useState(['places']);
+
   const { isLoaded, loadError } = useJsApiLoader({
     googleMapsApiKey: mapKey,
     libraries// ,
     // ...otherOptions
-});
+  });
 
+  // load Geocode shenanigans
+  useEffect(() => {
+    if (typeof mapKey === "string") {
+      Geocode.setApiKey(mapKey);
+      Geocode.setLocationType("ROOFTOP");
+    }
+  }, [])
 
   const history = useHistory();
 
@@ -36,10 +44,6 @@ export default function NewEventForm({ mapKey }) {
   const [description, setDescription] = useState('');
   const [image, setImage] = useState(null);
   const [address, setAddress] = useState("");
-  // const []
-
-
-
 
   // const { hostId, category, name, date, capacity, image, description, venueName, address, city, state, zipcode, lat, lng } = eventData;
 
@@ -97,8 +101,17 @@ export default function NewEventForm({ mapKey }) {
   // do address stuff
   useEffect(() => {
     if (address.length > 5) {
-      console.log(address)
-      let bits = address.split(' ');
+      // Get latitude & longitude from address.
+      Geocode.fromAddress(address).then(
+        (response) => {
+          const { lat, lng } = response.results[0].geometry.location;
+            console.log(lat, lng);
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
+
     }
   }, [address])
 

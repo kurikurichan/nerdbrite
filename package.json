@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/kurikurichan/nerdbrite#readme",
   "dependencies": {
-    "pg": "^8.7.3"
+    "pg": "^8.7.3",
+    "react-geocode": "^0.2.3"
   }
 }
