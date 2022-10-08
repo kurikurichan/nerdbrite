@@ -15,8 +15,6 @@ export default function SingleEventPage() {
         return state.events.event;
     });
 
-    console.log(event);
-
     const mapKey = useSelector(state => state.events.googleKey);
 
     const usersTicket = useSelector(state => state.tickets);

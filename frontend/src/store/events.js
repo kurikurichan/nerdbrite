@@ -97,9 +97,6 @@ export const addEvent = (eventData) => async dispatch => {
     formData.append("lng", lng);
 
 
-    console.log(formData);
-
-
     // single file image
     if (image) formData.append("image", image);
 
