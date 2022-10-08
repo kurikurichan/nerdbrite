@@ -159,15 +159,6 @@ export default function NewEventForm({ mapKey }) {
               />
           </label>
           <label className="event-label">
-            Venue Name
-            <input
-              className="event-input"
-              type="text"
-              value={venue}
-              onChange={(e) => setVenue(e.target.value)}
-              />
-          </label>
-          <label className="event-label">
               Address
             <Autocomplete>
               <input
@@ -178,6 +169,15 @@ export default function NewEventForm({ mapKey }) {
                 onBlur={(e) => setAddress(e.target.value)}
                 />
             </Autocomplete>
+          </label>
+          <label className="event-label">
+            Venue Name
+            <input
+              className="event-input"
+              type="text"
+              value={venue}
+              onChange={(e) => setVenue(e.target.value)}
+              />
           </label>
           <label className="event-label">
             Category

@@ -4,6 +4,8 @@ import { useHistory, useParams } from 'react-router-dom';
 import { updateEvent, getOneEvent, getForm, deleteEvent } from '../../store/events';
 
 import { useJsApiLoader, Autocomplete } from '@react-google-maps/api';
+import Geocode from "react-geocode";
+
 
 
 import '../NewEventForm/NewEventForm.css';
@@ -122,6 +124,40 @@ export default function EditEventForm({ mapKey }) {
     // ...otherOptions
 });
 
+  // load Geocode shenanigans
+  useEffect(() => {
+    if (typeof mapKey === "string") {
+      Geocode.setApiKey(mapKey);
+      Geocode.setLocationType("ROOFTOP");
+    }
+  }, [])
+
+  // do address stuff
+  useEffect(() => {
+    if (address.length > 5) {
+      // Get latitude & longitude from address.
+      Geocode.fromAddress(address).then(
+        (response) => {
+          const { lat, lng } = response.results[0].geometry.location;
+            setLat(lat);
+            setLng(lng);
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
+
+      // match the title thing and set it as venueName
+
+      // either it is 4 segments long and does not start with a number
+      // or > 4 segments long and is first one
+
+      let splitted = address.split(',');
+      if (splitted.length === 4 && +splitted[0].slice(0, 2) === false) setVenue(splitted[0]);
+      else if (splitted.length > 4 && splitted[splitted.length - 1] === ' USA') setVenue(splitted[0]);
+    }
+  }, [address]);
+
   if (!user) history.push('/');
   if (!event || !categoryVenues) return (<p>Loading...</p>);
   return isLoaded && (
@@ -142,15 +178,6 @@ export default function EditEventForm({ mapKey }) {
                         />
                     </label>
                     <label className="event-label">
-                      Venue Name
-                      <input
-                        className="event-input"
-                        type="text"
-                        value={venue}
-                        onChange={(e) => setVenue(e.target.value)}
-                        />
-                    </label>
-                    <label className="event-label">
                       Date of Event
                       <input
                         className="event-input"
@@ -160,7 +187,7 @@ export default function EditEventForm({ mapKey }) {
                         />
                     </label>
                     <label className="event-label">
-                      Venue
+                      Address
                       <Autocomplete>
                         <input
                           className="event-input"
@@ -169,6 +196,15 @@ export default function EditEventForm({ mapKey }) {
                           onChange={(e) => setAddress(e.target.value)}
                           />
                       </Autocomplete>
+                    </label>
+                    <label className="event-label">
+                      Venue Name
+                      <input
+                        className="event-input"
+                        type="text"
+                        value={venue}
+                        onChange={(e) => setVenue(e.target.value)}
+                        />
                     </label>
                     <label className="event-label">
                       Category
