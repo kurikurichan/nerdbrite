@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { addEvent, getForm } from '../../store/events';
+import { useJsApiLoader, Autocomplete } from '@react-google-maps/api';
+import Geocode from "react-geocode";
 
 import './NewEventForm.css';
 
-export default function NewEventForm() {
+export default function NewEventForm({ mapKey }) {
 
   const currentState = useSelector(state => state.events);
   const user = useSelector(state => state.session.user);
@@ -16,6 +18,21 @@ export default function NewEventForm() {
       dispatch(getForm());
   }, [dispatch]);
 
+  const [ libraries ] = useState(['places']);
+
+  const { isLoaded, loadError } = useJsApiLoader({
+    googleMapsApiKey: mapKey,
+    libraries// ,
+    // ...otherOptions
+  });
+
+  // load Geocode shenanigans
+  useEffect(() => {
+    if (typeof mapKey === "string") {
+      Geocode.setApiKey(mapKey);
+      Geocode.setLocationType("ROOFTOP");
+    }
+  }, [])
 
   const history = useHistory();
 
@@ -26,6 +43,13 @@ export default function NewEventForm() {
   const [capacity, setCapacity] = useState('');
   const [description, setDescription] = useState('');
   const [image, setImage] = useState(null);
+  const [address, setAddress] = useState("");
+  // I named these weirdly so that they do not override the var names in geocode
+  const [latt, setLat] = useState("");
+  const [lngg, setLng] = useState("");
+
+  // const { hostId, category, name, date, capacity, image, description, venueName, address, city, state, zipcode, lat, lng } = eventData;
+
   const [errors, setErrors] = useState([]);
   // length for event description
   const [red, setRed] = useState(false);
@@ -37,13 +61,16 @@ export default function NewEventForm() {
 
     const payload = {
       hostId: user.id,
-      venue,
+      venueName: venue,
       category,
       name,
       date,
       capacity,
       image,
-      description
+      description,
+      address,
+      lat: latt,
+      lng: lngg
     };
 
     const newEvent = await(dispatch(addEvent(payload)))
@@ -77,10 +104,36 @@ export default function NewEventForm() {
     }
   }, [description] );
 
+  // do address stuff
+  useEffect(() => {
+    if (address.length > 5) {
+      // Get latitude & longitude from address.
+      Geocode.fromAddress(address).then(
+        (response) => {
+          const { lat, lng } = response.results[0].geometry.location;
+            setLat(lat);
+            setLng(lng);
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
+
+      // match the title thing and set it as venueName
+
+      // either it is 4 segments long and does not start with a number
+      // or > 4 segments long and is first one
+
+      let splitted = address.split(',');
+      if (splitted.length === 4 && +splitted[0].slice(0, 2) === false) setVenue(splitted[0]);
+      else if (splitted.length > 4 && splitted[splitted.length - 1] === ' USA') setVenue(splitted[0]);
+    }
+  }, [address]);
+
   if (!user) history.push('/');
   if (!currentState) return null;
 
-  return (
+  return isLoaded && (
     <section>
       <div className="event-form-container">
         <h1 id="event-title">Create a New Event</h1>
@@ -106,18 +159,25 @@ export default function NewEventForm() {
               />
           </label>
           <label className="event-label">
-            Venue
-            <select
+            Venue Name
+            <input
               className="event-input"
+              type="text"
               value={venue}
               onChange={(e) => setVenue(e.target.value)}
-              >
-              <option value="" disabled>Venue</option>
-              {Array.isArray(currentState.venues) &&
-              currentState.venues.map(venue =>
-                <option key={venue.id}>{venue.name}</option>
-              )}
-            </select>
+              />
+          </label>
+          <label className="event-label">
+              Address
+            <Autocomplete>
+              <input
+                className="event-input"
+                type="text"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+                onBlur={(e) => setAddress(e.target.value)}
+                />
+            </Autocomplete>
           </label>
           <label className="event-label">
             Category

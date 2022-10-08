@@ -49,7 +49,7 @@ export default function Events() {
                     <p className="cardDate">
                         {new Date(event.date).toLocaleString('en-US', { timeZone: 'UTC', year: "numeric", month: "numeric", day: "numeric" })}
                     </p>
-                    <p className="cardVenue">{event.Venue.name}</p>
+                    <p className="cardVenue">{event.venueName}</p>
                     <p className="cardHost">{event.User.username}</p>
                 </div>
             </div>)}

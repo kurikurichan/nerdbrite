@@ -13,11 +13,6 @@ module.exports = {
         allowNull: false,
         references: { model: 'Users' }
       },
-      venueId: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: { model: 'Venues' }
-      },
       categoryId: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -39,6 +34,20 @@ module.exports = {
       description: {
         type: Sequelize.TEXT,
         allowNull: false
+      },
+      venueName: {
+        type: Sequelize.STRING(75),
+        allowNull: false
+      },
+      address: {
+        type: Sequelize.STRING(100),
+        allowNull: false
+      },
+      lat: {
+        type: Sequelize.DECIMAL
+      },
+      lng: {
+        type: Sequelize.DECIMAL
       },
       createdAt: {
         allowNull: false,

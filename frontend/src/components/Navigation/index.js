@@ -6,13 +6,17 @@ import LoginFormModal from '../LoginFormModal';
 
 import './Navigation.css';
 
-function Navigation({ isLoaded }){
+function Navigation({ isLoaded }) {
   const sessionUser = useSelector(state => state.session.user);
 
   let sessionLinks;
   if (sessionUser) {
     sessionLinks = (
       <>
+        <NavLink to="/events" className="navblocks" activeClassName='active'>
+          <i className="fa-solid fa-champagne-glasses"></i>
+          <p>Events</p>
+        </NavLink>
         <NavLink to="/events/new" title="Create a New Event" className="navblocks" activeClassName='active'>
           <i className="fa-solid fa-plus"></i>
           <p>Create an event</p>
@@ -26,10 +30,13 @@ function Navigation({ isLoaded }){
     );
   } else {
     sessionLinks = (
-      <>
-        <LoginFormModal />
+      <div className="session-links">
+        <NavLink to="/events">
+          <p>Events</p>
+        </NavLink>
         <NavLink to="/signup">Sign Up</NavLink>
-      </>
+        <LoginFormModal />
+      </div>
     );
   }
 
@@ -39,10 +46,6 @@ function Navigation({ isLoaded }){
         <Link to="/" className="nerd-logo">nerdbrite</Link>
       </div>
       <div id="nav-right">
-        <NavLink to="/events" className="navblocks" activeClassName='active'>
-          <i className="fa-solid fa-champagne-glasses"></i>
-          <p>Events</p>
-        </NavLink>
         {isLoaded && sessionLinks}
       </div>
     </div>

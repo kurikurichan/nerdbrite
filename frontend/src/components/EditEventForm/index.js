@@ -3,9 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { updateEvent, getOneEvent, getForm, deleteEvent } from '../../store/events';
 
+import { useJsApiLoader, Autocomplete } from '@react-google-maps/api';
+
+
 import '../NewEventForm/NewEventForm.css';
 
-export default function EditEventForm() {
+export default function EditEventForm({ mapKey }) {
 
   const event = useSelector(state => state.events.event && state.events.event);
   const categoryVenues = useSelector(state => state.events && state.events);
@@ -22,13 +25,21 @@ export default function EditEventForm() {
 
   const history = useHistory();
 
-  const [venue, setVenue] = useState(event ? event.Venue.name : "");
+
+  const [venue, setVenue] = useState(event ? event.venueName : "");
   const [category, setCategory] = useState(event ? event.Category.type : "");
   const [name, setName] = useState(event ? event.name : "");
   const [date, setDate] = useState(event ? new Date(event?.date).toLocaleString('en-CA', { timeZone: 'UTC', year: "numeric", month: "numeric", day: "numeric" }) : "");
   const [capacity, setCapacity] = useState(event ? event.capacity : "");
   const [description, setDescription] = useState(event ? event.description : "");
   const [image, setImage] = useState(event ? event.image : "");
+  const [address, setAddress] = useState("");
+  const [lat, setLat] = useState("");
+  const [lng, setLng] = useState("");
+
+  const [ libraries ] = useState(['places']);
+
+
   const [errors, setErrors] = useState([]);
     // length for event description
     const [red, setRed] = useState(false);
@@ -36,13 +47,16 @@ export default function EditEventForm() {
 
   useEffect(() => {
     if (event) {
-      setVenue(event.Venue.name);
+      setVenue(event.venueName);
       setCategory(event.Category.type);
       setName(event.name);
       setDate(new Date(event.date).toLocaleString('en-CA', { timeZone: 'UTC', year: "numeric", month: "numeric", day: "numeric" }));
       setCapacity(event.capacity);
       setDescription(event.description);
       setImage(event.image);
+      setAddress(event.address);
+      setLat(event.lat);
+      setLng(event.lng);
     }
 }, [event]);
 
@@ -53,13 +67,16 @@ export default function EditEventForm() {
 
     const payload = {
       hostId: user.id,
-      venue,
+      venueName: venue,
       category,
       name,
       date,
       capacity,
       image,
-      description
+      description,
+      address,
+      lat,
+      lng
     };
 
     const updatedEvent = await(dispatch(updateEvent(payload, eventId)))
@@ -99,9 +116,15 @@ export default function EditEventForm() {
     }
   }, [description] );
 
+  const { isLoaded, loadError } = useJsApiLoader({
+    googleMapsApiKey: mapKey,
+    libraries// ,
+    // ...otherOptions
+});
+
   if (!user) history.push('/');
   if (!event || !categoryVenues) return (<p>Loading...</p>);
-  return (
+  return isLoaded && (
         <section className="new-event-form-section">
             {event.date ?
               <div className="event-form-container">
@@ -119,6 +142,15 @@ export default function EditEventForm() {
                         />
                     </label>
                     <label className="event-label">
+                      Venue Name
+                      <input
+                        className="event-input"
+                        type="text"
+                        value={venue}
+                        onChange={(e) => setVenue(e.target.value)}
+                        />
+                    </label>
+                    <label className="event-label">
                       Date of Event
                       <input
                         className="event-input"
@@ -129,17 +161,14 @@ export default function EditEventForm() {
                     </label>
                     <label className="event-label">
                       Venue
-                      <select
-                        className="event-input"
-                        value={venue}
-                        onChange={(e) => setVenue(e.target.value)}
-                        >
-                        <option value="" disabled>Venue</option>
-                        {Array.isArray(categoryVenues.venues) &&
-                        categoryVenues.venues.map(venue =>
-                          <option key={venue.id}>{venue.name}</option>
-                        )}
-                      </select>
+                      <Autocomplete>
+                        <input
+                          className="event-input"
+                          type="text"
+                          value={address}
+                          onChange={(e) => setAddress(e.target.value)}
+                          />
+                      </Autocomplete>
                     </label>
                     <label className="event-label">
                       Category
