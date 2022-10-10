@@ -12,6 +12,8 @@ export default function Events() {
         return state.events;
     });
 
+    console.log(events);
+
     let filteredEvents = Object.values(events).filter(event => event.id);
 
     const dispatch = useDispatch();
@@ -30,7 +32,7 @@ export default function Events() {
         dispatch(getEvents());
     }, [dispatch]);
 
-    if (filteredEvents === 0) return null;
+    if (!events || filteredEvents === 0) return null;
   return (
     <>
         <h1 id="events-title">Events</h1>

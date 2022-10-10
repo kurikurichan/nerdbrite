@@ -51,7 +51,7 @@ function App() {
                 <Events />
               </Route>
               <Route exact path="/events/new">
-                <NewEventForm mapKey={mapKey} />
+                <NewEventForm eventLoaded={eventLoaded} mapKey={mapKey} />
               </Route>
               <Route exact path="/events/:eventId">
                 <SingleEventPage />

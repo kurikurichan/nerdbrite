@@ -1,22 +1,42 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { addEvent, getForm } from '../../store/events';
+import { addEvent } from '../../store/events';
 import { useJsApiLoader, Autocomplete } from '@react-google-maps/api';
 import Geocode from "react-geocode";
 
 import './NewEventForm.css';
 
-export default function NewEventForm({ mapKey }) {
+export default function NewEventForm({ eventLoaded, mapKey }) {
 
   const currentState = useSelector(state => state.events);
   const user = useSelector(state => state.session.user);
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-      dispatch(getForm());
-  }, [dispatch]);
+  const history = useHistory();
+
+  // set default date for tomorrow
+  let currentDate = new Date();
+  let tomorrow = currentDate.setDate(currentDate.getDate() + 1);
+
+  const [venue, setVenue] = useState('');
+  const [category, setCategory] = useState('');
+  const [name, setName] = useState('');
+  const [date, setDate] = useState(new Date(tomorrow).toLocaleDateString('en-CA'));
+  const [capacity, setCapacity] = useState('');
+  const [description, setDescription] = useState('');
+  const [image, setImage] = useState(null);
+  const [address, setAddress] = useState("");
+  // I named these weirdly so that they do not override the var names in geocode
+  const [latt, setLat] = useState("");
+  const [lngg, setLng] = useState("");
+
+  // const { hostId, category, name, date, capacity, image, description, venueName, address, city, state, zipcode, lat, lng } = eventData;
+
+  const [errors, setErrors] = useState([]);
+  // length for event description
+  const [red, setRed] = useState(false);
 
   const [ libraries ] = useState(['places']);
 
@@ -32,27 +52,7 @@ export default function NewEventForm({ mapKey }) {
       Geocode.setApiKey(mapKey);
       Geocode.setLocationType("ROOFTOP");
     }
-  }, [])
-
-  const history = useHistory();
-
-  const [venue, setVenue] = useState('');
-  const [category, setCategory] = useState('');
-  const [name, setName] = useState('');
-  const [date, setDate] = useState(new Date().toLocaleDateString('en-CA'));
-  const [capacity, setCapacity] = useState('');
-  const [description, setDescription] = useState('');
-  const [image, setImage] = useState(null);
-  const [address, setAddress] = useState("");
-  // I named these weirdly so that they do not override the var names in geocode
-  const [latt, setLat] = useState("");
-  const [lngg, setLng] = useState("");
-
-  // const { hostId, category, name, date, capacity, image, description, venueName, address, city, state, zipcode, lat, lng } = eventData;
-
-  const [errors, setErrors] = useState([]);
-  // length for event description
-  const [red, setRed] = useState(false);
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -133,7 +133,7 @@ export default function NewEventForm({ mapKey }) {
   if (!user) history.push('/');
   if (!currentState) return null;
 
-  return isLoaded && (
+  return eventLoaded && isLoaded && (
     <section>
       <div className="event-form-container">
         <h1 id="event-title">Create a New Event</h1>

@@ -54,6 +54,11 @@ const eventValidator = [
     check("description")
         .exists({ checkFalsy: true})
         .withMessage("Please provide a description"),
+    check("address")
+        .exists({ checkFalsy: true})
+        .withMessage("An address is required so guests can find your venue")
+        .isLength({ max: 100 })
+        .withMessage("Address cannot be longer than 100 characters"),
     // check("image")
     //     .custom(url => {
     //         if (url.length > 0) {
@@ -103,6 +108,11 @@ const editEventValidator = [
     check("description")
         .exists({ checkFalsy: true})
         .withMessage("Please provide a description"),
+    check("address")
+        .exists({ checkFalsy: true})
+        .withMessage("An address is required so guests can find your venue")
+        .isLength({ max: 100 })
+        .withMessage("Address cannot be longer than 100 characters"),
     // check("image")
     //     .custom(url => {
     //         if (url.length > 0) {

@@ -10,7 +10,7 @@ import Geocode from "react-geocode";
 
 import '../NewEventForm/NewEventForm.css';
 
-export default function EditEventForm({ mapKey }) {
+export default function EditEventForm({ eventLoaded, mapKey }) {
 
   const event = useSelector(state => state.events.event && state.events.event);
   const categoryVenues = useSelector(state => state.events && state.events);
@@ -22,7 +22,6 @@ export default function EditEventForm({ mapKey }) {
 
   useEffect(() => {
       dispatch(getOneEvent(eventId)); // should get the individual event info
-      dispatch(getForm()); // should get full categories & venues lists
   }, [dispatch, eventId]);
 
   const history = useHistory();
@@ -159,8 +158,8 @@ export default function EditEventForm({ mapKey }) {
   }, [address]);
 
   if (!user) history.push('/');
-  if (!event || !categoryVenues) return (<p>Loading...</p>);
-  return isLoaded && (
+  if (!event || !categoryVenues) return null;
+  return eventLoaded && isLoaded && (
         <section className="new-event-form-section">
             {event.date ?
               <div className="event-form-container">
