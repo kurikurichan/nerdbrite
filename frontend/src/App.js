@@ -51,13 +51,13 @@ function App() {
                 <Events />
               </Route>
               <Route exact path="/events/new">
-                <NewEventForm eventLoaded={eventLoaded} mapKey={mapKey} />
+                {typeof mapKey === "string" && <NewEventForm eventLoaded={eventLoaded} mapKey={mapKey} />}
               </Route>
               <Route exact path="/events/:eventId">
                 <SingleEventPage />
               </Route>
               <Route exact path="/events/:eventId/edit">
-                <EditEventForm eventLoaded={eventLoaded} mapKey={mapKey} />
+              {typeof mapKey === "string" && <EditEventForm eventLoaded={eventLoaded} mapKey={mapKey} />}
               </Route>
               <Route exact path="/register/:userId">
                 <MyTicketsPage />

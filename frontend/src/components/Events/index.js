@@ -12,9 +12,9 @@ export default function Events() {
         return state.events;
     });
 
-    console.log(events);
 
-    let filteredEvents = Object.values(events).filter(event => event.id);
+    let filteredEvents = Object.values(events).filter(event => event.User);
+    console.log(filteredEvents);
 
     const dispatch = useDispatch();
 
