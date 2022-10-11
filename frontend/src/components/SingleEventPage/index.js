@@ -121,7 +121,7 @@ export default function SingleEventPage() {
                     <h2><i className="fa-solid fa-location-dot" style={{marginRight: "5px"}}></i>Location:</h2>
                     <p style={{fontWeight: "bold"}}>{event.venueName}</p>
                     <p>{event.address}</p>
-                    {typeof mapKey === 'string' && <GoogMap mapKey={mapKey} center={center} />}
+                    {typeof mapKey === 'string' && <GoogMap center={center} />}
                 </div>
             </div>
 

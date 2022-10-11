@@ -1,15 +1,18 @@
-import React, { useState } from 'react'
-import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
+import React, { useState, useContext } from 'react'
+import { ApiContext } from '../context/GoogsApi';
+import { GoogleMap, Marker } from '@react-google-maps/api';
 
-export default function GoogMap({ mapKey, center }) {
+export default function GoogMap({ center }) {
 
-    const [ libraries ] = useState(['places']);
+    // const [ libraries ] = useState(['places']);
 
-    const { isLoaded, loadError } = useJsApiLoader({
-        googleMapsApiKey: mapKey,
-        libraries// ,
-        // ...otherOptions
-    });
+    // const { isLoaded, loadError } = useJsApiLoader({
+    //     googleMapsApiKey: mapKey,
+    //     libraries// ,
+    //     // ...otherOptions
+    // });
+
+    const { isLoaded, loadError, mapKey } = useContext(ApiContext);
 
     if (loadError) return <div>Map cannot be loaded right now, sorry.</div>
 

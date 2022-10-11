@@ -9,6 +9,7 @@ import { restoreCSRF, csrfFetch } from './store/csrf';
 import * as sessionActions from './store/session';
 
 import { ModalProvider } from './context/Modal';
+import GoogsApiProvider from './context/GoogsApi';
 
 import './index.css';
 
@@ -22,14 +23,15 @@ if (process.env.NODE_ENV !== 'production') {
   window.sessionActions = sessionActions;
 }
 
-
 function Root() {
   return (
     <Provider store={store}>
       <ModalProvider>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
+        <GoogsApiProvider>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </GoogsApiProvider>
       </ModalProvider>
     </Provider>
   );

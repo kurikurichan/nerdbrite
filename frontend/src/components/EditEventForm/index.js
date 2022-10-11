@@ -1,24 +1,27 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
+import { ApiContext } from '../../context/GoogsApi';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { updateEvent, getOneEvent, getForm, deleteEvent } from '../../store/events';
 
-import { useJsApiLoader, Autocomplete } from '@react-google-maps/api';
+import { Autocomplete } from '@react-google-maps/api';
 import Geocode from "react-geocode";
 
 
 
 import '../NewEventForm/NewEventForm.css';
 
-export default function EditEventForm({ eventLoaded, mapKey }) {
+export default function EditEventForm({ eventLoaded }) {
 
   const event = useSelector(state => state.events.event && state.events.event);
   const categoryVenues = useSelector(state => state.events && state.events);
   const user = useSelector(state => state.session.user);
 
   const { eventId } = useParams();
+  const { isLoaded, loadError, mapKey } = useContext(ApiContext);
 
   const dispatch = useDispatch();
+
 
   useEffect(() => {
       dispatch(getOneEvent(eventId)); // should get the individual event info
@@ -38,7 +41,7 @@ export default function EditEventForm({ eventLoaded, mapKey }) {
   const [lat, setLat] = useState("");
   const [lng, setLng] = useState("");
 
-  const [ libraries ] = useState(['places']);
+  // const [ libraries ] = useState(['places']);
 
 
   const [errors, setErrors] = useState([]);
@@ -117,11 +120,11 @@ export default function EditEventForm({ eventLoaded, mapKey }) {
     }
   }, [description] );
 
-  const { isLoaded, loadError } = useJsApiLoader({
-    googleMapsApiKey: mapKey,
-    libraries// ,
-    // ...otherOptions
-});
+//   const { isLoaded, loadError } = useJsApiLoader({
+//     googleMapsApiKey: mapKey,
+//     libraries// ,
+//     // ...otherOptions
+// });
 
   // load Geocode shenanigans
   useEffect(() => {

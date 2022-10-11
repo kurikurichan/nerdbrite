@@ -1,13 +1,14 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { addEvent } from '../../store/events';
-import { useJsApiLoader, Autocomplete } from '@react-google-maps/api';
+import { Autocomplete } from '@react-google-maps/api';
+import { ApiContext } from '../../context/GoogsApi';
 import Geocode from "react-geocode";
 
 import './NewEventForm.css';
 
-export default function NewEventForm({ eventLoaded, mapKey }) {
+export default function NewEventForm({ eventLoaded }) {
 
   const currentState = useSelector(state => state.events);
   const user = useSelector(state => state.session.user);
@@ -15,6 +16,8 @@ export default function NewEventForm({ eventLoaded, mapKey }) {
   const dispatch = useDispatch();
 
   const history = useHistory();
+
+  const { isLoaded, loadError, mapKey } = useContext(ApiContext);
 
   // set default date for tomorrow
   let currentDate = new Date();
@@ -38,13 +41,13 @@ export default function NewEventForm({ eventLoaded, mapKey }) {
   // length for event description
   const [red, setRed] = useState(false);
 
-  const [ libraries ] = useState(['places']);
+  // const [ libraries ] = useState(['places']);
 
-  const { isLoaded, loadError } = useJsApiLoader({
-    googleMapsApiKey: mapKey,
-    libraries// ,
-    // ...otherOptions
-  });
+  // const { isLoaded, loadError } = useJsApiLoader({
+  //   googleMapsApiKey: mapKey,
+  //   libraries// ,
+  //   // ...otherOptions
+  // });
 
   // load Geocode shenanigans
   useEffect(() => {

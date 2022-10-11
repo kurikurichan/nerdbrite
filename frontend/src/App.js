@@ -25,10 +25,16 @@ function App() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [eventLoaded, setEventLoaded] = useState(false);
 
-  const mapKey = useSelector(state => state.events.googleKey);
+  // const mapKey = useSelector(state => state.events.googleKey);
+
+  // useEffect(() => {
+  //   dispatch(sessionActions.restoreUser()).then(() => dispatch(getMapKey())).then(() => setIsLoaded(true));
+  //   dispatch(eventActions.getForm()).then(() => setEventLoaded(true));
+  // }, [dispatch]);
+
 
   useEffect(() => {
-    dispatch(sessionActions.restoreUser()).then(() => dispatch(getMapKey())).then(() => setIsLoaded(true));
+    dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
     dispatch(eventActions.getForm()).then(() => setEventLoaded(true));
   }, [dispatch]);
 
@@ -51,13 +57,13 @@ function App() {
                 <Events />
               </Route>
               <Route exact path="/events/new">
-                <NewEventForm eventLoaded={eventLoaded} mapKey={mapKey} />
+                <NewEventForm eventLoaded={eventLoaded} />
               </Route>
               <Route exact path="/events/:eventId">
                 <SingleEventPage />
               </Route>
               <Route exact path="/events/:eventId/edit">
-                <EditEventForm eventLoaded={eventLoaded} mapKey={mapKey} />
+                <EditEventForm eventLoaded={eventLoaded} />
               </Route>
               <Route exact path="/register/:userId">
                 <MyTicketsPage />
