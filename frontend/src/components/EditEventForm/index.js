@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
-import { updateEvent, getOneEvent, getForm, deleteEvent } from '../../store/events';
+import { updateEvent, getOneEvent, deleteEvent } from '../../store/events';
 
 import { useJsApiLoader, Autocomplete } from '@react-google-maps/api';
 import Geocode from "react-geocode";
@@ -9,6 +9,7 @@ import Geocode from "react-geocode";
 
 
 import '../NewEventForm/NewEventForm.css';
+import Loading from '../404/Loading';
 
 export default function EditEventForm({ eventLoaded, mapKey }) {
 
@@ -158,8 +159,8 @@ export default function EditEventForm({ eventLoaded, mapKey }) {
   }, [address]);
 
   if (!user) history.push('/');
-  if (!event || !categoryVenues) return null;
-  return eventLoaded && isLoaded && (
+  if (!event || !categoryVenues || !isLoaded || !eventLoaded) return <Loading />;
+  return (
         <section className="new-event-form-section">
             {event.date ?
               <div className="event-form-container">

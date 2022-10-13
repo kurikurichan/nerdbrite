@@ -19,6 +19,7 @@ import { getMapKey } from './store/events';
 import './index.css';
 import Footer from './Footer';
 import SplashPage from './components/SplashPage/SplashPage';
+import Loading from './components/404/Loading';
 
 function App() {
   const dispatch = useDispatch();
@@ -31,6 +32,8 @@ function App() {
     dispatch(sessionActions.restoreUser()).then(() => dispatch(getMapKey())).then(() => setIsLoaded(true));
     dispatch(eventActions.getForm()).then(() => setEventLoaded(true));
   }, [dispatch]);
+
+  if (!isLoaded) return <Loading />
 
   return (
     <div className="wrapper">
@@ -51,7 +54,8 @@ function App() {
                 <Events />
               </Route>
               <Route exact path="/events/new">
-                {typeof mapKey === "string" && <NewEventForm eventLoaded={eventLoaded} mapKey={mapKey} />}
+                {/* {typeof mapKey === "string" && <NewEventForm eventLoaded={eventLoaded} mapKey={mapKey} />} */}
+                <NewEventForm eventLoaded={eventLoaded} mapKey={mapKey} />
               </Route>
               <Route exact path="/events/:eventId">
                 <SingleEventPage />
@@ -61,6 +65,9 @@ function App() {
               </Route>
               <Route exact path="/register/:userId">
                 <MyTicketsPage />
+              </Route>
+              <Route path="/loading">
+                <Loading />
               </Route>
               <Route>
                 <p>Page not found</p>

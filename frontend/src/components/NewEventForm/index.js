@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { addEvent } from '../../store/events';
@@ -6,6 +6,7 @@ import { useJsApiLoader, Autocomplete } from '@react-google-maps/api';
 import Geocode from "react-geocode";
 
 import './NewEventForm.css';
+import Loading from '../404/Loading';
 
 export default function NewEventForm({ eventLoaded, mapKey }) {
 
@@ -39,12 +40,6 @@ export default function NewEventForm({ eventLoaded, mapKey }) {
   const [red, setRed] = useState(false);
 
   const [ libraries ] = useState(['places']);
-
-  const { isLoaded, loadError } = useJsApiLoader({
-    googleMapsApiKey: mapKey,
-    libraries// ,
-    // ...otherOptions
-  });
 
   // load Geocode shenanigans
   useEffect(() => {
@@ -130,10 +125,17 @@ export default function NewEventForm({ eventLoaded, mapKey }) {
     }
   }, [address]);
 
-  if (!user) history.push('/');
-  if (!currentState) return null;
+  const { isLoaded, loadError } = useJsApiLoader({
+    googleMapsApiKey: mapKey,
+    libraries// ,
+    // ...otherOptions
+  });
 
-  return eventLoaded && isLoaded && (
+
+  if (!user) history.push('/');
+  if (!currentState || !eventLoaded || !isLoaded || loadError) return <Loading />;
+
+  return (
     <section>
       <div className="event-form-container">
         <h1 id="event-title">Create a New Event</h1>
