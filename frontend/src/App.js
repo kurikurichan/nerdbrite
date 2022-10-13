@@ -19,6 +19,7 @@ import { getMapKey } from './store/events';
 import './index.css';
 import Footer from './Footer';
 import SplashPage from './components/SplashPage/SplashPage';
+import Loading from './components/404/Loading';
 
 function App() {
   const dispatch = useDispatch();
@@ -61,6 +62,9 @@ function App() {
               </Route>
               <Route exact path="/register/:userId">
                 <MyTicketsPage />
+              </Route>
+              <Route path="/loading">
+                <Loading />
               </Route>
               <Route>
                 <p>Page not found</p>

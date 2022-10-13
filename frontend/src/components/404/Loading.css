@@ -1,0 +1,78 @@
+.loading-wrapper {
+    margin-top: 5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#loadtext {
+    position: fixed;
+    font-size: 25px;
+
+    animation: fadeIn ease 2s infinite;
+    -webkit-animation: fadeIn ease 2s infinite;
+    -moz-animation: fadeIn ease 2s infinite;
+    -o-animation: fadeIn ease 2s infinite;
+    -ms-animation: fadeIn ease 2s infinite;
+}
+
+
+@keyframes fadeIn {
+    0% {
+        opacity:0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity:0;
+    }
+}
+
+@-moz-keyframes fadeIn {
+    0% {
+        opacity:0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity:0;
+    }
+}
+
+@-webkit-keyframes fadeIn {
+    0% {
+        opacity:0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity:0;
+    }
+}
+
+@-o-keyframes fadeIn {
+    0% {
+        opacity:0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity:0;
+    }
+}
+
+@-ms-keyframes fadeIn {
+    0% {
+        opacity:0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity:0;
+    }
+}
