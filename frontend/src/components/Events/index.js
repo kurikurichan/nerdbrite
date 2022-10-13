@@ -5,6 +5,7 @@ import { getEvents } from '../../store/events';
 import './events.css';
 
 import altImage from './alt_event_image.jpeg';
+import Loading from '../404/Loading';
 
 export default function Events() {
 
@@ -13,12 +14,19 @@ export default function Events() {
     });
 
 
-    let filteredEvents = Object.values(events).filter(event => event.User);
-    console.log(filteredEvents);
+    // this is ghetto but it was either this or create a new store for the apiKey and I was lazy
+    // maybe this could be a scalability problem if there are lots of events and internet is slow?
+    const existingIds = new Set();
+    const filteredEvents = Object.values(events).filter(event => {
+        if (existingIds.has(event.id)) return false;
+        existingIds.add(event.id);
+        if (event.User) return true;
+    });
 
     const dispatch = useDispatch();
 
     const [imgLoadError, setimgLoadError] = useState(true);
+    const [loaded, setLoaded] = useState(false);
 
     const onErrorHandler = (e) => {
         if (imgLoadError) {
@@ -27,12 +35,14 @@ export default function Events() {
         e.target.src= altImage;
     };
 
-
     useEffect(() => {
-        dispatch(getEvents());
+        (async() => {
+          await dispatch(getEvents());
+          setLoaded(true);
+        })();
     }, [dispatch]);
 
-    if (!events || filteredEvents === 0) return null;
+    if (!loaded || !events || filteredEvents === 0) return <Loading />;
   return (
     <>
         <h1 id="events-title">Events</h1>

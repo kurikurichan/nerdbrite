@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, Link, useHistory } from 'react-router-dom';
 import { getOneUsersTix } from '../../store/registration';
+import Loading from '../404/Loading';
 
 import './MyTicketsPage.css';
 
@@ -19,6 +20,8 @@ export default function MyTicketsPage() {
 
     const dispatch = useDispatch();
 
+    const [loaded, setLoaded] = useState(false);
+
     // short circuit format
     // const arr = tickets && Object.values(tickets);
     // const something = "user" || "";
@@ -35,15 +38,18 @@ export default function MyTicketsPage() {
 
           </div>
         )
-      }
+    }
 
-      useEffect(() => {
-        dispatch(getOneUsersTix(userId))
-      }, [dispatch, userId]);
+    useEffect(() => {
+      (async() => {
+        await dispatch(getOneUsersTix(userId));
+        setLoaded(true);
+      })();
+    }, [dispatch, userId]);
 
-
-  if (!user) history.push("/");
-  if (user && user.id !== +userId) return (<p className="no-tix">You are not authorized to view this page.</p>)
+    if (!user) history.push("/");
+    if (user && user.id !== +userId) return (<p className="no-tix">You are not authorized to view this page.</p>)
+    if (!loaded) return <Loading />
   if (!Object.keys(tickets).length) return (
     <>
       <h1>My Tickets</h1>

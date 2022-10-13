@@ -8,6 +8,7 @@ import altImage from '../../alt_event_image.jpeg';
 
 import './SingleEvent.css';
 import GoogMap from '../GoogMap';
+import Loading from '../404/Loading';
 
 export default function SingleEventPage() {
 
@@ -93,7 +94,7 @@ export default function SingleEventPage() {
         });
     };
 
-    if (!event || Object.keys(event).length === 0) return null;
+    if (!event || Object.keys(event).length === 0) return <Loading />;
   return (
         <div className="single-event-wrapper">
             <h1 className="event-title">{event.name}</h1>

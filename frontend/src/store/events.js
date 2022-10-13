@@ -184,7 +184,7 @@ const eventReducer = (state = {}, action) => {
                 allEvents[event.id] = event;
             });
             return {
-                ...allEvents
+                ...state, ...allEvents
             };
         case LOAD_DATA:
             const allData = {categories: []};

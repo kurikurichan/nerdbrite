@@ -33,6 +33,8 @@ function App() {
     dispatch(eventActions.getForm()).then(() => setEventLoaded(true));
   }, [dispatch]);
 
+  if (!isLoaded) return <Loading />
+
   return (
     <div className="wrapper">
       <header>
@@ -52,7 +54,8 @@ function App() {
                 <Events />
               </Route>
               <Route exact path="/events/new">
-                {typeof mapKey === "string" && <NewEventForm eventLoaded={eventLoaded} mapKey={mapKey} />}
+                {/* {typeof mapKey === "string" && <NewEventForm eventLoaded={eventLoaded} mapKey={mapKey} />} */}
+                <NewEventForm eventLoaded={eventLoaded} mapKey={mapKey} />
               </Route>
               <Route exact path="/events/:eventId">
                 <SingleEventPage />
