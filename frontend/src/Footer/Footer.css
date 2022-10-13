@@ -4,6 +4,15 @@ footer {
     align-items: center;
 }
 
+#name {
+    display: flex;
+    align-items: center;
+}
+
+#name > p {
+    margin-right: 10px;
+}
+
 .fa-brands {
     margin-left: 5px;
     margin-right: 5px;
@@ -11,6 +20,15 @@ footer {
     font-size: 1.5em;
 }
 
-.footer-text {
+.footer-text,
+#name > p {
     font-size: 1.13em;
+    font-weight: 300;
+}
+
+#social-links {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 8%;
 }
