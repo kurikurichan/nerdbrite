@@ -135,3 +135,11 @@
     align-items: center;
     justify-content: space-between;
 }
+
+
+/* screen sizes */
+@media screen and (max-width: 1500px) {
+    .session-links {
+        width: 100%;
+    }
+}
