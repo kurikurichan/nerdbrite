@@ -3,7 +3,7 @@
     top: 0;
     right: 0;
     left: 0;
-    bottom: 0;
+    bottom: 400px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -20,5 +20,4 @@
 
 #modal-content {
     position: absolute;
-    border: 2px solid rgba(86, 85, 85, 0.5);
 }

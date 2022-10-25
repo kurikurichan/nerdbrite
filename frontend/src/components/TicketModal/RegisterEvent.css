@@ -1,7 +1,4 @@
 #modal-content {
-    background-color: var(--bgColor);
-    border: 1px solid var(--stellarPurple);
-    box-shadow: 0 0 5px var(--novaPurple);
     padding: 1em;
     width: 30%;
     height: 15%;
