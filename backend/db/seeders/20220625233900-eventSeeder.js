@@ -1,5 +1,12 @@
 'use strict';
 
+// NEW: add this code to each migration file
+let options = {};
+if (process.env.NODE_ENV === 'production') {
+  options.schema = process.env.SCHEMA;  // define your schema in options object
+}
+// END of new code
+
 const d1 = "Come check out our monthly Smash tournament! Entry is $5 whether you are playing or spectating.";
 const img1 = "https://www.smashbros.com/assets_v2/img/fighter/falco/ss_1.jpg";
 const d2 = "So they're finally here, performing for you, If you know the words, you can join in too, Put your hands together, if you want to clap, As we take you through this monkey rap!";
@@ -13,16 +20,18 @@ const img5 = "https://static.independent.co.uk/s3fs-public/thumbnails/image/2016
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-      return queryInterface.bulkInsert('Events', [
+      options.tableName = 'Events';
+      return queryInterface.bulkInsert(options, [
         {hostId: 1, categoryId: 2, name: "Smash Ultimate Tournament", date: new Date('December 17, 2022 18:30:00'), capacity: 40, image: img1, description: d1, venueName: "The Grand Poobah", address: "30 N Sutton St, Moose, WY 010101", lat:2.0, lng:3.0 },
         {hostId: 1, categoryId: 3, name: "Monkey Dancers", date: new Date('November 17, 2022 19:00:00'), capacity: 200, image: img2, description: d2, venueName: "The Hemp Expo Center", address: "10100 E Main St, Seattle, WA 330001", lat:2.0, lng:3.0},
         {hostId: 1, categoryId: 1, name: "AnimeNext Convention", date: new Date('July 17, 2023 08:00:00'), capacity: 2000, image: img3, description: d3, venueName: "Bean Theatre", address: "3487 Country Ave, Warrenton, VA 90505", lat:2.0, lng:3.0},
         {hostId: 1, categoryId: 2, name: "Kirby's Eating Contest", date: new Date('August 11, 2022 08:00:00'), capacity: 250, image: img4, description: d4, venueName: "Bean Theatre", address: "3487 Country Ave, Warrenton, VA 90505", lat:2.0, lng:3.0},
-        {hostId: 2, categoryId: 2, name: "Harry Potter Trivia", date: new Date('August 11, 2022 08:00:00'), capacity: 25, image: img5, description: d5, venueName: "Bean Theatre", address: "3487 Country Ave, Warrenton, VA 90505", lat:2.0, lng:3.0}
+        {hostId: 2, categoryId: 2, name: "Harry Potter Trivia", date: new Date('August 11, 2023 08:00:00'), capacity: 25, image: img5, description: d5, venueName: "Bean Theatre", address: "3487 Country Ave, Warrenton, VA 90505", lat:2.0, lng:3.0}
       ], {});
   },
 
   down: (queryInterface, Sequelize) => {
-      return queryInterface.bulkDelete('Events', null, {});
+      options.tableName = 'Events';
+      return queryInterface.bulkDelete(options, null, {});
   }
 };
