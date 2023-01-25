@@ -14,7 +14,7 @@ export default function Footer() {
           <a href="https://github.com/kurikurichan" target="_blank" rel="noopener noreferrer">
               <i className="fa-brands fa-github-alt"></i>
           </a>
-          <a href="https://www.linkedin.com/in/krista-strucke-044b3369/" target="_blank" rel="noopener noreferrer">
+          <a href="https://www.linkedin.com/in/krista-strucke" target="_blank" rel="noopener noreferrer">
               <i className="fa-brands fa-linkedin-in"></i>
           </a>
           <a href="https://note-pile.herokuapp.com" target="_blank" rel="noopener noreferrer" title="Note Pile">
