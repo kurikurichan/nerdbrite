@@ -1,6 +1,6 @@
 # nerdbrite
 
-Check out a live version of nerdbrite here: [Nerdbrite Live](https://nerdbrite.herokuapp.com/)
+Check out a live version of nerdbrite here: [Nerdbrite Live](https://nerdbrite.onrender.com/)
 
 Nerdbrite is a full-stack clone of the popular website eventbrite, which is used for booking tickets for events (both free and paid). It was built using Reactjs, Redux, Node.js, PostgreSQL, and Sequelize.
 
