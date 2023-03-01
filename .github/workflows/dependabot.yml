@@ -3,6 +3,7 @@
 name: Dependabot pull requests
 
 version: 2
+
 updates:
   - package-ecosystem: "npm"
     # Files stored in root directory
@@ -11,17 +12,17 @@ updates:
       interval: "weekly"
 
   - package-ecosystem: "npm"
-  # Files stored in frontend directory
-  # Note: Might want to exclude create react app since it gets some weird "vulnerabilities"
-  directory: "/frontend"
-  schedule:
-    interval: "weekly"
+    # Files stored in frontend directory
+    # Note: Might want to exclude create react app since it gets some weird "vulnerabilities"
+    directory: "/frontend"
+    schedule:
+      interval: "weekly"
 
   - package-ecosystem: "npm"
   # Files stored in backend directory
-  directory: "/backend"
-  schedule:
-    interval: "weekly"
+    directory: "/backend"
+    schedule:
+      interval: "weekly"
 
   - package-ecosystem: "github-actions"
     # Workflow files stored in the
