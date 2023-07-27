@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import * as sessionActions from "../../store/session";
 import { useDispatch } from "react-redux";
 
@@ -21,9 +21,12 @@ function LoginForm({ setShowModal }) {
     );
   };
 
-  const handleDemo = (e) => {
-    setCredential("Demo-lition");
-    setPassword("password");
+  const handleDemo = async (e) => {
+    e.preventDefault();
+    setErrors([]);
+    await setCredential("Demo-lition");
+    await setPassword("password");
+    document.getElementsByClassName("login-button")[0].click();
   }
 
   return (
@@ -36,7 +39,7 @@ function LoginForm({ setShowModal }) {
         ))}
       </ul>
       <label className="login-label modal-text">
-        <i class="fa-solid fa-user"></i>
+        <i className="fa-solid fa-user"></i>
         <input
           className="login-inputs"
           placeholder="Email"
@@ -46,7 +49,7 @@ function LoginForm({ setShowModal }) {
         />
       </label>
       <label className="login-label modal-text">
-        <i class="fa-solid fa-lock"></i>
+        <i className="fa-solid fa-lock"></i>
         <input
           className="login-inputs"
           placeholder="Password"
