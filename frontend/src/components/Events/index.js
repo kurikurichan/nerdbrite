@@ -13,8 +13,6 @@ export default function Events() {
         return state.events;
     });
 
-
-    // this is ghetto but it was either this or create a new store for the apiKey and I was lazy
     // maybe this could be a scalability problem if there are lots of events and internet is slow?
     const existingIds = new Set();
     const filteredEvents = Object.values(events).filter(event => {
