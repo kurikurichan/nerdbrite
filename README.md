@@ -82,7 +82,7 @@ I also realized the importance in React of reusing components to simplify coding
 - install postgreSQL
 - create a user with CREATEDB privileges, and a database
 - create a .env file, insert that information
-- run the migrations & seeder data
+- run the migrations & seeder data (`npx dotenv sequelize db:migrate`, `npx dotenv sequelize db:seed:all`)
 - npm start on frontend and backend to run program
 - enjoy!
 
