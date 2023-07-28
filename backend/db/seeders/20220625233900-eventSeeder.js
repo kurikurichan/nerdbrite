@@ -28,7 +28,7 @@ const img5 =
 function createEventDate() {
   // create a date sometime in the future for event, between now and 4 months later (due to Render DB resetting every 90 days)
   const today = new Date();
-  // actually change today to tomorrow
+  // actually change today to tomorrow to avoid errors
   today.setDate(today.getDate() + 1);
   const later = new Date();
   later.setMonth(today.getMonth() + 3);
